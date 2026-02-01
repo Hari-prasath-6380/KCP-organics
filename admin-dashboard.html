@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - KCP Organics</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>KCP Admin</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-section="products">
+                    <i class="fas fa-box"></i>
+                    <span>Products</span>
+                </a>
+                <a href="#" class="nav-item" data-section="users">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#" class="nav-item" data-section="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                    <span class="badge" id="orderBadge">0</span>
+                </a>
+                <a href="#" class="nav-item" data-section="messages">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                    <span class="badge" id="messageBadge">0</span>
+                </a>
+                <a href="#" class="nav-item" data-section="reviews">
+                    <i class="fas fa-star"></i>
+                    <span>Reviews</span>
+                    <span class="badge" id="reviewBadge">0</span>
+                </a>
+                <a href="#" class="nav-item" data-section="videos">
+                    <i class="fas fa-video"></i>
+                    <span>Videos</span>
+                    <span class="badge" id="videoBadge">0</span>
+                </a>
+            </nav>
+            <div class="logout-section">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h1 id="sectionTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <span id="adminName">Admin</span>
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Container -->
+            <div class="content-wrapper">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section-content active">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon users">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Users</h3>
+                                <p class="stat-number" id="totalUsers">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon products">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Products</h3>
+                                <p class="stat-number" id="totalProducts">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon messages">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Messages</h3>
+                                <p class="stat-number" id="totalMessages">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon unread">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Unread Messages</h3>
+                                <p class="stat-number" id="unreadMessages">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics & Reports Section -->
+                    <div class="analytics-section">
+                        <h2>Analytics & Reports</h2>
+                        <div class="analytics-buttons">
+                            <button class="btn btn-info" onclick="generateSalesReport()">
+                                <i class="fas fa-chart-bar"></i> Sales Report
+                            </button>
+                            <button class="btn btn-info" onclick="generateCustomerReport()">
+                                <i class="fas fa-users"></i> Customer Report
+                            </button>
+                            <button class="btn btn-info" onclick="generateInventoryReport()">
+                                <i class="fas fa-cube"></i> Inventory Report
+                            </button>
+                            <button class="btn btn-info" onclick="exportAnalyticsToCSV()">
+                                <i class="fas fa-download"></i> Export CSV
+                            </button>
+                            <button class="btn btn-info" onclick="viewActivityLog()">
+                                <i class="fas fa-history"></i> Activity Log
+                            </button>
+                        </div>
+                        <div class="analytics-grid">
+                            <div class="analytics-card">
+                                <h3>Page Views</h3>
+                                <p id="pageViews" class="analytics-number">0</p>
+                                <small>This Session</small>
+                            </div>
+                            <div class="analytics-card">
+                                <h3>Admin Actions</h3>
+                                <p id="adminActions" class="analytics-number">0</p>
+                                <small>Total Actions</small>
+                            </div>
+                            <div class="analytics-card">
+                                <h3>Total Revenue</h3>
+                                <p id="totalRevenue" class="analytics-number">$0</p>
+                                <small>From Orders</small>
+                            </div>
+                            <div class="analytics-card">
+                                <h3>Active Users</h3>
+                                <p id="activeUsers" class="analytics-number">0</p>
+                                <small>Currently Active</small>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Products Section -->
+                <section id="products" class="section-content">
+                    <div class="section-header">
+                        <h2>Product Management</h2>
+                        <button class="btn btn-primary" onclick="openProductModal()">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTable">
+                                <tr>
+                                    <td colspan="6" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="users" class="section-content">
+                    <div class="section-header">
+                        <h2>User Management</h2>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTable">
+                                <tr>
+                                    <td colspan="6" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Messages Section -->
+                <section id="messages" class="section-content">
+                    <div class="section-header">
+                        <h2>User Messages</h2>
+                    </div>
+                    <div class="messages-container">
+                        <div id="messagesList" class="messages-list">
+                            <div class="text-center">Loading...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Orders Section -->
+                <section id="orders" class="section-content">
+                    <div class="section-header">
+                        <h2>Customer Orders</h2>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Products</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Date & Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <tr>
+                                    <td colspan="9" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reviews Section -->
+                <section id="reviews" class="section-content">
+                    <div class="section-header">
+                        <h2>Customer Reviews</h2>
+                        <button class="btn btn-danger" onclick="clearAllReviews()">
+                            <i class="fas fa-trash"></i> Clear All Reviews
+                        </button>
+                    </div>
+                    <div class="reviews-stats">
+                        <div class="review-stat-card">
+                            <i class="fas fa-star"></i>
+                            <div class="stat-content">
+                                <h3 id="totalReviewsCount">0</h3>
+                                <p>Total Reviews</p>
+                            </div>
+                        </div>
+                        <div class="review-stat-card">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="stat-content">
+                                <h3 id="avgRating">0.0</h3>
+                                <p>Average Rating</p>
+                            </div>
+                        </div>
+                        <div class="review-stat-card">
+                            <i class="fas fa-thumbs-up"></i>
+                            <div class="stat-content">
+                                <h3 id="fiveStarCount">0</h3>
+                                <p>5-Star Reviews</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reviews-container">
+                        <div id="reviewsList" class="reviews-list">
+                            <div class="text-center">No reviews yet</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Videos Section -->
+                <section id="videos" class="section-content">
+                    <div class="section-header">
+                        <h2>Shop by Videos Management</h2>
+                        <button class="btn btn-primary" onclick="openVideoModal()">
+                            <i class="fas fa-plus"></i> Add Video
+                        </button>
+                    </div>
+                    <div class="videos-stats">
+                        <div class="video-stat-card">
+                            <i class="fas fa-video"></i>
+                            <div class="stat-content">
+                                <h3 id="totalVideosCount">0</h3>
+                                <p>Total Videos</p>
+                            </div>
+                        </div>
+                        <div class="video-stat-card">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="stat-content">
+                                <h3 id="activeVideosCount">0</h3>
+                                <p>Active Videos</p>
+                            </div>
+                        </div>
+                        <div class="video-stat-card">
+                            <i class="fas fa-eye"></i>
+                            <div class="stat-content">
+                                <h3 id="totalVideoViews">0</h3>
+                                <p>Total Views</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Preview</th>
+                                    <th>Title</th>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Views</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="videosTable">
+                                <tr>
+                                    <td colspan="7" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProductModal()">&times;</span>
+            <h2 id="modalTitle">Add New Product</h2>
+            <form id="productForm" class="form-grid">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label for="productName">Product Name *</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">Category *</label>
+                    <select id="productCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Honey">Honey</option>
+                        <option value="Sweetener">Sweetener</option>
+                        <option value="Organic">Organic</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Price ($) *</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="productStock">Stock Quantity *</label>
+                    <input type="number" id="productStock" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="productDescription">Description *</label>
+                    <textarea id="productDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="productImage">Product Image</label>
+                    <div class="image-upload-container">
+                        <input type="file" id="productImage" accept="image/*" class="file-input">
+                        <div class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Click to upload image or drag and drop</span>
+                            <small>PNG, JPG, GIF up to 5MB</small>
+                        </div>
+                        <div id="uploadStatus" style="display: none; text-align: center; padding: 10px; color: #2ecc71;">
+                            <i class="fas fa-spinner fa-spin"></i> Uploading image...
+                        </div>
+                        <div id="imagePreview" class="image-preview" style="display: none;">
+                            <img id="previewImg" src="" alt="Preview">
+                            <button type="button" class="btn-remove-image" onclick="removeImage()">✕</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUserModal()">&times;</span>
+            <h2>Edit User</h2>
+            <form id="userForm" class="form-grid">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label for="userName">Name</label>
+                    <input type="text" id="userName" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input type="email" id="userEmail" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="userNumber">Phone</label>
+                    <input type="tel" id="userNumber">
+                </div>
+                <div class="form-group">
+                    <label for="userRole">Role</label>
+                    <select id="userRole">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUserModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Detail Modal -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMessageModal()">&times;</span>
+            <div id="messageDetail" class="message-detail">
+                <!-- Message content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOrderModal()">&times;</span>
+            <h2>Order Details</h2>
+            <div id="orderDetail" class="order-detail">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Status Update Modal -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeStatusModal()">&times;</span>
+            <h2>Update Order Status</h2>
+            <div class="status-update-form">
+                <div class="form-group">
+                    <label for="statusSelect">Select New Status:</label>
+                    <select id="statusSelect" class="status-dropdown">
+                        <option value="">-- Choose Status --</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="trackingNumber">Tracking Number (Optional):</label>
+                    <input type="text" id="trackingNumber" placeholder="Enter tracking number">
+                </div>
+                <div class="form-group">
+                    <label for="statusNotes">Notes (Optional):</label>
+                    <textarea id="statusNotes" placeholder="Add notes about this status update" rows="3"></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-success" onclick="confirmStatusUpdate()">Update Status</button>
+                    <button class="btn btn-secondary" onclick="closeStatusModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeVideoModal()">&times;</span>
+            <h2 id="videoModalTitle">Add New Video</h2>
+            <form id="videoForm" class="form-grid">
+                <input type="hidden" id="videoId">
+                <div class="form-group full-width">
+                    <label for="videoTitle">Video Title *</label>
+                    <input type="text" id="videoTitle" required placeholder="Enter video title">
+                </div>
+                <div class="form-group">
+                    <label for="videoProductName">Product Name *</label>
+                    <input type="text" id="videoProductName" required placeholder="e.g., Organic Honey">
+                </div>
+                <div class="form-group">
+                    <label for="videoCategory">Category</label>
+                    <select id="videoCategory">
+                        <option value="General">General</option>
+                        <option value="Honey">Honey</option>
+                        <option value="Rice">Rice</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Oil">Oil</option>
+                        <option value="Sweetener">Sweetener</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="videoProductLink">Product Link</label>
+                    <input type="text" id="videoProductLink" placeholder="e.g., product-details.html?id=xxx">
+                </div>
+                <div class="form-group full-width">
+                    <label for="videoDescription">Description</label>
+                    <textarea id="videoDescription" rows="3" placeholder="Brief description of the video"></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="videoFile">Upload Video *</label>
+                    <div class="video-upload-container">
+                        <input type="file" id="videoFile" accept="video/*" class="file-input">
+                        <div class="file-input-label video-label">
+                            <i class="fas fa-video"></i>
+                            <span>Click to upload video or drag and drop</span>
+                            <small>MP4, WebM, OGG up to 100MB</small>
+                        </div>
+                        <div id="videoUploadStatus" style="display: none; text-align: center; padding: 10px; color: #2ecc71;">
+                            <i class="fas fa-spinner fa-spin"></i> Uploading video...
+                        </div>
+                        <div id="videoPreview" class="video-preview" style="display: none;">
+                            <video id="previewVideo" controls style="max-width: 100%; max-height: 200px;"></video>
+                            <button type="button" class="btn-remove-image" onclick="removeVideo()">✕</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="videoDisplayOrder">Display Order</label>
+                    <input type="number" id="videoDisplayOrder" value="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="videoIsActive">
+                        <input type="checkbox" id="videoIsActive" checked> Active (Show on website)
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Video</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeVideoModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>

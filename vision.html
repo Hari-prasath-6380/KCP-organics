@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission & Vision</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background-color: rgb(220, 241, 216);
+        }
+
+        .mv-section {
+            padding: 50px 20px;
+        }
+
+        .mv-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 500;
+            color: #1b5e20;
+            margin-bottom: 40px;
+            animation: fadeDown 1s ease forwards;
+        }
+
+        .mv-container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .mv-card {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .mv-card:nth-child(1) {
+            animation-delay: 0.4s;
+        }
+
+        .mv-card:nth-child(2) {
+            animation-delay: 0.7s;
+        }
+
+        .mv-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 18px 40px rgba(46, 125, 50, 0.25);
+        }
+
+        .mv-card h2 {
+            color: #2e7d32;
+            font-size: 28px;
+            margin-bottom: 15px;
+            animation: pulseIcon 2.5s infinite;
+        }
+
+        .mv-card p {
+            color: #055bb5;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .mv-title {
+                font-size: 26px;
+            }
+
+            .mv-card h2 {
+                font-size: 22px;
+            }
+
+            .mv-card p {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="mv-section">
+        <h1 class="mv-title" style="color:black">Mission & Vision of KCP Organics</h1>
+
+        <div class="mv-container">
+
+            <div class="mv-card">
+                <h2>🌱 Our Mission</h2>
+                <p>
+                    KCP Organics is dedicated to practicing truly organic farming,
+                    supporting trusted farmers, and delivering high-quality,
+                    chemical-free fruits, vegetables, greens, and grocery products
+                    that families can rely on every day.
+                </p>
+            </div>
+
+            <div class="mv-card">
+                <h2>🌍 Our Vision</h2>
+                <p>
+                    To provide every home with fresh, wholesome, and truly organic
+                    food that is healthy, safe, and chemical-free.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,966 @@
+<html>
+<head>
+  <title>KCP ORGANICS</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="home-enhancements.css">
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="logo_final.png" alt="logo">
+    </div>
+    <div class="section1">
+      <a href="home.html">Home</a>
+      <a href="#">About us</a>
+      <a href="products.html">Products</a>
+      <a href="contact.html">Contact us</a>
+    </div>
+    <div class="section2" id="authSection">
+      <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #dd610e; margin: 0 15px; display: inline-block;">
+        <i class="fas fa-shopping-cart"></i>
+        <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+      </div>
+      <a href="login.html" id="loginLink">Login</a>
+      <a href="signup.html" id="signupLink">Sign up</a>
+      <span id="userName" style="display: none; color: #2e7d32; font-weight: 600;"></span>
+      <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+    </div>
+  </nav>
+  <video class="carousel-img" autoplay muted loop>
+    <source src="From KlickPin CF rainy days di 2025 _ Hujan Belajar.mp4" type="video/mp4">
+  </video>
+  <img src="carousel_img1.jpg" alt="carousel-img" class="carousel-img" />
+  <img src="carousel_img2.jpg" alt="carousel-img" class="carousel-img" />
+  <!-- img src="carousel_img3.png" alt="carousel-img" class="carousel-img" /> -->
+  <div class="carousel-text">
+    <h1>Welcome to KCP Organics</h1>
+    <p>மண்ணில் விளைந்தது, மனதில் கலந்தது.</p>
+  </div>
+  </div><br><br>
+  
+   
+<h1 style="text-align: center; color: #dd610e; font-size: 36px; margin-bottom: 20px; font-style: italic;">Our Organic Products</h1>
+<br><br>
+
+<div class="slider">
+  <div class="slide-track">
+
+    <!-- Products (1st set) -->
+    <a href="/rice" class="product-card">
+      <img src="rice.png"height="80%" alt="Rice">
+      <span>Organic Rice</span>
+    </a>
+    <a href="/vegetables" class="product-card">
+      <img src="vege.png"height="80%" alt="Vegetables">
+      <span>Fresh Vegetables</span>
+    </a>
+    <a href="honey_products.html" class="product-card">
+      <img src="honey.png"height="80%" alt="Honey">
+      <span>Natural Honey</span>
+    </a>
+    <a href="/sweetener" class="product-card">
+      <img src="sweetener.png!bw700"height="80%" alt="Rice">
+      <span>Sweetener</span>
+    </a>
+    <a href="/oil" class="product-card">
+      <img src="oil.png"height="80%" alt="Oil">
+      <span>Oil Varieties</span>
+    </a>
+
+    <!-- Same products repeated (2nd set for no gap) -->
+    <a href="/rice" class="product-card">
+      <img src="rice.png"height="80%" alt="Rice">
+      <span>Organic Rice</span>
+    </a>
+    <a href="/vegetables" class="product-card">
+      <img src="vege.png"height="80%" alt="Vegetables">
+      <span>Fresh Vegetables</span>
+    </a>
+    <a href="honey_products.html" class="product-card">
+      <img src="honey.png"height="80%" alt="Honey">
+      <span>Natural Honey</span>
+    </a>
+    <a href="/sweetener" class="product-card">
+      <img src="sweetener.png!bw700"height="80%" alt="Rice">
+      <span>Sweetener</span>
+    </a>
+    <a href="/oil" class="product-card">
+      <img src="oil.png"height="80%" alt="Oil">
+      <span>Oil Varieties</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- ========== DYNAMIC PRODUCTS FROM DATABASE ========== -->
+<section class="dynamic-products-section" id="products">
+  <div class="organic-container">
+    <div class="section-header-products">
+      <h2>🛒 Featured Products</h2>
+      <p>Explore our latest organic products added by our team</p>
+      <a href="shop.html" class="view-all-btn">View All Products <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="dynamic-products-grid" id="dynamicProductsGrid">
+      <div class="products-loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading products...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  <div class="mission-box">
+      <iframe src="vision.html" height="400" width="100%" frameborder="0"></iframe>
+  </div><br><br>
+
+  <div class="shop-by-videos">
+      <iframe src="shop-by-videos.html" height="400" width="100%" frameborder="0"></iframe>
+  </div>
+
+  <!-- ========== ORGANIC BENEFITS SECTION ========== -->
+  <section class="organic-info-section">
+    <div class="organic-container">
+      <div class="organic-header">
+        <h2>🌿 Why Go Organic?</h2>
+        <p>Discover the incredible benefits of choosing organic products for you and your family</p>
+      </div>
+      <div class="organic-benefits">
+        <div class="benefit-card">
+          <i class="fas fa-heart"></i>
+          <h3>100% Chemical Free</h3>
+          <p>Our products are grown without harmful pesticides, herbicides, or synthetic fertilizers, ensuring pure and natural goodness.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-leaf"></i>
+          <h3>Eco-Friendly Farming</h3>
+          <p>We practice sustainable farming that protects the soil, conserves water, and supports biodiversity for future generations.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-apple-whole"></i>
+          <h3>Rich in Nutrients</h3>
+          <p>Organic foods contain higher levels of vitamins, minerals, and antioxidants compared to conventionally grown produce.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-shield-heart"></i>
+          <h3>Better for Health</h3>
+          <p>Reduce your exposure to harmful chemicals and enjoy food the way nature intended - pure and wholesome.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ORGANIC POSTER BANNER ========== -->
+  <section class="organic-poster-section">
+    <div class="poster-content">
+      <div class="poster-text">
+        <span class="poster-badge">🌱 100% Organic</span>
+        <h2>Farm Fresh to Your Doorstep</h2>
+        <p>Experience the authentic taste of nature with our carefully curated selection of organic products. From farm to table, we ensure every product meets the highest standards of quality and purity.</p>
+        <div class="poster-features">
+          <div class="poster-feature">
+            <i class="fas fa-truck-fast"></i>
+            <span>Free Delivery</span>
+          </div>
+          <div class="poster-feature">
+            <i class="fas fa-certificate"></i>
+            <span>Certified Organic</span>
+          </div>
+          <div class="poster-feature">
+            <i class="fas fa-hand-holding-heart"></i>
+            <span>Farmer Direct</span>
+          </div>
+        </div>
+        <a href="shop.html" class="poster-btn">Shop Now <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="poster-image">
+        <div class="poster-img-container">
+          <i class="fas fa-seedling poster-icon"></i>
+          <div class="floating-elements">
+            <span class="float-item">🍃</span>
+            <span class="float-item">🌿</span>
+            <span class="float-item">🍀</span>
+            <span class="float-item">🌾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CERTIFICATIONS SECTION ========== -->
+  <section class="certifications-section">
+    <div class="organic-container">
+      <h2>🏆 Our Certifications & Promises</h2>
+      <p class="certification-intro">Trusted quality backed by recognized certifications</p>
+      <div class="certifications-grid">
+        <div class="cert-item">
+          <i class="fas fa-award"></i>
+          <h4>USDA Organic</h4>
+          <p>Certified organic by USDA standards</p>
+        </div>
+        <div class="cert-item">
+          <i class="fas fa-globe-asia"></i>
+          <h4>India Organic</h4>
+          <p>Certified under NPOP standards</p>
+        </div>
+        <div class="cert-item">
+          <i class="fas fa-recycle"></i>
+          <h4>Eco-Friendly</h4>
+          <p>Sustainable packaging & practices</p>
+        </div>
+        <div class="cert-item">
+          <i class="fas fa-hand-sparkles"></i>
+          <h4>No Additives</h4>
+          <p>100% pure, no preservatives</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CUSTOMER REVIEWS SECTION ========== -->
+  <section class="reviews-section">
+    <div class="organic-container">
+      <h2>💬 What Our Customers Say</h2>
+      <p class="reviews-intro">Real reviews from our valued customers</p>
+      
+      <div class="reviews-grid" id="customerReviews">
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="reviewer-info">
+              <h4>Priya Sharma</h4>
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">"The organic honey from KCP is absolutely amazing! Pure taste and excellent quality. My whole family loves it."</p>
+          <span class="review-product">🍯 Natural Honey</span>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="reviewer-info">
+              <h4>Rajesh Kumar</h4>
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">"Best organic rice I've ever tasted! The aroma and taste is so authentic. Highly recommend to everyone."</p>
+          <span class="review-product">🌾 Organic Rice</span>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="reviewer-info">
+              <h4>Lakshmi Narayanan</h4>
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">"Switching to KCP organic vegetables was the best decision for my health. Fresh, pesticide-free, and delivered right to my door!"</p>
+          <span class="review-product">🥬 Fresh Vegetables</span>
+        </div>
+      </div>
+
+      <!-- Write a Review Section -->
+      <div class="write-review-section">
+        <h3><i class="fas fa-pen"></i> Share Your Experience</h3>
+        <form class="review-form" id="reviewForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reviewerName">Your Name</label>
+              <input type="text" id="reviewerName" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+              <label for="productSelect">Product Reviewed</label>
+              <select id="productSelect" required>
+                <option value="">Select a product</option>
+                <option value="Organic Rice">Organic Rice</option>
+                <option value="Fresh Vegetables">Fresh Vegetables</option>
+                <option value="Natural Honey">Natural Honey</option>
+                <option value="Sweetener">Sweetener</option>
+                <option value="Oil Varieties">Oil Varieties</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Your Rating</label>
+            <div class="star-rating" id="starRating">
+              <i class="far fa-star" data-rating="1"></i>
+              <i class="far fa-star" data-rating="2"></i>
+              <i class="far fa-star" data-rating="3"></i>
+              <i class="far fa-star" data-rating="4"></i>
+              <i class="far fa-star" data-rating="5"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reviewText">Your Review</label>
+            <textarea id="reviewText" rows="4" placeholder="Tell us about your experience with this product..." required></textarea>
+          </div>
+          <button type="submit" class="submit-review-btn">
+            <i class="fas fa-paper-plane"></i> Submit Review
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MESSAGE ADMIN SECTION ========== -->
+  <section class="message-section">
+    <div class="organic-container">
+      <div class="message-wrapper">
+        <div class="message-info">
+          <h2><i class="fas fa-headset"></i> Get in Touch</h2>
+          <p>Have questions about our organic products? Want to know more about our farming practices? We're here to help!</p>
+          <div class="contact-methods">
+            <div class="contact-method">
+              <i class="fas fa-phone"></i>
+              <span>+91 98765 43210</span>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-envelope"></i>
+              <span>support@kcporganics.com</span>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-clock"></i>
+              <span>Mon - Sat: 9AM - 6PM</span>
+            </div>
+          </div>
+        </div>
+        <div class="message-form-container">
+          <h3>Send us a Message</h3>
+          <form class="message-form" id="messageForm">
+            <div class="form-group">
+              <label for="msgName">Full Name</label>
+              <input type="text" id="msgName" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label for="msgEmail">Email Address</label>
+              <input type="email" id="msgEmail" placeholder="your.email@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="msgSubject">Subject</label>
+              <select id="msgSubject" required>
+                <option value="">Choose a topic</option>
+                <option value="Product Inquiry">Product Inquiry</option>
+                <option value="Order Status">Order Status</option>
+                <option value="Bulk Order">Bulk Order</option>
+                <option value="Feedback">Feedback</option>
+                <option value="Partnership">Partnership</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="msgContent">Message</label>
+              <textarea id="msgContent" rows="4" placeholder="Type your message here..." required></textarea>
+            </div>
+            <button type="submit" class="send-message-btn">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NEWSLETTER SECTION ========== -->
+  <section class="newsletter-section">
+    <div class="newsletter-container">
+      <div class="newsletter-content">
+        <h2>🌿 Stay Updated with Organic Living</h2>
+        <p>Subscribe to our newsletter for exclusive offers, organic tips, and new product announcements!</p>
+      </div>
+      <form class="newsletter-form" id="newsletterForm">
+        <input type="email" placeholder="Enter your email address" required>
+        <button type="submit"><i class="fas fa-bell"></i> Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-section about-section">
+        <div class="footer-logo">
+          <h3>🌿 KCP ORGANICS</h3>
+        </div>
+        <p>Bringing nature's best to your table. We are committed to providing 100% organic, chemical-free products directly from trusted farmers to your home.</p>
+        <div class="social-links">
+          <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="home.html"><i class="fas fa-angle-right"></i> Home</a></li>
+          <li><a href="shop.html"><i class="fas fa-angle-right"></i> Shop</a></li>
+          <li><a href="#"><i class="fas fa-angle-right"></i> About Us</a></li>
+          <li><a href="contact.html"><i class="fas fa-angle-right"></i> Contact</a></li>
+          <li><a href="#"><i class="fas fa-angle-right"></i> Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Our Products</h4>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-angle-right"></i> Organic Rice</a></li>
+          <li><a href="#"><i class="fas fa-angle-right"></i> Fresh Vegetables</a></li>
+          <li><a href="honey_products.html"><i class="fas fa-angle-right"></i> Natural Honey</a></li>
+          <li><a href="#"><i class="fas fa-angle-right"></i> Sweeteners</a></li>
+          <li><a href="#"><i class="fas fa-angle-right"></i> Organic Oils</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <ul class="footer-contact">
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <span>123 Organic Lane, Green Valley,<br>Tamil Nadu, India - 600001</span>
+          </li>
+          <li>
+            <i class="fas fa-phone"></i>
+            <span>+91 98765 43210</span>
+          </li>
+          <li>
+            <i class="fas fa-envelope"></i>
+            <span>support@kcporganics.com</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p>&copy; 2026 KCP Organics. All Rights Reserved. | Made with 💚 for a healthier world</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== FLOATING CHAT BUTTON ========== -->
+  <div class="floating-chat-btn" id="floatingChatBtn" title="Chat with us">
+    <i class="fas fa-comments"></i>
+  </div>
+
+  <!-- ========== CHAT MODAL ========== -->
+  <div class="chat-modal" id="chatModal">
+    <div class="chat-header">
+      <h4><i class="fas fa-leaf"></i> KCP Organics Support</h4>
+      <button class="close-chat" id="closeChat"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-message admin-msg">
+        <span>👋 Hello! Welcome to KCP Organics. How can we help you today?</span>
+      </div>
+    </div>
+    <div class="chat-footer">
+      <input type="text" id="chatInput" placeholder="Type your message...">
+      <button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+
+
+  <script>
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.carousel-img');
+
+    function showSlide(index) {
+      images.forEach((img, i) => {
+        img.classList.remove('active');
+        if (i === index) img.classList.add('active');
+      });
+    }
+
+
+
+    showSlide(currentIndex);
+
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length;
+      showSlide(currentIndex);
+    }, 3000);
+
+    // ========== STAR RATING FUNCTIONALITY ==========
+    const starRating = document.getElementById('starRating');
+    const stars = starRating.querySelectorAll('i');
+    let selectedRating = 0;
+
+    stars.forEach(star => {
+      star.addEventListener('click', function() {
+        selectedRating = this.dataset.rating;
+        updateStars(selectedRating);
+      });
+
+      star.addEventListener('mouseover', function() {
+        updateStars(this.dataset.rating);
+      });
+
+      star.addEventListener('mouseout', function() {
+        updateStars(selectedRating);
+      });
+    });
+
+    function updateStars(rating) {
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.remove('far');
+          star.classList.add('fas');
+        } else {
+          star.classList.remove('fas');
+          star.classList.add('far');
+        }
+      });
+    }
+
+    // ========== REVIEW FORM SUBMISSION ==========
+    document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('reviewerName').value;
+      const product = document.getElementById('productSelect').value;
+      const reviewText = document.getElementById('reviewText').value;
+      const currentUserId = localStorage.getItem('userId');
+      
+      if (selectedRating === 0) {
+        alert('Please select a rating!');
+        return;
+      }
+
+      // Show loading state
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+      submitBtn.disabled = true;
+
+      try {
+        // Save review to backend API
+        const response = await fetch('http://localhost:5000/api/reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            productId: null, // General review (not product-specific)
+            userId: currentUserId || null,
+            rating: parseInt(selectedRating),
+            title: product, // Use product name as title
+            comment: reviewText,
+            reviewerName: name // For anonymous reviews
+          })
+        });
+
+        const result = await response.json();
+
+        // Also save to localStorage as backup
+        const reviews = JSON.parse(localStorage.getItem('kcpReviews') || '[]');
+        reviews.unshift({
+          name: name,
+          product: product,
+          text: reviewText,
+          rating: selectedRating,
+          timestamp: new Date().toISOString()
+        });
+        localStorage.setItem('kcpReviews', JSON.stringify(reviews));
+
+        // Create new review card for display
+        const reviewsGrid = document.getElementById('customerReviews');
+        const newReview = document.createElement('div');
+        newReview.className = 'review-card new-review';
+        
+        let starsHtml = '';
+        for (let i = 1; i <= 5; i++) {
+          starsHtml += i <= selectedRating ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+        }
+
+        const productEmojis = {
+          'Organic Rice': '🌾',
+          'Fresh Vegetables': '🥬',
+          'Natural Honey': '🍯',
+          'Sweetener': '🍬',
+          'Oil Varieties': '🫒'
+        };
+
+        newReview.innerHTML = `
+          <div class="review-header">
+            <div class="reviewer-avatar"><i class="fas fa-user-circle"></i></div>
+            <div class="reviewer-info">
+              <h4>${name}</h4>
+              <div class="stars">${starsHtml}</div>
+            </div>
+          </div>
+          <p class="review-text">"${reviewText}"</p>
+          <span class="review-product">${productEmojis[product] || '🌿'} ${product}</span>
+        `;
+
+        reviewsGrid.insertBefore(newReview, reviewsGrid.firstChild);
+        
+        // Reset form
+        this.reset();
+        selectedRating = 0;
+        updateStars(0);
+        
+        alert('Thank you for your review! 🌿');
+      } catch (error) {
+        console.error('Error submitting review:', error);
+        alert('Review saved locally. Server connection failed.');
+        
+        // Still save to localStorage even if API fails
+        const reviews = JSON.parse(localStorage.getItem('kcpReviews') || '[]');
+        reviews.unshift({
+          name: name,
+          product: product,
+          text: reviewText,
+          rating: selectedRating,
+          timestamp: new Date().toISOString()
+        });
+        localStorage.setItem('kcpReviews', JSON.stringify(reviews));
+        
+        this.reset();
+        selectedRating = 0;
+        updateStars(0);
+      } finally {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
+    });
+
+    // ========== MESSAGE FORM SUBMISSION ==========
+    document.getElementById('messageForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('msgName').value;
+      const email = document.getElementById('msgEmail').value;
+      const subject = document.getElementById('msgSubject').value;
+      const message = document.getElementById('msgContent').value;
+
+      // Show loading state
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+      submitBtn.disabled = true;
+
+      try {
+        // Send message to backend (stored in MongoDB + admin notification)
+        const response = await fetch('http://localhost:5000/api/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, subject, message })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert('✅ Thank you for your message! Our team will get back to you within 24 hours. 🌿');
+          this.reset();
+        } else {
+          alert('❌ Failed to send message: ' + (result.message || 'Please try again.'));
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+        alert('❌ Connection error. Please make sure the server is running and try again.');
+      } finally {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
+    });
+
+    // ========== NEWSLETTER FORM ==========
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Welcome to our organic family! 🌿 You\'ll receive our newsletter soon.');
+      this.reset();
+    });
+
+    // ========== FLOATING CHAT FUNCTIONALITY ==========
+    const floatingBtn = document.getElementById('floatingChatBtn');
+    const chatModal = document.getElementById('chatModal');
+    const closeChat = document.getElementById('closeChat');
+    const chatInput = document.getElementById('chatInput');
+    const sendChatBtn = document.getElementById('sendChatBtn');
+    const chatBody = document.getElementById('chatBody');
+
+    floatingBtn.addEventListener('click', function() {
+      chatModal.classList.toggle('active');
+      floatingBtn.style.display = chatModal.classList.contains('active') ? 'none' : 'flex';
+    });
+
+    closeChat.addEventListener('click', function() {
+      chatModal.classList.remove('active');
+      floatingBtn.style.display = 'flex';
+    });
+
+    async function sendMessage() {
+      const message = chatInput.value.trim();
+      if (message) {
+        // Add user message to chat UI
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-message user-msg';
+        userMsg.innerHTML = `<span>${message}</span>`;
+        chatBody.appendChild(userMsg);
+
+        chatInput.value = '';
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+        // Send message to backend for storage and admin notification
+        try {
+          await fetch('http://localhost:5000/api/messages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: 'Chat User',
+              email: 'chat@kcporganics.com',
+              subject: 'Live Chat Message',
+              message: message
+            })
+          });
+        } catch (error) {
+          console.error('Failed to save chat message:', error);
+        }
+
+        // Show admin response
+        setTimeout(() => {
+          const adminMsg = document.createElement('div');
+          adminMsg.className = 'chat-message admin-msg';
+          adminMsg.innerHTML = `<span>Thank you for your message! Our team will respond shortly. For urgent queries, please call us at +91 98765 43210 🌿</span>`;
+          chatBody.appendChild(adminMsg);
+          chatBody.scrollTop = chatBody.scrollHeight;
+        }, 1000);
+      }
+    }
+
+    sendChatBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    // ========== LOAD DYNAMIC PRODUCTS ==========
+    async function loadDynamicProducts() {
+      const container = document.getElementById('dynamicProductsGrid');
+      
+      try {
+        const response = await fetch('http://localhost:5000/api/products?limit=8');
+        const data = await response.json();
+
+        if (!data.success || !data.data || data.data.length === 0) {
+          container.innerHTML = `
+            <div class="no-products-message">
+              <i class="fas fa-box-open"></i>
+              <p>No products available yet. Check back soon!</p>
+              <a href="shop.html" class="shop-btn">Browse All Products</a>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = data.data.map(product => `
+          <div class="dynamic-product-card" onclick="window.location.href='product-details.html?id=${product._id}'">
+            <div class="product-image-wrapper">
+              <img src="${getProductImageUrl(product.image)}" alt="${escapeHtmlHome(product.name)}" onerror="this.src='https://via.placeholder.com/250x250?text=Product'">
+              ${product.discount > 0 ? `<span class="discount-badge">-${product.discount}%</span>` : ''}
+            </div>
+            <div class="product-info-home">
+              <h3>${escapeHtmlHome(product.name)}</h3>
+              <p class="product-category-home">${product.category}</p>
+              <div class="product-rating-home">
+                ${generateStarsHome(product.averageRating || 0)}
+                <span>(${product.totalReviews || 0} reviews)</span>
+              </div>
+              <div class="product-price-home">
+                <span class="current-price-home">₹${product.price.toFixed(2)}</span>
+                ${product.originalPrice && product.originalPrice > product.price ? 
+                  `<span class="original-price-home">₹${product.originalPrice.toFixed(2)}</span>` : ''}
+              </div>
+              <button class="add-to-cart-home" onclick="event.stopPropagation(); addToCartHome('${product._id}', '${escapeHtmlHome(product.name)}', ${product.price}, '${product.image || 'https://via.placeholder.com/200x200?text=Product'}')">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        `).join('');
+        
+      } catch (error) {
+        console.error('Error loading products:', error);
+        container.innerHTML = `
+          <div class="no-products-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Error loading products. Please try again later.</p>
+          </div>
+        `;
+      }
+    }
+
+    function getProductImageUrl(imagePath) {
+      if (!imagePath) return 'https://via.placeholder.com/250x250?text=Product';
+      if (imagePath.startsWith('http')) return imagePath;
+      if (imagePath.startsWith('/uploads')) return `http://localhost:5000${imagePath}`;
+      if (imagePath === 'product.jpg') return 'https://via.placeholder.com/250x250?text=Product';
+      return imagePath;
+    }
+
+    function escapeHtmlHome(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function generateStarsHome(rating) {
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(rating)) {
+          stars += '<i class="fas fa-star"></i>';
+        } else if (i - 0.5 <= rating) {
+          stars += '<i class="fas fa-star-half-alt"></i>';
+        } else {
+          stars += '<i class="far fa-star"></i>';
+        }
+      }
+      return stars;
+    }
+
+    function viewProductDetails(productId) {
+      window.location.href = `product-details.html?id=${productId}`;
+    }
+
+    // Add to cart from home page
+    function addToCartHome(productId, productName, price, image) {
+      if (!localStorage.getItem('userName')) {
+        showToastHome('❌ Please login to add products to cart');
+        setTimeout(() => window.location.href = 'login.html', 1500);
+        return;
+      }
+
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existingItem = cart.find(item => item.productId === productId);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+        showToastHome('✓ Product quantity updated in cart');
+      } else {
+        cart.push({
+          productId: productId,
+          name: productName,
+          price: price,
+          quantity: 1,
+          image: image,
+          variants: {}
+        });
+        showToastHome('✓ Product added to cart');
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartBadge();
+    }
+
+    // Toast notification
+    function showToastHome(message) {
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #333;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 10000;
+        animation: slideInToast 0.3s ease;
+      `;
+      if (message.includes('✓')) {
+        toast.style.background = '#2e7d32';
+      } else if (message.includes('❌')) {
+        toast.style.background = '#e74c3c';
+      }
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Load products on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      loadDynamicProducts();
+      checkUserSession();
+      updateCartBadge();
+    });
+
+    // Check if user is logged in
+    function checkUserSession() {
+      const userName = localStorage.getItem('userName');
+      const userId = localStorage.getItem('userId');
+      
+      if (userName && userId) {
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('signupLink').style.display = 'none';
+        document.getElementById('userName').style.display = 'inline';
+        document.getElementById('userName').textContent = 'Welcome, ' + userName;
+        document.getElementById('logoutLink').style.display = 'inline';
+      }
+    }
+
+    // Logout user
+    function logoutUser() {
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userRole');
+      window.location.reload();
+    }
+
+    // Update cart badge
+    function updateCartBadge() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) {
+        badge.textContent = totalItems;
+      }
+    }
+
+    // Cart Modal Functions
+    function toggleCart() {
+        window.location.href = 'cart.html';
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,293 @@
+body{
+    background-color:rgb(220, 241, 216) ;
+    margin: 0;
+}
+
+.navbar{
+    background-color: rgb(253, 250, 250);
+    height:90px;
+    border : 5px solid rgb(248, 248, 248);
+    border-radius: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding : 0 20px;
+    display: flex;
+    font-size: 19px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    
+}
+
+.section1{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:100px;
+    margin-left:50px;
+}
+
+.section2{
+    display:flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    gap:100px;
+    margin-right: 50px;
+}
+
+.navbar a{
+    font: size 1.2em;
+    text-decoration: none;
+    color:black;
+}
+
+.logo img {
+    height: 80%; /* relative to navbar height */
+    width: auto; /* maintain aspect ratio */
+    border-radius: 0; /* remove circle, optional */
+    display: block;
+}
+
+.carousel {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.carousel-img {
+  width: 100%;
+  height: 100%;
+  display: none; /* hide all images initially */
+  object-fit: cover;
+}
+
+/* Show first image by default */
+.carousel-img.active {
+  display: block;
+}
+
+.carousel-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  /* Remove the box: */
+  /* background: rgba(251, 250, 250, 0.45); */
+  /* padding: 25px 40px; */
+  /* border-radius: 12px; */
+}
+
+.carousel-text h1 {
+  color: #b1e0f5;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+
+  text-shadow: 
+    0 0 8px rgba(177, 224, 245, 0.8),
+    2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.carousel-text p {
+  color: #ffeb3b;
+  font-size: 38px;
+  font-style: italic;
+  font-weight: 600;
+
+  text-shadow:
+    0 0 10px rgba(255, 235, 59, 0.9),
+    2px 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+
+.slider {
+  width: 100%;
+  overflow: hidden;
+
+}
+
+.slide-track {
+  display: flex;
+  width: calc(220px * 10);   /* card width + space × total cards */
+  animation: scroll 18s linear infinite;
+}
+
+.product-card {
+  flex-direction: column;
+  width: 200px;
+  height: 120px;
+  background: #eaf7ee;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #050505dc;
+  font-weight: bold;
+  flex-shrink: 0;
+
+  /* SPACE BETWEEN CARDS */
+  margin-right: 20px;   /* safe because we duplicated items */
+}
+
+/* Animation */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+
+/* Continuous movement */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.video-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.video-wrapper video {
+  width: 80%;
+  border-radius: 80px;
+}
+
+/* Organic Content Sections */
+.organic-info-section {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  margin: 40px 0;
+}
+
+.organic-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.organic-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.organic-header h2 {
+  font-size: 42px;
+  color: #166534;
+  margin: 0 0 15px 0;
+  font-weight: bold;
+}
+
+.organic-header p {
+  font-size: 18px;
+  color: #4b5563;
+  margin: 0;
+}
+
+.organic-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.benefit-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.benefit-card i {
+  font-size: 48px;
+  color: #dd610e;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.benefit-card h3 {
+  font-size: 24px;
+  color: #166534;
+  margin: 15px 0;
+}
+
+.benefit-card p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Certifications Section */
+.certifications-section {
+  padding: 60px 20px;
+  background: white;
+  margin: 40px 0;
+}
+
+.certifications-section h2 {
+  text-align: center;
+  font-size: 42px;
+  color: #166534;
+  margin: 0 0 10px 0;
+}
+
+.certification-intro {
+  text-align: center;
+  color: #6b7280;
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+}
+
+.cert-item {
+  background: #f9fafb;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.cert-item:hover {
+  border-color: #dd610e;
+  background: #fffbf5;
+}
+
+.cert-item i {
+  font-size: 40px;
+  color: #dd610e;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.cert-item h4 {
+  color: #166534;
+  margin: 15px 0;
+  font-size: 20px;
+}
+
+.cert-item p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 14px;
+}
