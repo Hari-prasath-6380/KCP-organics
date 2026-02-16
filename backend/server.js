@@ -70,7 +70,7 @@ app.post('/user/signup', async (req, res) => {
 
         res.status(201).json({
             message: 'Signup successful',
-            data: { id: user._id, name: user.name, email: user.email, role: user.role }
+            data: { id: user._id, _id: user._id, name: user.name, email: user.email, role: user.role }
         });
 
     } catch (err) {
@@ -89,7 +89,7 @@ app.post('/user/login', async (req, res) => {
 
         res.json({
             message: `Welcome ${user.name}`,
-            data: { id: user._id, name: user.name, email: user.email, role: user.role }
+            data: { id: user._id, _id: user._id, name: user.name, email: user.email, role: user.role }
         });
 
     } catch (err) {

@@ -4,8 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - KCP Organics</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Normalize globals for different UMD builds and browsers
+        try {
+            if (typeof window !== 'undefined') {
+                // html2canvas usually exposes as window.html2canvas
+                window.html2canvas = window.html2canvas || window.html2canvas;
+                // jspdf UMD exposes window.jspdf.jsPDF — provide window.jsPDF for older code
+                if (!window.jsPDF && window.jspdf && window.jspdf.jsPDF) {
+                    window.jsPDF = window.jspdf.jsPDF;
+                }
+            }
+        } catch (e) {
+            console.warn('Normalization error for PDF/html2canvas libs', e);
+        }
+    </script>
     <style>
         * {
             margin: 0;
@@ -15,79 +32,135 @@
 
         body {
             background: linear-gradient(135deg, #dcf1d8 0%, #e8f5e9 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
         }
 
-        /* Navbar */
-        .navbar {
-            background-color: rgb(253, 250, 250);
-            height: 90px;
-            border: 5px solid rgb(248, 248, 248);
-            border-radius: 20px;
+        /* Order Confirmation Modal */
+        .order-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
+        }
+
+        .order-modal.active {
             display: flex;
-            font-size: 19px;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-            margin: 10px 20px;
         }
 
-        .logo img {
-            height: 70px;
-            width: auto;
-            border-radius: 0;
-            display: block;
+        .order-modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: slideUp 0.3s ease;
         }
 
-        .section1 {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 100px;
-            margin-left: 50px;
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
-        .section1 a {
-            text-decoration: none;
-            color: #dd610e;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .section1 a:hover {
+        .order-modal-content h2 {
             color: #2e7d32;
+            margin-bottom: 15px;
+            font-size: 28px;
         }
 
-        .section2 {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .order-modal-content p {
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.6;
         }
 
-        .section2 a {
-            text-decoration: none;
-            color: #dd610e;
+        .order-id-display {
+            background: #f0f8f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 18px;
             font-weight: bold;
-            transition: color 0.3s;
+            color: #dd610e;
+            word-break: break-all;
         }
 
-        .section2 a:hover {
-            color: #2e7d32;
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .navbar-cart {
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
             cursor: pointer;
-            font-size: 24px;
-            color: #dd610e;
-            margin: 0 15px;
-            display: inline-block;
-            position: relative;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .navbar-cart:hover {
-            color: #2e7d32;
+        .modal-btn.btn-download {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .modal-btn.btn-download:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .modal-btn.btn-home {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-btn.btn-home:hover {
+            background: #e0e0e0;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: #2e7d32;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
         }
 
         .cart-badge {
@@ -704,6 +777,35 @@
         </div>
     </div>
 
+    <!-- Order Confirmation Modal -->
+    <div class="order-modal" id="orderModal">
+        <div class="order-modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Order Placed Successfully! 🎉</h2>
+            <p>Your order has been confirmed and will be delivered within 3-5 business days.</p>
+            
+            <div class="order-id-display">
+                <div style="font-size: 12px; color: #666; margin-bottom: 8px;">Order ID:</div>
+                <div id="modalOrderId">ORD-000000</div>
+            </div>
+            
+            <p style="color: #666; font-size: 14px;">
+                <i class="fas fa-info-circle"></i> You will receive SMS and Email confirmation shortly.
+            </p>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn btn-download" onclick="downloadBill()" style="background: #2ecc71; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 14px; font-weight: bold; cursor: pointer; margin-right: 10px;">
+                    <i class="fas fa-file-pdf"></i> Download Invoice
+                </button>
+                <button class="modal-btn btn-home" onclick="goToHome()">
+                    <i class="fas fa-home"></i> Go to Home
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Populate user data if logged in
         function populateUserData() {
@@ -744,9 +846,23 @@
             document.getElementById('codNote').style.display = method === 'cod' ? 'block' : 'none';
         }
 
+        // Normalize image paths (handle truncated placeholders like '60x60?text=Product')
+        function getImageUrl(imagePath) {
+            const ORIGIN = 'http://localhost:5000';
+            if (!imagePath) return 'https://via.placeholder.com/60x60?text=Product';
+            if (imagePath.startsWith('http')) return imagePath;
+            const placeholderMatch = imagePath.match(/^\d+x\d+\?text=.*$/);
+            if (placeholderMatch) return 'https://via.placeholder.com/' + imagePath;
+            if (imagePath.startsWith('/uploads')) return ORIGIN + imagePath;
+            if (!imagePath.includes('/')) return ORIGIN + '/uploads/products/' + imagePath;
+            return imagePath;
+        }
+
         // Load cart and display items
         function loadOrderSummary() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const all = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const cart = all.filter(i => (i.userId || 'guest') === uid);
             const orderItemsDiv = document.getElementById('orderItems');
 
             if (cart.length === 0) {
@@ -756,12 +872,12 @@
             }
 
             let subtotal = 0;
-            orderItemsDiv.innerHTML = cart.map((item, index) => {
-                const itemTotal = item.price * item.quantity;
+            orderItemsDiv.innerHTML = cart.map((item) => {
+                const itemTotal = (item.price || 0) * item.quantity;
                 subtotal += itemTotal;
                 return `
                     <div class="order-item">
-                        <img src="${item.image || 'https://via.placeholder.com/60x60?text=Product'}" alt="${item.name}" class="order-item-image" onerror="this.src='https://via.placeholder.com/60x60?text=Product'">
+                        <img src="${getImageUrl(item.image)}" alt="${item.name}" class="order-item-image" onerror="this.src='https://via.placeholder.com/60x60?text=Product'">
                         <div class="order-item-info">
                             <div class="order-item-name">${item.name}</div>
                             <div class="order-item-qty">Qty: ${item.quantity}</div>
@@ -780,10 +896,11 @@
             document.getElementById('total').textContent = '₹' + total.toFixed(2);
         }
 
-        // Update cart badge
+        // Update cart badge (per-user)
         function updateCartBadge() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const all = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const totalItems = all.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + (item.quantity || 0), 0);
             document.getElementById('cartBadge').textContent = totalItems;
         }
 
@@ -848,6 +965,10 @@
                 return;
             }
 
+            const all = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const userCart = all.filter(i => (i.userId || 'guest') === uid);
+
             const formData = {
                 firstName: firstName,
                 lastName: lastName,
@@ -860,13 +981,13 @@
                 country: country,
                 instructions: document.getElementById('instructions').value.trim(),
                 paymentMethod: document.querySelector('input[name="payment"]:checked').value,
-                products: cart.map(item => ({
+                products: userCart.map(item => ({
                     productId: item.productId,
                     name: item.name,
                     quantity: item.quantity,
                     price: item.price
                 })),
-                totalAmount: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * 1.05
+                totalAmount: userCart.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0) * 1.05
             };
 
             const submitBtn = document.getElementById('placeOrderBtn');
@@ -884,15 +1005,34 @@
 
                 if (result.success) {
                     showToast('✓ Order placed successfully!', 'success');
-                    localStorage.setItem('cart', JSON.stringify([]));
+                    // Remove only current user's cart items
+                    const remaining = all.filter(i => (i.userId || 'guest') !== uid);
+                    localStorage.setItem('cart', JSON.stringify(remaining));
                     updateCartBadge();
                     
-                    // Show order confirmation
-                    const orderId = result.data._id || 'Unknown';
-                    setTimeout(() => {
-                        alert(`✅ Order Placed Successfully!\n\nOrder ID: ${orderId.substring(0, 8).toUpperCase()}\n\nWe will deliver it to your address within 3-5 business days.\n\nYou will receive an SMS and email confirmation.`);
-                        window.location.href = 'home.html';
-                    }, 1000);
+                    // Store order data for bill generation
+                    const orderId = result.data.orderId || result.data._id.substring(0, 8).toUpperCase();
+                    // Remove any existing ORD- prefix to avoid duplication
+                    const cleanOrderId = orderId.replace(/^ORD-/i, '');
+                    const orderData = {
+                        orderId: cleanOrderId,
+                        mongoId: result.data._id,
+                        customerName: `${formData.firstName} ${formData.lastName}`,
+                        customerEmail: formData.email,
+                        customerPhone: formData.phone,
+                        address: `${formData.address}, ${formData.city}, ${formData.state} ${formData.zipcode}`,
+                        products: formData.products,
+                        subtotal: formData.totalAmount / 1.05,
+                        tax: formData.totalAmount - (formData.totalAmount / 1.05),
+                        totalAmount: formData.totalAmount,
+                        paymentMethod: formData.paymentMethod,
+                        createdAt: new Date().toLocaleDateString('en-IN')
+                    };
+                    
+                    localStorage.setItem('lastOrderData', JSON.stringify(orderData));
+                    
+                    // Show order confirmation modal
+                    showOrderModal(orderId);
                 } else {
                     showToast('Error: ' + (result.message || 'Failed to place order'), 'error');
                     submitBtn.disabled = false;
@@ -926,6 +1066,282 @@
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userRole');
             window.location.reload();
+        }
+
+        // Show order confirmation modal
+        function showOrderModal(orderId) {
+            // Remove any existing ORD- prefix to avoid duplication
+            const cleanOrderId = orderId.replace(/^ORD-/i, '');
+            document.getElementById('modalOrderId').textContent = 'ORD-' + cleanOrderId;
+            document.getElementById('orderModal').classList.add('active');
+        }
+
+        // Download bill as PDF
+        function downloadBill() {
+            console.log('downloadBill called');
+            const orderData = JSON.parse(localStorage.getItem('lastOrderData'));
+
+            if (!orderData) {
+                console.error('downloadBill: lastOrderData missing');
+                alert('Order data not found. Please try generating bill again.');
+                return;
+            }
+
+            // Detailed diagnostics
+            console.log('downloadBill diagnostics:', {
+                html2canvas: typeof window.html2canvas !== 'undefined' ? 'present' : 'missing',
+                jsPDF_global: typeof window.jsPDF !== 'undefined',
+                jspdf_obj: !!(window.jspdf && window.jspdf.jsPDF),
+                jspdf_window: !!window.jspdf
+            });
+
+            if (!window.html2canvas) {
+                console.error('html2canvas not available');
+                alert('HTML to Canvas library not loaded. Please refresh and try again.');
+                return;
+            }
+
+            // Normalize PDF class resolution
+            const PDFClass = window.jsPDF || (window.jspdf && window.jspdf.jsPDF) || (window.jspdf && window.jspdf.default && window.jspdf.default.jsPDF);
+            if (!PDFClass) {
+                console.error('downloadBill: jsPDF not found', window.jsPDF, window.jspdf);
+                alert('PDF library not loaded. Please refresh and try again.');
+                return;
+            }
+
+            const billHTML = generateBillHTML(orderData);
+            const element = document.createElement('div');
+            element.innerHTML = billHTML;
+            element.style.padding = '30px';
+            element.style.backgroundColor = 'white';
+            element.style.width = '210mm';
+            element.style.height = 'auto';
+            element.style.position = 'absolute';
+            element.style.left = '-9999px';
+            element.style.fontFamily = 'Arial, sans-serif';
+            document.body.appendChild(element);
+
+            try {
+                html2canvas(element, {
+                    backgroundColor: '#ffffff',
+                    scale: 2,
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true
+                }).then(canvas => {
+                    try {
+                        const pdf = new PDFClass({
+                            orientation: 'portrait',
+                            unit: 'mm',
+                            format: 'a4'
+                        });
+
+                        const imgData = canvas.toDataURL('image/png');
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+                        const imgWidth = pageWidth - 10;
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        
+                        let heightLeft = imgHeight;
+                        let position = 5;
+
+                        pdf.addImage(imgData, 'PNG', 5, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+
+                        while (heightLeft > 0) {
+                            position = heightLeft - imgHeight + 5;
+                            pdf.addPage();
+                            pdf.addImage(imgData, 'PNG', 5, position, imgWidth, imgHeight);
+                            heightLeft -= pageHeight;
+                        }
+
+                        pdf.save(`KCP_Invoice_${orderData.orderId}.pdf`);
+                        document.body.removeChild(element);
+                        alert('Invoice downloaded successfully!');
+                    } catch (error) {
+                        console.error('Error creating PDF:', error);
+                        console.error('Falling back to simple PDF generation');
+                        try {
+                            generateSimplePdf(orderData, PDFClass);
+                            if (document.body.contains(element)) document.body.removeChild(element);
+                            alert('Invoice downloaded (fallback)');
+                        } catch (err2) {
+                            console.error('Fallback PDF generation failed:', err2);
+                            alert('Error creating PDF. Please try again.');
+                            if (document.body.contains(element)) document.body.removeChild(element);
+                        }
+                        if (document.body.contains(element)) {
+                            document.body.removeChild(element);
+                        }
+                    }
+                }).catch(error => {
+                    console.error('Error generating PDF canvas:', error);
+                    console.error('Attempting fallback PDF generation');
+                    try {
+                        const PDFClassFallback = window.jsPDF || (window.jspdf && window.jspdf.jsPDF) || (window.jspdf && window.jspdf.default && window.jspdf.default.jsPDF);
+                        if (!PDFClassFallback) throw new Error('jsPDF not available for fallback');
+                        generateSimplePdf(orderData, PDFClassFallback);
+                        if (document.body.contains(element)) document.body.removeChild(element);
+                        alert('Invoice downloaded (fallback)');
+                    } catch (err) {
+                        console.error('Fallback generation failed:', err);
+                        alert('Error generating invoice. Please try again.');
+                        if (document.body.contains(element)) {
+                            document.body.removeChild(element);
+                        }
+                    }
+                    if (document.body.contains(element)) {
+                        document.body.removeChild(element);
+                    }
+                });
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating invoice: ' + error.message);
+                if (document.body.contains(element)) {
+                    document.body.removeChild(element);
+                }
+            }
+        }
+
+        // Fallback simple PDF generator (text-based) when html2canvas approach fails
+        function generateSimplePdf(orderData, PDFClass) {
+            const pdf = new PDFClass({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const margin = 10;
+            let y = 15;
+            pdf.setFontSize(14);
+            pdf.setFont(undefined, 'bold');
+            pdf.text('KCP ORGANICS - Invoice', pageWidth / 2, y, { align: 'center' });
+            y += 8;
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, 'normal');
+            pdf.text(`Order ID: ORD-${orderData.orderId}`, margin, y);
+            pdf.text(`Date: ${orderData.createdAt}`, pageWidth - margin, y, { align: 'right' });
+            y += 8;
+            pdf.text(`Customer: ${orderData.customerName}`, margin, y);
+            y += 6;
+            pdf.text(`Phone: ${orderData.customerPhone}`, margin, y);
+            y += 8;
+
+            // Table header
+            pdf.setFont(undefined, 'bold');
+            pdf.text('S.No', margin, y);
+            pdf.text('Product', margin + 15, y);
+            pdf.text('Qty', pageWidth - margin - 30, y);
+            pdf.text('Total', pageWidth - margin, y, { align: 'right' });
+            y += 6;
+            pdf.setFont(undefined, 'normal');
+
+            orderData.products.forEach((p, idx) => {
+                if (y > 270) { pdf.addPage(); y = 20; }
+                pdf.text(String(idx + 1), margin, y);
+                const name = p.name || p.productId || 'Product';
+                pdf.text(name, margin + 15, y);
+                pdf.text(String(p.quantity), pageWidth - margin - 30, y);
+                const lineTotal = ((p.price || 0) * (p.quantity || 0)).toFixed(2);
+                pdf.text(`₹${lineTotal}`, pageWidth - margin, y, { align: 'right' });
+                y += 6;
+            });
+
+            y += 6;
+            pdf.setFont(undefined, 'bold');
+            pdf.text(`Subtotal: ₹${orderData.subtotal.toFixed(2)}`, pageWidth - margin, y, { align: 'right' });
+            y += 6;
+            pdf.text(`Tax: ₹${orderData.tax.toFixed(2)}`, pageWidth - margin, y, { align: 'right' });
+            y += 6;
+            pdf.text(`Total: ₹${orderData.totalAmount.toFixed(2)}`, pageWidth - margin, y, { align: 'right' });
+
+            pdf.save(`KCP_Invoice_${orderData.orderId}.pdf`);
+        }
+
+        // Generate bill HTML
+        function generateBillHTML(orderData) {
+            let productsHTML = orderData.products.map((product, index) => `
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">${index + 1}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: left;">${product.productId}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: left;">${product.name}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: center;">${product.quantity}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: right;">₹${product.price.toFixed(2)}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: right;">₹${(product.price * product.quantity).toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            return `
+                <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto;">
+                    <!-- Header with Logo -->
+                    <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #2e7d32; padding-bottom: 20px;">
+                        <img src="logo_final.png" alt="KCP Organics Logo" style="max-height: 80px; margin-bottom: 15px;">
+                        <h1 style="color: #2e7d32; margin: 0 0 10px 0; font-size: 32px;">KCP ORGANICS</h1>
+                        <p style="margin: 5px 0; color: #666; font-size: 14px;">100% Organic | Farm Fresh to Your Doorstep</p>
+                        <p style="margin: 5px 0; color: #666; font-size: 12px;">Contact: +91 98765 43210 | Email: support@kcporganics.com</p>
+                    </div>
+
+                    <!-- Invoice Info -->
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div>
+                            <h3 style="color: #2e7d32; margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase;">Invoice Details</h3>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>Order ID:</strong> ORD-${orderData.orderId}</p>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>Date:</strong> ${orderData.createdAt}</p>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>Payment Method:</strong> ${orderData.paymentMethod.toUpperCase()}</p>
+                        </div>
+                        <div>
+                            <h3 style="color: #2e7d32; margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase;">Bill To</h3>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>${orderData.customerName}</strong></p>
+                            <p style="margin: 5px 0; font-size: 12px;">${orderData.address}</p>
+                            <p style="margin: 5px 0; font-size: 12px;"><strong>Phone:</strong> ${orderData.customerPhone}</p>
+                            <p style="margin: 5px 0; font-size: 12px;"><strong>Email:</strong> ${orderData.customerEmail}</p>
+                        </div>
+                    </div>
+
+                    <!-- Products Table -->
+                    <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse; font-size: 13px;">
+                        <thead>
+                            <tr style="background-color: #2e7d32; color: white;">
+                                <th style="padding: 12px; text-align: center; font-weight: bold;">S.No</th>
+                                <th style="padding: 12px; text-align: left; font-weight: bold;">Product ID</th>
+                                <th style="padding: 12px; text-align: left; font-weight: bold;">Product Name</th>
+                                <th style="padding: 12px; text-align: center; font-weight: bold;">Qty</th>
+                                <th style="padding: 12px; text-align: right; font-weight: bold;">Unit Price</th>
+                                <th style="padding: 12px; text-align: right; font-weight: bold;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${productsHTML}
+                        </tbody>
+                    </table>
+
+                    <!-- Totals -->
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                        <div style="width: 300px;">
+                            <div style="display: flex; justify-content: space-between; padding: 10px; border-top: 2px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;">
+                                <span style="font-weight: bold;">Subtotal:</span>
+                                <span>₹${orderData.subtotal.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #e0e0e0;">
+                                <span style="font-weight: bold;">Tax (5%):</span>
+                                <span>₹${orderData.tax.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 10px; background-color: #f0f8f5; border-top: 2px solid #2e7d32;">
+                                <span style="font-weight: bold; font-size: 16px; color: #2e7d32;">Total Amount:</span>
+                                <span style="font-weight: bold; font-size: 16px; color: #2e7d32;">₹${orderData.totalAmount.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="border-top: 2px solid #2e7d32; padding-top: 20px; text-align: center;">
+                        <p style="margin: 5px 0; color: #666; font-size: 12px;">Thank you for shopping with KCP Organics!</p>
+                        <p style="margin: 5px 0; color: #666; font-size: 12px;">You can track your order using Order ID and Mobile Number at www.kcporganics.com</p>
+                        <p style="margin: 10px 0 0 0; color: #999; font-size: 11px;">This is a computer-generated invoice. No signature required.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Go to home
+        function goToHome() {
+            window.location.href = 'home.html';
         }
 
         // Initialize

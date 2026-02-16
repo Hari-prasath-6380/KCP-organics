@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Video Upload</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .container { max-width: 500px; }
+        input, button { padding: 10px; margin: 10px 0; width: 100%; }
+        #progress { display: none; }
+        .progress-bar { width: 100%; height: 30px; background: #ddd; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #4CAF50; width: 0%; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Video Upload</h1>
+        
+        <input type="text" id="token" placeholder="Paste your JWT token here" />
+        <input type="file" id="videoFile" accept="video/*" />
+        <button onclick="testUpload()">Upload Video</button>
+        
+        <div id="progress" style="display:none; margin-top: 20px;">
+            <p id="progressText">Uploading...</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div id="response" style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px; display:none;">
+            <h3>Response:</h3>
+            <pre id="responseText"></pre>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+
+        function testUpload() {
+            const token = document.getElementById('token').value;
+            const file = document.getElementById('videoFile').files[0];
+            
+            if (!token) {
+                alert('Please enter a token');
+                return;
+            }
+            
+            if (!file) {
+                alert('Please select a file');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('video', file);
+            
+            const progressDiv = document.getElementById('progress');
+            const responseDiv = document.getElementById('response');
+            progressDiv.style.display = 'block';
+            responseDiv.style.display = 'none';
+            
+            const xhr = new XMLHttpRequest();
+            
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percent = (e.loaded / e.total) * 100;
+                    document.getElementById('progressFill').style.width = percent + '%';
+                    document.getElementById('progressText').textContent = Math.round(percent) + '% Uploaded';
+                }
+            });
+            
+            xhr.addEventListener('load', () => {
+                progressDiv.style.display = 'none';
+                responseDiv.style.display = 'block';
+                
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    document.getElementById('responseText').textContent = JSON.stringify(response, null, 2);
+                    
+                    if (response.success) {
+                        alert('✅ Upload successful!\nURL: ' + (response.videoUrl || response.data?.videoUrl));
+                    } else {
+                        alert('❌ Upload failed: ' + response.message);
+                    }
+                } catch (e) {
+                    document.getElementById('responseText').textContent = 'Error parsing response: ' + xhr.responseText;
+                }
+            });
+            
+            xhr.addEventListener('error', (e) => {
+                progressDiv.style.display = 'none';
+                responseDiv.style.display = 'block';
+                document.getElementById('responseText').textContent = 'Network error: ' + JSON.stringify({
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    error: e
+                }, null, 2);
+                alert('❌ Upload failed with network error');
+            });
+            
+            xhr.open('POST', `${API_URL}/uploads/upload-video`);
+            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+            xhr.send(formData);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snacks - KCP Organics</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="product-detail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #4CAF50; margin: 0 15px; display: inline-block;">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none; color: #1B5E20; font-weight: 600;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Product Category Navigation -->
+    <section class="product-nav" style="background: #f5f5f5; padding: 15px 0; border-bottom: 2px solid #4CAF50;">
+        <div class="container">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="honey-products-detailed.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍯 Honey</a>
+                <a href="sweetener-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍶 Sweeteners</a>
+                <a href="oils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫒 Oils</a>
+                <a href="rice-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🌾 Rice</a>
+                <a href="vegetables-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥬 Vegetables</a>
+                <a href="masala-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">✨ Masala & Spices</a>
+                <a href="lentils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫘 Lentils</a>
+                <a href="snacks-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 600; padding: 5px 10px; border-bottom: 3px solid #4CAF50;">🥜 Snacks</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="product-hero" style="background: linear-gradient(135deg, #FF6F00 0%, #FF9100 100%);">
+        <div class="hero-content">
+            <h1>🥜 Healthy Snacks</h1>
+            <p>Delicious, Nutritious & 100% Organic</p>
+        </div>
+    </section>
+
+    <!-- Product Introduction -->
+    <section class="product-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Guilt-Free Organic Snacking</h2>
+                <p>Our snacks are carefully crafted from premium organic ingredients, roasted to perfection without artificial additives, preservatives, or trans fats. Perfect for tea time, office breaks, or healthy munching anytime. All our snacks are made from seeds, nuts, and grains that are naturally nutritious and delicious.</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <h4>100% Organic</h4>
+                        <p>No chemicals or additives</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-fire"></i>
+                        <h4>Roasted Fresh</h4>
+                        <p>Small batch roasting</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-heart"></i>
+                        <h4>Health Conscious</h4>
+                        <p>Packed with nutrients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Snacks Grid -->
+    <section class="products-grid-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Snack Collection</h2>
+            
+            <div class="products-grid">
+                <!-- Roasted Peanuts -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-peanut" style="font-size: 80px; color: #8B6914;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Roasted Peanuts</h3>
+                        <p class="product-desc">Freshly roasted organic peanuts with no added salt or oil. Crunchy, satisfying, and packed with protein and healthy fats.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> High in protein</li>
+                                <li><i class="fas fa-check"></i> Healthy fats for heart</li>
+                                <li><i class="fas fa-check"></i> Natural energy boost</li>
+                                <li><i class="fas fa-check"></i> Rich in antioxidants</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Roasted Peanuts')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Roasted Cashews -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-leaf" style="font-size: 80px; color: #D4A574;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Roasted Cashews</h3>
+                        <p class="product-desc">Premium roasted cashews offering creamy taste and luxurious texture. A perfect snack for any occasion with essential minerals.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Rich in minerals</li>
+                                <li><i class="fas fa-check"></i> Creamy, satisfying</li>
+                                <li><i class="fas fa-check"></i> Heart-healthy fats</li>
+                                <li><i class="fas fa-check"></i> Brain boosting</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Roasted Cashews')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Roasted Almonds -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-acorn" style="font-size: 80px; color: #A0826D;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Roasted Almonds</h3>
+                        <p class="product-desc">Crunchy roasted almonds rich in Vitamin E and antioxidants. Perfect for daily snacking or breakfast addition.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Rich in Vitamin E</li>
+                                <li><i class="fas fa-check"></i> Bone health support</li>
+                                <li><i class="fas fa-check"></i> Antioxidant powerhouse</li>
+                                <li><i class="fas fa-check"></i> Weight management aid</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Roasted Almonds')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chickpea Snack -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-circle" style="font-size: 80px; color: #F4A460;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Roasted Chickpeas</h3>
+                        <p class="product-desc">Crunchy roasted chickpeas offering savory taste with high protein content. A filling snack that satisfies hunger without guilt.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> High in protein</li>
+                                <li><i class="fas fa-check"></i> Rich in fiber</li>
+                                <li><i class="fas fa-check"></i> Keeps you full</li>
+                                <li><i class="fas fa-check"></i> Low in fat</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Roasted Chickpeas')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mixed Seeds -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-clover" style="font-size: 80px; color: #6B8E23;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Mixed Seeds Mix</h3>
+                        <p class="product-desc">Nutritious blend of sunflower, pumpkin, and sesame seeds. A superfood snack perfect for health-conscious individuals.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Superfood blend</li>
+                                <li><i class="fas fa-check"></i> Omega-3 rich</li>
+                                <li><i class="fas fa-check"></i> Mineral powerhouse</li>
+                                <li><i class="fas fa-check"></i> Energy sustaining</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Mixed Seeds Mix')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Popcorn -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-circle-notch" style="font-size: 80px; color: #FFE082;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Organic Popcorn</h3>
+                        <p class="product-desc">Fluffy, light organic popcorn that can be air-popped or cooked on stove. A wholesome alternative to processed snacks.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Whole grain goodness</li>
+                                <li><i class="fas fa-check"></i> Low calorie snack</li>
+                                <li><i class="fas fa-check"></i> High in fiber</li>
+                                <li><i class="fas fa-check"></i> Easy to prepare</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Organic Popcorn')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Snack Benefits -->
+    <section class="product-info-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Why Choose Organic Snacks</h2>
+            <div class="info-grid">
+                <div class="info-box">
+                    <i class="fas fa-heart"></i>
+                    <h3>Health Benefits</h3>
+                    <p>Organic snacks are free from harmful pesticides and chemicals, providing pure nutrition.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Sustainable</h3>
+                    <p>Supporting organic farming practices helps the environment and promotes biodiversity.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-smile"></i>
+                    <h3>Better Taste</h3>
+                    <p>Organic produce is fresher with richer flavors compared to conventional snacks.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-star"></i>
+                    <h3>No Additives</h3>
+                    <p>Zero artificial flavors, colors, or preservatives - just pure organic goodness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Storage & Serving Tips -->
+    <section class="usage-section">
+        <div class="container">
+            <h2>Snack Storage & Serving Guide</h2>
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <h4>🏺 Storage Tips</h4>
+                    <p>Store in airtight containers in cool, dry places. Nuts and seeds stay fresh for 3-4 weeks. Refrigerate for extended shelf life.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🍽️ Serving Ideas</h4>
+                    <p>Enjoy as is, add to salads, mix with yogurt, or sprinkle over breakfast cereals and smoothies.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>📊 Portion Size</h4>
+                    <p>A handful (1/4 cup) of nuts or seeds = one perfect snack serving with balanced nutrition.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>⏰ Best Time to Eat</h4>
+                    <p>Mid-morning or afternoon snack time. Perfect pre or post-workout energy boost without guilt.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌿 KCP ORGANICS</h3>
+                <p>Bringing nature's best to your table with 100% organic products.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 support@kcporganics.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KCP Organics. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function addProduct(productName) {
+            if (!localStorage.getItem('userName')) {
+                alert('Please login to add products to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = localStorage.getItem('userId') || 'guest';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = {
+                productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                name: productName,
+                price: 249,
+                quantity: 1,
+                image: 'snacks.png',
+                category: 'Snacks'
+            };
+
+            const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...product
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('✅ ' + productName + ' added to cart!');
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const total = cart.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            window.location.reload();
+        }
+
+        function toggleCart() {
+            window.location.href = 'cart.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        });
+    </script>
+</body>
+</html>

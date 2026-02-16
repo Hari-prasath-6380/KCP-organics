@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Honey - KCP Organics</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="product-detail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #4CAF50; margin: 0 15px; display: inline-block;">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none; color: #1B5E20; font-weight: 600;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Product Category Navigation -->
+    <section class="product-nav" style="background: #f5f5f5; padding: 15px 0; border-bottom: 2px solid #4CAF50;">
+        <div class="container">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="honey-products-detailed.html" style="color: #1B5E20; text-decoration: none; font-weight: 600; padding: 5px 10px; border-bottom: 3px solid #4CAF50;">🍯 Honey</a>
+                <a href="sweetener-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍶 Sweeteners</a>
+                <a href="oils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫒 Oils</a>
+                <a href="rice-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🌾 Rice</a>
+                <a href="vegetables-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥬 Vegetables</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="product-hero" style="background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%);">
+        <div class="hero-content">
+            <h1>🍯 Natural Honey Collection</h1>
+            <p>Pure, Raw, and Straight from Nature's Hives</p>
+        </div>
+    </section>
+
+    <!-- Product Introduction -->
+    <section class="product-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Discover Our Honey Varieties</h2>
+                <p>At KCP Organics, we believe honey is nature's liquid gold. Our honey collection is sourced directly from trusted organic beekeepers who maintain the highest standards of purity and quality. Each variety offers unique flavors, aromas, and health benefits.</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-bee"></i>
+                        <h4>Organic Certified</h4>
+                        <p>100% pure, no additives</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Raw & Unfiltered</h4>
+                        <p>Maximum nutrients retained</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-heart"></i>
+                        <h4>Health Benefits</h4>
+                        <p>Rich in antioxidants</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Honey Varieties Grid -->
+    <section class="products-grid-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Honey Varieties</h2>
+            
+            <div class="products-grid">
+                <!-- Murungai Honey -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-droplet" style="font-size: 80px; color: #D4A574;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Murungai Honey</h3>
+                        <p class="product-desc">Golden honey with a distinctive earthy flavor, sourced from drumstick flower nectars. Known for its exceptional nutritional profile.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Rich in minerals and vitamins</li>
+                                <li><i class="fas fa-check"></i> Supports digestive health</li>
+                                <li><i class="fas fa-check"></i> Natural energy booster</li>
+                                <li><i class="fas fa-check"></i> Anti-inflammatory properties</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Murungai Honey')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Multi Flower Honey -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-flower-tulip" style="font-size: 80px; color: #FF69B4;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Multi Flower Honey</h3>
+                        <p class="product-desc">A beautiful blend of honey from various organic flowers, creating a balanced taste with floral notes and smooth sweetness.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Balanced nutrients from multiple sources</li>
+                                <li><i class="fas fa-check"></i> Supports immunity</li>
+                                <li><i class="fas fa-check"></i> Versatile for cooking and beverages</li>
+                                <li><i class="fas fa-check"></i> Promotes overall wellness</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Multi Flower Honey')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Native Honey -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-tree" style="font-size: 80px; color: #8B6F47;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Native Honey</h3>
+                        <p class="product-desc">Authentic local honey collected from native bees in our region, representing the true essence of local flora and biodiversity.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Local flora benefits</li>
+                                <li><i class="fas fa-check"></i> Supports local beekeeping</li>
+                                <li><i class="fas fa-check"></i> Allergy relief potential</li>
+                                <li><i class="fas fa-check"></i> Pure biodiversity</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Native Honey')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cavity Honey -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-heart-pulse" style="font-size: 80px; color: #E74C3C;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Cavity Honey (0020)</h3>
+                        <p class="product-desc">Specially formulated honey blend with medicinal properties, traditionally used for oral health and cavity prevention.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Supports dental health</li>
+                                <li><i class="fas fa-check"></i> Antimicrobial properties</li>
+                                <li><i class="fas fa-check"></i> Promotes fresh breath</li>
+                                <li><i class="fas fa-check"></i> Traditional medicinal use</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Cavity Honey')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Honey -->
+    <section class="product-info-section">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Natural Sweetness</h3>
+                    <p>A perfect natural alternative to refined sugar with a lower glycemic index, making it ideal for health-conscious families.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Immune Support</h3>
+                    <p>Rich in antioxidants and minerals that help strengthen your immune system naturally throughout the year.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-brain"></i>
+                    <h3>Energy & Focus</h3>
+                    <p>Provides sustained energy release without the crash associated with processed sugars, perfect for work and study.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-spa"></i>
+                    <h3>Skin & Beauty</h3>
+                    <p>A natural moisturizer and healer used in traditional beauty treatments, perfect for skincare routines.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Recommendations -->
+    <section class="usage-section">
+        <div class="container">
+            <h2>How to Use Our Honey</h2>
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <h4>🌅 In the Morning</h4>
+                    <p>Start your day with a spoonful of honey mixed with warm water to boost metabolism and energy.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🍵 In Beverages</h4>
+                    <p>Add honey to tea, coffee, or smoothies for natural sweetness and health benefits.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🍳 In Cooking</h4>
+                    <p>Use in marinades, dressings, and baking for a healthier alternative to refined sugar.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>💊 As Supplement</h4>
+                    <p>Take a spoonful daily for immune support and overall wellness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌿 KCP ORGANICS</h3>
+                <p>Bringing nature's best to your table with 100% organic products.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 support@kcporganics.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KCP Organics. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add to Cart Function
+        function addProduct(productName) {
+            if (!localStorage.getItem('userName')) {
+                alert('Please login to add products to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = localStorage.getItem('userId') || 'guest';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = {
+                productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                name: productName,
+                price: 250, // Default price, can be adjusted
+                quantity: 1,
+                image: 'honey.png',
+                category: 'Honey'
+            };
+
+            const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...product
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('✅ ' + productName + ' added to cart!');
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const total = cart.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            window.location.reload();
+        }
+
+        function toggleCart() {
+            window.location.href = 'cart.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        });
+    </script>
+</body>
+</html>

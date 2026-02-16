@@ -5,11 +5,16 @@ const Video = require('../models/Video');
 // Get all active videos (for public display)
 router.get('/', async (req, res) => {
     try {
-        const { active = 'true', limit = 20 } = req.query;
+        const { active = 'true', limit = 20, category } = req.query;
         
         let query = {};
         if (active === 'true') {
             query.isActive = true;
+        }
+        
+        // Filter by category if provided
+        if (category) {
+            query.category = category;
         }
 
         const videos = await Video.find(query)
@@ -28,7 +33,14 @@ router.get('/', async (req, res) => {
 // Get all videos (admin - includes inactive)
 router.get('/admin/all', async (req, res) => {
     try {
-        const videos = await Video.find({})
+        const { category } = req.query;
+        
+        let query = {};
+        if (category) {
+            query.category = category;
+        }
+        
+        const videos = await Video.find(query)
             .sort({ displayOrder: 1, createdAt: -1 });
 
         res.status(200).json({
@@ -143,6 +155,32 @@ router.delete('/:id', async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'Video deleted successfully'
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+// Update video (PATCH)
+router.patch('/:id', async (req, res) => {
+    try {
+        const updates = req.body;
+        updates.updatedAt = Date.now();
+
+        const video = await Video.findByIdAndUpdate(
+            req.params.id,
+            updates,
+            { new: true, runValidators: true }
+        );
+
+        if (!video) {
+            return res.status(404).json({ success: false, message: 'Video not found' });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Video updated successfully',
+            data: video
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

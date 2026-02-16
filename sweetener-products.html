@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Sweeteners - KCP Organics</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="product-detail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #4CAF50; margin: 0 15px; display: inline-block;">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none; color: #1B5E20; font-weight: 600;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+    <!-- Product Category Navigation -->
+    <section class="product-nav" style="background: #f5f5f5; padding: 15px 0; border-bottom: 2px solid #4CAF50;">
+        <div class="container">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="honey-products-detailed.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍯 Honey</a>
+                <a href="sweetener-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 600; padding: 5px 10px; border-bottom: 3px solid #4CAF50;">🍶 Sweeteners</a>
+                <a href="oils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫒 Oils</a>
+                <a href="rice-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🌾 Rice</a>
+                <a href="vegetables-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥬 Vegetables</a>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section -->
+    <section class="product-hero" style="background: linear-gradient(135deg, #8D6E63 0%, #A1887F 100%);">
+        <div class="hero-content">
+            <h1>🍬 Natural Sweeteners</h1>
+            <p>Healthy Alternatives to Refined Sugar</p>
+        </div>
+    </section>
+
+    <!-- Product Introduction -->
+    <section class="product-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Pure Natural Sweetness</h2>
+                <p>At KCP Organics, we believe that sweet doesn't have to mean unhealthy. Our collection of natural sweeteners are extracted using traditional methods, free from any chemical processing. From organic jaggery to palm sugar, each product is sourced directly from our trusted farmers who maintain the highest standards of purity.</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Chemical-Free</h4>
+                        <p>No refining or processing chemicals</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-droplet"></i>
+                        <h4>Traditional Methods</h4>
+                        <p>Extracted the age-old way</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-heart"></i>
+                        <h4>Lower Glycemic Index</h4>
+                        <p>Better for blood sugar control</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sweetener Varieties Grid -->
+    <section class="products-grid-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Sweetener Range</h2>
+            
+            <div class="products-grid">
+                <!-- Country Sugar (Nattu Sarkarai) -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-sugar-cubes" style="font-size: 80px; color: #D4A574;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Country Sugar (Nattu Sarkarai)</h3>
+                        <p class="product-desc">Pure, crystallized sugar made from sugarcane juice without any chemicals or bleaching agents. An excellent alternative to white refined sugar.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Retains natural minerals</li>
+                                <li><i class="fas fa-check"></i> Rich in calcium and iron</li>
+                                <li><i class="fas fa-check"></i> Better digestion support</li>
+                                <li><i class="fas fa-check"></i> Perfect for beverages and cooking</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Country Sugar')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Round Jaggery (Kundu vellam) -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-ring" style="font-size: 80px; color: #8B4513;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Round Jaggery (Kundu Vellam)</h3>
+                        <p class="product-desc">Traditional round-shaped jaggery made from unrefined sugarcane juice, boiled and solidified in circular molds. A staple in Indian cuisine with incredible health benefits.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Aids digestion naturally</li>
+                                <li><i class="fas fa-check"></i> Excellent source of iron</li>
+                                <li><i class="fas fa-check"></i> Helps detoxify the liver</li>
+                                <li><i class="fas fa-check"></i> Supports respiratory health</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Round Jaggery')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Palm Jaggery (Panang Karupatti) -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-tree" style="font-size: 80px; color: #CD853F;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Palm Jaggery (Panang Karupatti)</h3>
+                        <p class="product-desc">Premium jaggery extracted from palm sap, known for its rich dark color and unique caramel-like flavor. A premium sweetener with exceptional medicinal properties.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> High in antioxidants</li>
+                                <li><i class="fas fa-check"></i> Supports bone health</li>
+                                <li><i class="fas fa-check"></i> Promotes skin health</li>
+                                <li><i class="fas fa-check"></i> Traditional cooling properties</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Palm Jaggery')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Palm Sugar Candy (Panang Kandu) -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-candy-cane" style="font-size: 80px; color: #FF6B6B;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Palm Sugar Candy (Panang Kandu)</h3>
+                        <p class="product-desc">Crystallized palm sugar in convenient candy form. Perfect for direct consumption, tea, or as a natural sweetener while maintaining all nutritional benefits.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Convenient ready-to-eat form</li>
+                                <li><i class="fas fa-check"></i> High mineral content</li>
+                                <li><i class="fas fa-check"></i> Energy boost snack</li>
+                                <li><i class="fas fa-check"></i> No artificial additives</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Palm Sugar Candy')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sweetener Comparison -->
+    <section class="product-info-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Why Choose Natural Sweeteners?</h2>
+            <div class="info-grid">
+                <div class="info-box">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Better for Health</h3>
+                    <p>Natural sweeteners contain minerals and vitamins unlike refined sugar, supporting overall health and wellness.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Low Glycemic Index</h3>
+                    <p>These sweeteners have a lower glycemic index, helping maintain stable blood sugar levels throughout the day.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-vial"></i>
+                    <h3>Mineral Rich</h3>
+                    <p>Packed with iron, calcium, potassium, and other essential minerals that refined sugar lacks completely.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Sustainable</h3>
+                    <p>Our sweeteners are sourced sustainably from organic farms, supporting local communities and the environment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Tips -->
+    <section class="usage-section">
+        <div class="container">
+            <h2>How to Use Our Sweeteners</h2>
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <h4>☕ In Hot Beverages</h4>
+                    <p>Perfect for tea, coffee, and hot beverages. Dissolves smoothly and adds authentic flavor.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🍰 In Baking & Cooking</h4>
+                    <p>Use as 1:1 substitute for refined sugar in most recipes. Adjust quantities based on desired sweetness.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🥛 In Desserts & Sweets</h4>
+                    <p>Create traditional Indian sweets or modern desserts with our premium natural sweeteners.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>💊 Direct Consumption</h4>
+                    <p>Enjoy a piece of jaggery or sugar candy as an energy booster or post-meal digestive aid.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌿 KCP ORGANICS</h3>
+                <p>Bringing nature's best to your table with 100% organic products.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 support@kcporganics.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KCP Organics. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function addProduct(productName) {
+            if (!localStorage.getItem('userName')) {
+                alert('Please login to add products to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = localStorage.getItem('userId') || 'guest';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = {
+                productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                name: productName,
+                price: 199,
+                quantity: 1,
+                image: 'sweetener.png',
+                category: 'Sweetener'
+            };
+
+            const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...product
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('✅ ' + productName + ' added to cart!');
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const total = cart.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            window.location.reload();
+        }
+
+        function toggleCart() {
+            window.location.href = 'cart.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        });
+    </script>
+</body>
+</html>

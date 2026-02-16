@@ -77,6 +77,7 @@ router.post('/', async (req, res) => {
             tags,
             variants,
             attributes,
+            units,
             metaTitle,
             metaDescription,
             metaKeywords,
@@ -108,6 +109,7 @@ router.post('/', async (req, res) => {
             subCategory,
             tags: tags || [],
             variants: variants || [],
+            units: units || [], // Add units for kg/litre pricing
             attributes: attributes || {},
             metaTitle: metaTitle || name,
             metaDescription: metaDescription || shortDescription,

@@ -48,6 +48,11 @@
                     <span>Videos</span>
                     <span class="badge" id="videoBadge">0</span>
                 </a>
+                <a href="#" class="nav-item" data-section="aboutus">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About Us</span>
+                    <span class="badge" id="aboutUsBadge">0</span>
+                </a>
             </nav>
             <div class="logout-section">
                 <button class="logout-btn" onclick="logout()">
@@ -168,24 +173,8 @@
                             <i class="fas fa-plus"></i> Add Product
                         </button>
                     </div>
-                    <div class="table-container">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Created</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="productsTable">
-                                <tr>
-                                    <td colspan="6" class="text-center">Loading...</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="productsContainer" style="background: white; border-radius: 8px; padding: 20px;">
+                        <div id="productsTableContent">Loading...</div>
                     </div>
                 </section>
 
@@ -346,8 +335,121 @@
                         </table>
                     </div>
                 </section>
+
+                <!-- About Us Section -->
+                <section id="aboutus" class="section-content">
+                    <div class="section-header">
+                        <h2>About Us Videos Management</h2>
+                        <button class="btn btn-primary" onclick="openAboutUsVideoModal()">
+                            <i class="fas fa-plus"></i> Add Video
+                        </button>
+                    </div>
+                    <div class="videos-stats">
+                        <div class="video-stat-card">
+                            <i class="fas fa-video"></i>
+                            <div class="stat-content">
+                                <h3 id="totalAboutUsVideosCount">0</h3>
+                                <p>Total Videos</p>
+                            </div>
+                        </div>
+                        <div class="video-stat-card">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="stat-content">
+                                <h3 id="activeAboutUsVideosCount">0</h3>
+                                <p>Active Videos</p>
+                            </div>
+                        </div>
+                        <div class="video-stat-card">
+                            <i class="fas fa-eye"></i>
+                            <div class="stat-content">
+                                <h3 id="totalAboutUsVideoViews">0</h3>
+                                <p>Total Views</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Preview</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Views</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="aboutUsVideosTable">
+                                <tr>
+                                    <td colspan="7" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
         </main>
+    </div>
+
+    <!-- About Us Video Modal -->
+    <div id="aboutUsVideoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAboutUsVideoModal()">&times;</span>
+            <h2 id="aboutUsVideoModalTitle">Add Video to About Us</h2>
+            <form id="aboutUsVideoForm" class="form-grid">
+                <input type="hidden" id="aboutUsVideoId">
+                <div class="form-group">
+                    <label for="aboutUsVideoTitle">Video Title *</label>
+                    <input type="text" id="aboutUsVideoTitle" required>
+                </div>
+                <div class="form-group full-width">
+                    <label>Video Source *</label>
+                    <div class="video-source-tabs">
+                        <button type="button" class="tab-btn active" data-tab="about-upload-tab" onclick="switchAboutUsSourceTab('about-upload-tab')">Upload from Computer</button>
+                        <button type="button" class="tab-btn" data-tab="about-url-tab" onclick="switchAboutUsSourceTab('about-url-tab')">Video URL</button>
+                    </div>
+                </div>
+                <div id="about-upload-tab" class="form-group full-width tab-content active">
+                    <label for="aboutUsVideoFile">Select Video File (MP4, WebM) *</label>
+                    <input type="file" id="aboutUsVideoFile" accept="video/mp4,video/webm,.mp4,.webm" required>
+                    <small style="color: #666; margin-top: 5px; display: block;">Max file size: 100MB</small>
+                    <div id="aboutUsUploadProgress" style="display:none; margin-top: 10px;">
+                        <div class="progress-bar">
+                            <div id="aboutUsProgressFill" class="progress-fill"></div>
+                        </div>
+                        <p id="aboutUsProgressText" style="font-size: 12px; color: #666;">Uploading...</p>
+                    </div>
+                </div>
+                <div id="about-url-tab" class="form-group full-width tab-content">
+                    <label for="aboutUsVideoUrl">Video URL (YouTube, Vimeo, or direct URL)</label>
+                    <input type="url" id="aboutUsVideoUrl" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div class="form-group">
+                    <label for="aboutUsVideoThumbnail">Thumbnail URL</label>
+                    <input type="url" id="aboutUsVideoThumbnail" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label for="aboutUsVideoDescription">Description</label>
+                    <textarea id="aboutUsVideoDescription" rows="3" placeholder="Enter video description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="aboutUsVideoOrder">Display Order</label>
+                    <input type="number" id="aboutUsVideoOrder" value="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="aboutUsVideoActive" checked>
+                        Active (Visible on About Us page)
+                    </label>
+                </div>
+                <div class="form-group full-width">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Video
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Product Modal -->
@@ -362,26 +464,29 @@
                     <input type="text" id="productName" required>
                 </div>
                 <div class="form-group">
-                    <label for="productCategory">Category *</label>
-                    <select id="productCategory" required>
-                        <option value="">Select Category</option>
-                        <option value="Honey">Honey</option>
-                        <option value="Sweetener">Sweetener</option>
-                        <option value="Organic">Organic</option>
-                        <option value="Other">Other</option>
-                    </select>
+                    <label for="productCategory">Category Name *</label>
+                    <input type="text" id="productCategory" placeholder="e.g. Honey, Oils, Rice, Vegetables" required>
                 </div>
                 <div class="form-group">
-                    <label for="productPrice">Price ($) *</label>
-                    <input type="number" id="productPrice" step="0.01" required>
+                    <label for="productPrice">Base Price (₹)</label>
+                    <input type="number" id="productPrice" step="0.01" min="0" placeholder="e.g. 299">
                 </div>
                 <div class="form-group">
-                    <label for="productStock">Stock Quantity *</label>
-                    <input type="number" id="productStock" required>
+                    <label for="productStock">Stock (units)</label>
+                    <input type="number" id="productStock" min="0" placeholder="e.g. 100">
                 </div>
                 <div class="form-group full-width">
                     <label for="productDescription">Description *</label>
                     <textarea id="productDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label>Product Units (kg/litre pricing) *</label>
+                    <div id="unitsContainer" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #f9f9f9;">
+                        <div id="unitsList" style="margin-bottom: 15px;"></div>
+                        <button type="button" class="btn btn-secondary" onclick="addUnitField()" style="width: 100%;">
+                            <i class="fas fa-plus"></i> Add Unit
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group full-width">
                     <label for="productImage">Product Image</label>
@@ -570,3 +675,4 @@
     <script src="admin-script.js"></script>
 </body>
 </html>
+ 

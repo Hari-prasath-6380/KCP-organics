@@ -39,6 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
     loadReviewsBadge();
     loadVideosBadge();
     
+    // Setup About Us Video Form
+    const aboutUsVideoForm = document.getElementById('aboutUsVideoForm');
+    if (aboutUsVideoForm) {
+        aboutUsVideoForm.addEventListener('submit', saveAboutUsVideo);
+    }
+    
     // Load orders on page load with a small delay to ensure DOM is ready
     setTimeout(() => {
         if (document.getElementById('ordersTable')) {
@@ -67,6 +73,7 @@ function setupNavigation() {
             if (section === 'orders') loadOrders();
             if (section === 'reviews') loadReviews();
             if (section === 'videos') loadVideos();
+            if (section === 'aboutus') loadAboutUsVideos();
         });
     });
 }
@@ -80,7 +87,8 @@ function showSection(sectionId) {
         'messages': 'Messages',
         'orders': 'Customer Orders',
         'reviews': 'Customer Reviews',
-        'videos': 'Shop by Videos'
+        'videos': 'Shop by Videos',
+        'aboutus': 'About Us Videos'
     };
 
     sections.forEach(section => section.classList.remove('active'));
@@ -142,32 +150,74 @@ async function loadProducts() {
         const data = await response.json();
         console.log('Products response:', data);
 
-        const table = document.getElementById('productsTable');
+        const container = document.getElementById('productsTableContent');
         
         // Check if data has products
         if (!data.data || data.data.length === 0) {
-            table.innerHTML = '<tr><td colspan="6" class="text-center">No products found. Click "Add Product" to create one.</td></tr>';
+            container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No products found. Click "Add Product" to create one.</p>';
             return;
         }
 
-        table.innerHTML = data.data.map(product => `
-            <tr>
-                <td><strong>${product.name}</strong></td>
-                <td>${product.category}</td>
-                <td>$${product.price.toFixed(2)}</td>
-                <td>${product.stock}</td>
-                <td>${new Date(product.createdAt).toLocaleDateString()}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="btn btn-info" onclick="editProduct('${product._id}')">Edit</button>
-                        <button class="btn btn-danger" onclick="deleteProduct('${product._id}')">Delete</button>
+        // Group products by category
+        const groupedProducts = {};
+        data.data.forEach(product => {
+            const category = product.category || 'Uncategorized';
+            if (!groupedProducts[category]) {
+                groupedProducts[category] = [];
+            }
+            groupedProducts[category].push(product);
+        });
+
+        // Sort categories alphabetically
+        const sortedCategories = Object.keys(groupedProducts).sort();
+
+        // Generate HTML for grouped products
+        let html = '';
+        sortedCategories.forEach(category => {
+            html += `
+                <div style="margin-bottom: 30px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
+                    <div style="background: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%); color: white; padding: 15px 20px; font-weight: 600; font-size: 16px;">
+                        <i class="fas fa-folder-open"></i> ${category} (${groupedProducts[category].length} items)
                     </div>
-                </td>
-            </tr>
-        `).join('');
+                    <table class="data-table" style="margin: 0;">
+                        <thead style="background: #f9f9f9;">
+                            <tr>
+                                <th style="padding: 12px 15px;">Product Name</th>
+                                <th style="padding: 12px 15px;">Price</th>
+                                <th style="padding: 12px 15px;">Stock</th>
+                                <th style="padding: 12px 15px;">Created</th>
+                                <th style="padding: 12px 15px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${groupedProducts[category].map(product => `
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 12px 15px;"><strong>${product.name}</strong></td>
+                                    <td style="padding: 12px 15px;">$${product.price.toFixed(2)}</td>
+                                    <td style="padding: 12px 15px;">
+                                        <span style="background: ${product.stock > 20 ? '#4CAF50' : product.stock > 0 ? '#FFC107' : '#f44336'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                                            ${product.stock} units
+                                        </span>
+                                    </td>
+                                    <td style="padding: 12px 15px;">${new Date(product.createdAt).toLocaleDateString()}</td>
+                                    <td style="padding: 12px 15px;">
+                                        <div class="action-buttons">
+                                            <button class="btn btn-info" onclick="editProduct('${product._id}')" style="padding: 6px 12px; font-size: 12px;">Edit</button>
+                                            <button class="btn btn-danger" onclick="deleteProduct('${product._id}')" style="padding: 6px 12px; font-size: 12px;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
     } catch (error) {
         console.error('Error loading products:', error);
-        document.getElementById('productsTable').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error loading products: ' + error.message + '</td></tr>';
+        document.getElementById('productsTableContent').innerHTML = '<p style="text-align: center; color: #d32f2f; padding: 20px;">Error loading products: ' + error.message + '</p>';
     }
 }
 
@@ -181,6 +231,8 @@ function openProductModal() {
     document.getElementById('uploadStatus').style.display = 'none'; // Hide upload status
     document.getElementById('uploadStatus').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading image...'; // Reset status message
     document.getElementById('productImage').value = ''; // Clear file input
+    clearUnitsForm(); // Clear units form
+    addUnitField(); // Add one empty unit field
     document.getElementById('productModal').classList.add('show');
 }
 
@@ -345,12 +397,17 @@ function setupProductForm() {
         // Validate required fields
         const name = document.getElementById('productName').value.trim();
         const category = document.getElementById('productCategory').value;
-        const price = document.getElementById('productPrice').value;
-        const stock = document.getElementById('productStock').value;
         const description = document.getElementById('productDescription').value.trim();
         
-        if (!name || !category || !price || !description) {
+        if (!name || !category || !description) {
             alert('Please fill in all required fields marked with *');
+            return;
+        }
+        
+        // Get units - REQUIRED
+        const units = getUnitsFromForm();
+        if (units.length === 0) {
+            alert('Please add at least one product unit with price');
             return;
         }
         
@@ -361,13 +418,17 @@ function setupProductForm() {
             imageUrl = uploadedImageUrl; // Use uploaded image if available
         }
         
+        // Calculate base price from first unit (for backward compatibility)
+        const basePrice = units[0].price;
+        
         const productData = {
             name,
             category,
-            price: parseFloat(price),
-            stock: parseInt(stock) || 0,
+            price: basePrice,
+            stock: 0, // Stock is managed per unit
             description,
-            image: imageUrl
+            image: imageUrl,
+            units: units
         };
 
         console.log('Submitting product:', productData);
@@ -422,6 +483,22 @@ async function editProduct(productId) {
             document.getElementById('productPrice').value = product.price;
             document.getElementById('productStock').value = product.stock;
             document.getElementById('productDescription').value = product.description;
+            
+            // Clear and populate units
+            clearUnitsForm();
+            if (product.units && product.units.length > 0) {
+                product.units.forEach(unit => {
+                    addUnitField();
+                    const unitDivs = document.querySelectorAll('[id^="unit-"]');
+                    const lastUnitDiv = unitDivs[unitDivs.length - 1];
+                    
+                    lastUnitDiv.querySelector('.unit-type-select').value = unit.unit;
+                    lastUnitDiv.querySelector('.unit-quantity-input').value = unit.quantity;
+                    lastUnitDiv.querySelector('.unit-price-input').value = unit.price;
+                });
+            } else {
+                addUnitField(); // Add empty unit field if none exist
+            }
             
             // Store the existing image URL for reference
             uploadedImageUrl = product.image;
@@ -641,9 +718,17 @@ async function viewMessage(messageId) {
 
             document.getElementById('messageModal').classList.add('show');
 
-            // Mark as read
+            // Mark as read and update badge
             if (message.status === 'unread') {
                 await fetch(`${API_URL}/messages/${messageId}/read`, { method: 'PUT' });
+                
+                // Decrement badge count immediately
+                const messageBadge = document.getElementById('messageBadge');
+                const currentBadgeCount = parseInt(messageBadge.textContent) || 0;
+                if (currentBadgeCount > 0) {
+                    messageBadge.textContent = currentBadgeCount - 1;
+                }
+                
                 loadMessages();
                 loadDashboardData();
             }
@@ -836,6 +921,11 @@ async function viewOrder(orderId) {
 
             document.getElementById('orderDetail').innerHTML = detailHTML;
             document.getElementById('orderModal').classList.add('show');
+            
+            // If order is pending, refresh dashboard to update badge count
+            if (order.orderStatus === 'pending') {
+                loadDashboardData();
+            }
         }
     } catch (error) {
         console.error('Error viewing order:', error);
@@ -1174,18 +1264,19 @@ function viewActivityLog() {
 }
 
 // ===== LOGOUT =====
-function logout() {
+// Expose logout on window so inline onclick handlers can call it reliably
+window.logout = function() {
     // Save final metrics before logout
     AdminStorage.addActivity({
         type: 'logout',
         action: 'Admin logged out'
     });
-    
+
     if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('sessionStartTime');
         window.location.href = 'login.html';
     }
-}
+};
 
 // ===== REVIEWS MANAGEMENT (LocalStorage) =====
 function getStoredReviews() {
@@ -1689,3 +1780,399 @@ async function deleteVideo(videoId) {
         console.error('Error deleting video:', error);
     }
 }
+
+// ===== ABOUT US VIDEOS MANAGEMENT =====
+async function loadAboutUsVideos() {
+    try {
+        const response = await fetch(`${API_URL}/videos?category=about-us`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            displayAboutUsVideos(result.data);
+            updateAboutUsVideoStats(result.data);
+        }
+    } catch (error) {
+        console.error('Error loading about us videos:', error);
+        document.getElementById('aboutUsVideosTable').innerHTML = '<tr><td colspan="7" class="text-center text-error">Failed to load videos</td></tr>';
+    }
+}
+
+function displayAboutUsVideos(videos) {
+    const tableBody = document.getElementById('aboutUsVideosTable');
+    
+    if (!videos || videos.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="7" class="text-center">No videos found. <button class="btn btn-sm btn-primary" onclick="openAboutUsVideoModal()">Add First Video</button></td></tr>';
+        return;
+    }
+
+    tableBody.innerHTML = videos.map(video => `
+        <tr>
+            <td>
+                <div class="video-preview">
+                    ${video.thumbnailUrl ? `<img src="${video.thumbnailUrl}" alt="${video.title}">` : '<i class="fas fa-video"></i>'}
+                </div>
+            </td>
+            <td>${video.title}</td>
+            <td>${video.description ? video.description.substring(0, 50) + '...' : '-'}</td>
+            <td>
+                <span class="status-badge ${video.isActive ? 'active' : 'inactive'}">
+                    ${video.isActive ? 'Active' : 'Inactive'}
+                </span>
+            </td>
+            <td>${video.views || 0}</td>
+            <td>${video.displayOrder}</td>
+            <td>
+                <button class="btn btn-sm btn-info" onclick="editAboutUsVideo('${video._id}')">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm ${video.isActive ? 'btn-warning' : 'btn-success'}" onclick="toggleAboutUsVideoStatus('${video._id}')">
+                    <i class="fas fa-${video.isActive ? 'eye-slash' : 'eye'}"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="deleteAboutUsVideo('${video._id}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function updateAboutUsVideoStats(videos) {
+    const totalCount = videos.length;
+    const activeCount = videos.filter(v => v.isActive).length;
+    const totalViews = videos.reduce((sum, v) => sum + (v.views || 0), 0);
+
+    document.getElementById('totalAboutUsVideosCount').textContent = totalCount;
+    document.getElementById('activeAboutUsVideosCount').textContent = activeCount;
+    document.getElementById('totalAboutUsVideoViews').textContent = totalViews;
+}
+
+function openAboutUsVideoModal() {
+    document.getElementById('aboutUsVideoId').value = '';
+    document.getElementById('aboutUsVideoForm').reset();
+    document.getElementById('aboutUsVideoModalTitle').textContent = 'Add Video to About Us';
+    document.getElementById('aboutUsVideoModal').style.display = 'block';
+    // Reset to upload tab
+    switchAboutUsSourceTab('about-upload-tab');
+}
+
+function closeAboutUsVideoModal() {
+    document.getElementById('aboutUsVideoModal').style.display = 'none';
+}
+
+// Switch between video source tabs for About Us
+function switchAboutUsSourceTab(tabName) {
+    // Hide all tabs
+    const tabs = document.querySelectorAll('#aboutUsVideoModal .tab-content');
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Remove active class from all buttons
+    const buttons = document.querySelectorAll('#aboutUsVideoModal .tab-btn');
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    const selectedTab = document.getElementById(tabName);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+    
+    // Add active class to clicked button
+    event.target.classList.add('active');
+    
+    // Update required attribute based on selected tab
+    if (tabName === 'about-upload-tab') {
+        document.getElementById('aboutUsVideoFile').required = true;
+        document.getElementById('aboutUsVideoUrl').required = false;
+    } else {
+        document.getElementById('aboutUsVideoFile').required = false;
+        document.getElementById('aboutUsVideoUrl').required = true;
+    }
+}
+
+async function editAboutUsVideo(videoId) {
+    try {
+        const response = await fetch(`${API_URL}/videos/${videoId}`);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            const video = result.data;
+            document.getElementById('aboutUsVideoId').value = video._id;
+            document.getElementById('aboutUsVideoTitle').value = video.title;
+            document.getElementById('aboutUsVideoUrl').value = video.videoUrl;
+            document.getElementById('aboutUsVideoThumbnail').value = video.thumbnailUrl || '';
+            document.getElementById('aboutUsVideoDescription').value = video.description || '';
+            document.getElementById('aboutUsVideoOrder').value = video.displayOrder || 0;
+            document.getElementById('aboutUsVideoActive').checked = video.isActive !== false;
+            document.getElementById('aboutUsVideoModalTitle').textContent = 'Edit About Us Video';
+            document.getElementById('aboutUsVideoModal').style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error loading video:', error);
+        alert('Error loading video details');
+    }
+}
+
+async function saveAboutUsVideo(e) {
+    e.preventDefault();
+
+    const videoId = document.getElementById('aboutUsVideoId').value;
+    const uploadTab = document.getElementById('about-upload-tab');
+    const isUploadTab = uploadTab.classList.contains('active');
+    
+    const title = document.getElementById('aboutUsVideoTitle').value;
+    
+    if (isUploadTab) {
+        // Handle file upload
+        const videoFile = document.getElementById('aboutUsVideoFile').files[0];
+        
+        if (!title || !videoFile) {
+            alert('Please fill in required fields');
+            return;
+        }
+        
+        // Check file size (100MB limit)
+        const maxSize = 100 * 1024 * 1024;
+        if (videoFile.size > maxSize) {
+            alert('File size exceeds 100MB limit');
+            return;
+        }
+        
+        uploadAboutUsVideoFile(videoFile, title, videoId);
+    } else {
+        // Handle URL upload
+        const videoUrl = document.getElementById('aboutUsVideoUrl').value;
+        
+        if (!title || !videoUrl) {
+            alert('Please fill in required fields');
+            return;
+        }
+        
+        saveAboutUsVideoUrl(videoUrl, title, videoId);
+    }
+}
+
+// Upload About Us video file
+function uploadAboutUsVideoFile(file, title, videoId) {
+    const formData = new FormData();
+    formData.append('video', file);
+    
+    // Show progress
+    const uploadProgress = document.getElementById('aboutUsUploadProgress');
+    uploadProgress.style.display = 'block';
+    
+    const xhr = new XMLHttpRequest();
+    
+    // Track upload progress
+    xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            document.getElementById('aboutUsProgressFill').style.width = percentComplete + '%';
+            document.getElementById('aboutUsProgressText').textContent = Math.round(percentComplete) + '% Uploading...';
+        }
+    });
+    
+    xhr.addEventListener('load', () => {
+        uploadProgress.style.display = 'none';
+        
+        try {
+            const response = JSON.parse(xhr.responseText);
+            
+            if (xhr.status === 200 && response.success) {
+                const videoUrl = response.videoUrl || (response.data && response.data.videoUrl);
+                if (videoUrl) {
+                    // Now save the video metadata
+                    saveAboutUsVideoUrl(videoUrl, title, videoId);
+                } else {
+                    alert('Error: No video URL returned from server');
+                }
+            } else {
+                alert('Error uploading file: ' + (response.message || 'Unknown error'));
+            }
+        } catch (e) {
+            console.error('Parse error:', e);
+            alert('Error processing upload response: ' + e.message);
+        }
+    });
+    
+    xhr.addEventListener('error', (event) => {
+        uploadProgress.style.display = 'none';
+        console.error('Upload error:', event);
+        alert('Error uploading file. Please check your connection and try again.');
+    });
+    
+    xhr.addEventListener('abort', () => {
+        uploadProgress.style.display = 'none';
+        alert('Upload cancelled');
+    });
+    
+    const token = localStorage.getItem('token');
+    xhr.open('POST', `${API_URL}/uploads/upload-video`);
+    
+    // Don't set Content-Type header - let the browser set it for FormData
+    if (token) {
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+    }
+    
+    xhr.send(formData);
+}
+
+// Save About Us video with URL
+async function saveAboutUsVideoUrl(videoUrl, title, videoId) {
+    const videoData = {
+        title: title,
+        videoUrl: videoUrl,
+        thumbnailUrl: document.getElementById('aboutUsVideoThumbnail').value,
+        description: document.getElementById('aboutUsVideoDescription').value,
+        category: 'about-us',
+        displayOrder: parseInt(document.getElementById('aboutUsVideoOrder').value) || 0,
+        isActive: document.getElementById('aboutUsVideoActive').checked
+    };
+
+    try {
+        const url = videoId ? `${API_URL}/videos/${videoId}` : `${API_URL}/videos`;
+        const method = videoId ? 'PATCH' : 'POST';
+
+        const response = await fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(videoData)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert(videoId ? 'Video updated successfully!' : 'Video added successfully!');
+            closeAboutUsVideoModal();
+            loadAboutUsVideos();
+            
+            AdminStorage.addActivity({
+                type: videoId ? 'about_us_video_updated' : 'about_us_video_added',
+                action: videoId ? 'Updated an About Us video' : 'Added a new About Us video'
+            });
+        } else {
+            alert('Error saving video: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error saving video:', error);
+        alert('Error saving video');
+    }
+}
+
+async function toggleAboutUsVideoStatus(videoId) {
+    try {
+        const response = await fetch(`${API_URL}/videos/${videoId}/toggle`, {
+            method: 'PATCH'
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            loadAboutUsVideos();
+        } else {
+            alert('Error toggling video status');
+        }
+    } catch (error) {
+        console.error('Error toggling video:', error);
+    }
+}
+
+async function deleteAboutUsVideo(videoId) {
+    if (!confirm('Are you sure you want to delete this video?')) return;
+
+    try {
+        const response = await fetch(`${API_URL}/videos/${videoId}`, {
+            method: 'DELETE'
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Video deleted successfully!');
+            loadAboutUsVideos();
+            
+            AdminStorage.addActivity({
+                type: 'about_us_video_deleted',
+                action: 'Deleted an About Us video'
+            });
+        } else {
+            alert('Error deleting video');
+        }
+    } catch (error) {
+        console.error('Error deleting video:', error);
+    }
+}
+
+// Unit Management Functions
+let unitsCount = 0;
+
+function addUnitField() {
+    unitsCount++;
+    const unitId = `unit-${unitsCount}`;
+    const unitsList = document.getElementById('unitsList');
+    
+    const unitDiv = document.createElement('div');
+    unitDiv.id = unitId;
+    unitDiv.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px; padding: 10px; background: white; border-radius: 5px; border: 1px solid #e0e0e0;';
+    
+    unitDiv.innerHTML = `
+        <div>
+            <select class="unit-type-select" required>
+                <option value="">Select Unit Type</option>
+                <option value="kg">Kilogram (kg)</option>
+                <option value="litre">Litre (L)</option>
+                <option value="ml">Millilitre (ml)</option>
+                <option value="g">Gram (g)</option>
+                <option value="piece">Piece</option>
+            </select>
+        </div>
+        <div>
+            <input type="number" class="unit-quantity-input" placeholder="Quantity (e.g., 500 for 500ml)" required>
+        </div>
+        <div>
+            <input type="number" class="unit-price-input" placeholder="Price (₹)" step="0.01" required>
+        </div>
+        <button type="button" class="btn-remove-unit" onclick="removeUnitField('${unitId}')" style="padding: 5px 10px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            <i class="fas fa-trash"></i>
+        </button>
+    `;
+    
+    unitsList.appendChild(unitDiv);
+}
+
+function removeUnitField(unitId) {
+    const unitElement = document.getElementById(unitId);
+    if (unitElement) {
+        unitElement.remove();
+    }
+}
+
+function getUnitsFromForm() {
+    const unitsList = document.getElementById('unitsList');
+    const units = [];
+    
+    unitsList.querySelectorAll('[id^="unit-"]').forEach(unitDiv => {
+        const unitType = unitDiv.querySelector('.unit-type-select').value;
+        const quantity = unitDiv.querySelector('.unit-quantity-input').value;
+        const price = unitDiv.querySelector('.unit-price-input').value;
+        
+        if (unitType && quantity && price) {
+            units.push({
+                unit: unitType,
+                quantity: parseInt(quantity),
+                price: parseFloat(price)
+            });
+        }
+    });
+    
+    return units;
+}
+
+function clearUnitsForm() {
+    document.getElementById('unitsList').innerHTML = '';
+    unitsCount = 0;
+}
+

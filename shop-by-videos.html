@@ -196,7 +196,7 @@
 
                 container.innerHTML = data.data.map(video => `
                     <div class="video-card">
-                        <video src="${getVideoUrl(video.videoUrl)}" muted loop playsinline></video>
+                        <video src="${getVideoUrl(video.videoUrl)}" preload="metadata" muted loop playsinline></video>
                         <div class="overlay">
                             <h3>${escapeHtml(video.productName || video.title)}</h3>
                             <button onclick="viewProduct('${video.productLink || '#'}')">View Product</button>

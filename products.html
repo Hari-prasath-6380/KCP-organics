@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products - KCP Organics</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         * {
             margin: 0;
@@ -16,99 +16,51 @@
 
         body {
             background: linear-gradient(135deg, #dcf1d8 0%, #e8f5e9 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
+            padding-top: 85px;
         }
 
-        /* Navigation */
-        .navbar {
-            background-color: rgb(253, 250, 250);
-            height: 90px;
-            border: 5px solid rgb(248, 248, 248);
-            border-radius: 20px;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            display: flex;
-            font-size: 19px;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        }
-
-        .logo img {
-            height: 70px;
-            width: auto;
-            border-radius: 0;
-            display: block;
-        }
-
-        .section1 {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 100px;
-            margin-left: 50px;
-        }
-
-        .section2 {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-end;
-            gap: 100px;
-            margin-right: 50px;
-        }
-
-        .navbar a {
-            font-size: 1.2em;
-            text-decoration: none;
-            color: black;
-        }
-
-        .cart-icon {
-            font-size: 24px;
-            color: #dd610e;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.3s;
-        }
-
-        .cart-icon:hover {
-            transform: scale(1.1);
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
+        /* Products Content */
 
         /* Products Page Header */
         .products-header {
-            background: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
             color: white;
-            padding: 60px 20px;
+            padding: 80px 20px;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .products-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
 
         .products-header h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 54px;
+            margin-bottom: 15px;
             font-weight: 700;
+            position: relative;
+            z-index: 2;
+            letter-spacing: -1px;
         }
 
         .products-header p {
             font-size: 18px;
-            opacity: 0.9;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
         /* Main Container */
@@ -123,37 +75,49 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             gap: 20px;
             flex-wrap: wrap;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
         .search-box {
             flex: 1;
-            min-width: 250px;
+            min-width: 280px;
             position: relative;
         }
 
         .search-box input {
             width: 100%;
-            padding: 12px 40px 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 25px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            padding: 14px 45px 14px 18px;
+            border: 2px solid #e8f5e9;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8faf7;
+        }
+
+        .search-box input::placeholder {
+            color: #999;
         }
 
         .search-box input:focus {
             outline: none;
             border-color: #dd610e;
+            background: white;
+            box-shadow: 0 4px 12px rgba(221, 97, 14, 0.15);
         }
 
         .search-box i {
             position: absolute;
-            right: 15px;
+            right: 18px;
             top: 50%;
             transform: translateY(-50%);
             color: #dd610e;
+            font-size: 16px;
         }
 
         .filter-sort {
@@ -162,90 +126,131 @@
         }
 
         .filter-sort select {
-            padding: 10px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            padding: 12px 18px;
+            border: 2px solid #e8f5e9;
+            border-radius: 12px;
             font-size: 14px;
             cursor: pointer;
             background: white;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #333;
         }
 
         .filter-sort select:focus {
             outline: none;
             border-color: #dd610e;
+            box-shadow: 0 4px 12px rgba(221, 97, 14, 0.15);
         }
 
         /* Products Grid */
         .products-grid {
             display: grid;
+            /* 4 products per row on desktop for a denser layout */
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin-bottom: 40px;
-            min-height: 600px;
+            min-height: 400px;
         }
 
-        /* Product Card */
+        /* --- UPDATED PRODUCT CARD STYLES --- */
         .product-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             position: relative;
-            min-height: 430px;
-            will-change: transform;
-            backface-visibility: hidden;
-            perspective: 1000px;
+            /* compact cards for denser grid */
+            min-height: 360px;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
         }
 
         .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(221, 97, 14, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            border-color: #dd610e;
+        }
+
+        .card-compact-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        .card-details p.product-description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+            max-height: 4.2em;
+            overflow: hidden;
+            margin: 0 0 8px 0;
+        }
+
+        .unit-option {
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
 
         .product-image-container {
             position: relative;
-            height: 200px;
+            /* fixed image area for uniform thumbnails */
+            height: 220px;
             overflow: hidden;
-            background: #f5f5f5;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px; /* reduced padding for consistent image sizing */
+            border-bottom: 1px solid #f9f9f9;
         }
 
         .product-image {
+            /* Uniform thumbnail: fill container and crop if needed */
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+            object-fit: cover; /* crop to fill container uniformly */
+            object-position: center center;
+            transition: transform 0.4s ease, opacity 0.2s ease;
+            display: block;
+            background-color: #fff;
         }
 
+
         .product-card:hover .product-image {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
+
+        /* ----------------------------------- */
 
         .product-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #dd610e;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #dd610e 0%, #c85a0a 100%);
             color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            padding: 8px 14px;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(221, 97, 14, 0.3);
         }
 
         .product-badge.organic {
-            background: #2e7d32;
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
         }
 
         .product-badge.sale {
-            background: #e74c3c;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
         }
 
         .product-content {
-            padding: 15px;
+            padding: 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -253,30 +258,35 @@
 
         .product-name {
             font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 6px;
-            line-height: 1.3;
-            min-height: 40px;
+            font-weight: 700;
+            color: #1B5E20;
+            margin-bottom: 8px;
+            line-height: 1.35;
+            min-height: 42px;
+            letter-spacing: -0.3px;
         }
 
         .product-category {
-            font-size: 12px;
+            font-size: 11px;
             color: #dd610e;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-weight: 700;
+            margin-bottom: 10px;
             text-transform: uppercase;
+            letter-spacing: 0.8px;
         }
 
         .product-description {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 10px;
-            line-height: 1.4;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 12px;
+            line-height: 1.6;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            flex: 1;
+            min-height: 40px;
+            font-weight: 500;
         }
 
         .product-rating {
@@ -289,12 +299,14 @@
 
         .stars {
             color: #ffc107;
-            font-size: 14px;
+            font-size: 13px;
+            letter-spacing: 1px;
         }
 
         .rating-count {
             color: #999;
             font-size: 12px;
+            font-weight: 500;
         }
 
         .product-variants {
@@ -307,69 +319,100 @@
         .variant-badge {
             background: #f0f0f0;
             padding: 4px 8px;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 11px;
             color: #555;
             border: 1px solid #ddd;
+            font-weight: 500;
         }
+
+        .modal-add-cart {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            /* text color */
+            font-size: 16px;
+            /* ensure visible */
+            padding: 12px 20px;
+            background-color: #28a745;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modal-add-cart span {
+            display: inline-block;
+            color: #fff;
+        }
+
 
         .product-footer {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
             margin-top: auto;
-            padding-top: 10px;
+            padding-top: 12px;
             border-top: 1px solid #f0f0f0;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .product-price {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex: 1;
+            flex-direction: column;
+            align-items: flex-start;
+            min-width: 150px;
+            gap: 8px;
         }
 
         .price-current {
             font-size: 20px;
             font-weight: 700;
             color: #dd610e;
+            letter-spacing: -0.5px;
         }
 
         .price-original {
-            font-size: 14px;
+            font-size: 13px;
             color: #999;
             text-decoration: line-through;
+            font-weight: 500;
         }
 
         .add-to-cart-btn {
             background: linear-gradient(135deg, #dd610e 0%, #c85a0a 100%);
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 9px 14px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 12px;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
+            white-space: nowrap;
         }
 
         .add-to-cart-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(221, 97, 14, 0.4);
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(221, 97, 14, 0.4);
         }
 
         .add-to-cart-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
 
         .wishlist-btn {
             background: none;
             border: 2px solid #dd610e;
             color: #dd610e;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -382,6 +425,7 @@
         .wishlist-btn:hover {
             background: #dd610e;
             color: white;
+            transform: scale(1.1);
         }
 
         .wishlist-btn.active {
@@ -447,9 +491,14 @@
 
         .modal-image {
             width: 100%;
+            height: auto;
+            min-height: 300px;
+            max-height: 500px;
             border-radius: 10px;
             object-fit: cover;
-            max-height: 400px;
+            object-position: center;
+            display: block;
+            background: linear-gradient(135deg, #f8faf7 0%, #e8f5e9 100%);
         }
 
         .modal-info h2 {
@@ -482,10 +531,13 @@
         }
 
         .modal-description {
-            color: #666;
+            color: #444;
             line-height: 1.8;
-            margin-bottom: 20px;
-            font-size: 14px;
+            margin-bottom: 0;
+            font-size: 15px;
+            font-weight: 500;
+            word-break: break-word;
+            white-space: pre-wrap;
         }
 
         .modal-variants {
@@ -498,7 +550,7 @@
 
         .variant-label {
             font-weight: 600;
-            color: #333;
+            color: #2e7d32;
             margin-bottom: 10px;
             display: block;
         }
@@ -540,7 +592,7 @@
 
         .quantity-label {
             font-weight: 600;
-            color: #333;
+            color: #2e7d32;
         }
 
         .quantity-control {
@@ -651,7 +703,7 @@
 
         .details-label {
             font-weight: 600;
-            color: #333;
+            color: #2e7d32;
         }
 
         .details-value {
@@ -773,24 +825,38 @@
         /* Responsive */
         @media (max-width: 1200px) {
             .products-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 24px;
+            }
+
+            .products-header h1 {
+                font-size: 44px;
             }
         }
 
         @media (max-width: 768px) {
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 16px;
+            }
+
+            .products-header {
+                padding: 50px 20px;
             }
 
             .products-header h1 {
                 font-size: 32px;
+                margin-bottom: 10px;
             }
 
-            .modal-body {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .products-controls {
+                flex-direction: column;
+                align-items: stretch;
                 padding: 20px;
+            }
+
+            .search-box {
+                min-width: unset;
             }
 
             .filter-sort {
@@ -801,57 +867,81 @@
                 flex: 1;
             }
 
-            .products-controls {
-                flex-direction: column;
-                align-items: stretch;
+            .modal-body {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
             }
 
-            .search-box {
-                min-width: unset;
+            .product-card {
+                min-height: 400px;
             }
         }
 
         @media (max-width: 480px) {
             .products-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
+
+            .products-header h1 {
+                font-size: 26px;
+            }
+
+            .products-header p {
+                font-size: 14px;
+            }
+
+            .product-card {
+                min-height: 380px;
+            }
+
+            .product-image-container {
+                height: 180px;
+            }
+
+            .add-to-cart-btn {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
+            .product-name {
+                font-size: 14px;
+                min-height: 36px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo">
             <img src="logo_final.png" alt="logo">
         </div>
         <div class="section1">
             <a href="home.html">Home</a>
-            <a href="#">About us</a>
-            <a href="products.html">Products</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html" class="active">Products</a>
             <a href="contact.html">Contact us</a>
         </div>
         <div class="section2" id="authSection">
-            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #dd610e; margin: 0 15px; display: inline-block;">
+            <div class="navbar-cart" onclick="toggleCart()">
                 <i class="fas fa-shopping-cart"></i>
-                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+                <span id="cartBadge">0</span>
             </div>
             <a href="login.html" id="loginLink">Login</a>
             <a href="signup.html" id="signupLink">Sign up</a>
-            <span id="userName" style="display: none; color: #2e7d32; font-weight: 600;"></span>
+            <span id="userName" style="display: none;"></span>
             <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
         </div>
     </nav>
 
-    <!-- Products Header -->
     <div class="products-header">
         <h1>Our Organic Products</h1>
         <p>100% Pure & Naturally Sourced</p>
     </div>
 
-    <!-- Main Products Section -->
     <div class="products-container">
-        <!-- Controls -->
         <div class="products-controls">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search products...">
@@ -877,18 +967,40 @@
             </div>
         </div>
 
-        <!-- Products Grid -->
         <div class="products-grid" id="productsGrid">
             <div class="loading">
                 <div class="spinner"></div>
             </div>
         </div>
 
-        <!-- Pagination -->
         <div class="pagination" id="pagination"></div>
     </div>
 
-    <!-- Product Details Modal -->
+    <div class="modal" id="unitSelectorModal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px;">
+            <button class="modal-close" onclick="closeUnitSelector()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" style="padding: 30px; text-align: center;">
+                <h2 id="unitProductName" style="margin-bottom: 20px; color: #333;"></h2>
+                <p style="color: #666; margin-bottom: 20px;">Select a unit:</p>
+                <div id="unitOptionsContainer" style="display: grid; gap: 12px; margin-bottom: 20px;"></div>
+                <div class="modal-quantity" style="margin-bottom: 20px; justify-content: center;">
+                    <span class="quantity-label">Quantity:</span>
+                    <div class="quantity-control">
+                        <button onclick="decrementUnitQuantity()">−</button>
+                        <input type="number" id="unitQuantityInput" class="quantity-input" value="1" min="1">
+                        <button onclick="incrementUnitQuantity()">+</button>
+                    </div>
+                </div>
+                <button id="confirmUnitBtn" class="modal-add-cart" style="width: 100%;">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="productModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeProductModal()">
@@ -896,7 +1008,8 @@
             </button>
             <div class="modal-body">
                 <div>
-                    <img src="" id="modalImage" class="modal-image" alt="Product">
+                    <img src="" id="modalImage" class="modal-image" alt="Product"
+                        onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22500%22 height=%22400%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23f3f4f6%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23888888%22 font-family=%22Arial%22 font-size=%2230%22>Product+Image</text></svg>'">
                 </div>
                 <div class="modal-info">
                     <div class="modal-category" id="modalCategory"></div>
@@ -905,8 +1018,27 @@
                         <span class="stars" id="modalStars">★★★★★</span>
                         <span class="rating-count" id="modalRatingCount">(0 reviews)</span>
                     </div>
-                    <div class="modal-price" id="modalPrice"></div>
-                    <p class="modal-description" id="modalDescription"></p>
+
+                    <div id="unitsSection"
+                        style="margin: 15px 0; padding: 15px; background: linear-gradient(135deg, #fff5f0 0%, #f9f9f9 100%); border-radius: 10px; border: 2px solid #ffe0d0; display: none;">
+                        <h4 style="margin: 0 0 15px 0; color: #2e7d32; font-weight: 700; font-size: 16px;"><i
+                                class="fas fa-tag" style="color: #dd610e; margin-right: 8px;"></i>Available Units &
+                            Pricing:</h4>
+                        <div id="unitsPricing"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;">
+                        </div>
+                    </div>
+
+                    <div class="modal-price" id="modalPrice" style="display: none;"></div>
+
+                    <div
+                        style="background: linear-gradient(135deg, #fefbf7 0%, #f5f5f5 100%); border-radius: 10px; padding: 18px; margin: 20px 0; border-left: 4px solid #dd610e;">
+                        <h4
+                            style="margin: 0 0 12px 0; color: #2e7d32; font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-align-left" style="color: #dd610e;"></i>Product Details</h4>
+                        <p class="modal-description" id="modalDescription"
+                            style="margin: 0; max-height: 280px; overflow-y: auto; padding-right: 8px;"></p>
+                    </div>
 
                     <div id="variantsContainer"></div>
 
@@ -925,8 +1057,9 @@
 
                     <div class="modal-actions">
                         <button class="modal-add-cart" id="modalAddCart" onclick="addToCartFromModal()">
-                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                            <span>Add to Cart</span>
                         </button>
+
                         <button class="modal-wishlist" id="modalWishlist" onclick="toggleWishlist()">
                             <i class="fas fa-heart"></i>
                         </button>
@@ -936,21 +1069,45 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
     <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+        const IMAGE_BASE_URL = 'http://localhost:5000';
+
+        // Get proper product image URL (robust against different stored formats)
+        function getProductImageUrl(imagePath) {
+            // Inline SVG placeholder (avoids external network requests)
+            const placeholder = 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23f3f4f6%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23888888%22 font-family=%22Arial%22 font-size=%2218%22>Product+Image</text></svg>';
+
+            if (!imagePath) return placeholder;
+
+            // Already a full URL
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) return imagePath;
+
+            // If path already includes uploads (with or without leading slash), normalize it and prefix IMAGE_BASE_URL
+            if (imagePath.includes('/uploads/')) {
+                const normalized = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+                return (typeof IMAGE_BASE_URL === 'string' && IMAGE_BASE_URL) ? IMAGE_BASE_URL + normalized : normalized;
+            }
+
+            // If the imagePath looks like a filename (e.g., product.jpg), place it under /uploads/products/ and prefix IMAGE_BASE_URL
+            const rel = `/uploads/products/${imagePath}`;
+            return (typeof IMAGE_BASE_URL === 'string' && IMAGE_BASE_URL) ? IMAGE_BASE_URL + rel : rel;
+        }
+
         let allProducts = [];
         let filteredProducts = [];
         let currentPage = 1;
         const itemsPerPage = 12;
         let currentProductId = null;
         let selectedVariants = {};
+        let selectedUnit = null; // For unit selection in cart
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             console.log('🛒 Products Page Initialized');
-            console.log('📊 Connecting to API endpoint: /api/products');
+            console.log('📊 Connecting to API endpoint:', `${API_BASE_URL}/products`);
             console.log('💾 Backend: Fetching admin-added products from MongoDB');
             loadProducts();
             setupEventListeners();
@@ -962,12 +1119,124 @@
                 currentPage = 1;
                 filterAndDisplay();
             });
+
+            document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                currentPage = 1;
+                filterAndDisplay();
+            });
+
+            document.getElementById('sortFilter').addEventListener('change', (e) => {
+                sortProducts();
+            });
         }
+
+        // Hardcoded products with descriptions (kept for development only)
+        // Set USE_HARDCODED to true when you explicitly want sample data shown
+        const USE_HARDCODED = false;
+        // Hardcoded sample products (disabled by default)
+        const hardcodedProducts = [
+            {
+                _id: '1',
+                name: 'Organic Basmati Rice',
+                category: 'Rice',
+                description: 'Premium quality long-grain basmati rice, naturally aged and fragrant. Perfect for daily cooking and special occasions.',
+                price: 320,
+                originalPrice: 400,
+                image: 'rice.png',
+                discount: 20,
+                averageRating: 4.5,
+                totalReviews: 45
+            },
+            {
+                _id: '2',
+                name: 'Fresh Organic Vegetables',
+                category: 'Vegetables',
+                description: 'Handpicked fresh vegetables directly from organic farms. Pesticide-free and nutrient-rich for your family.',
+                price: 180,
+                originalPrice: 250,
+                image: 'vege.png',
+                discount: 28,
+                averageRating: 4.7,
+                totalReviews: 62
+            },
+            {
+                _id: '3',
+                name: 'Pure Organic Honey',
+                category: 'Honey',
+                description: 'Raw, unfiltered honey collected from organic beehives. Rich in antioxidants and natural enzymes.',
+                price: 450,
+                originalPrice: 600,
+                image: 'honey.png',
+                discount: 25,
+                averageRating: 4.8,
+                totalReviews: 78
+            },
+            {
+                _id: '4',
+                name: 'Natural Coconut Oil',
+                category: 'Oil',
+                description: 'Cold-pressed virgin coconut oil extracted from fresh coconuts. Great for cooking and skincare.',
+                price: 280,
+                originalPrice: 350,
+                image: 'oil.png',
+                discount: 20,
+                averageRating: 4.6,
+                totalReviews: 51
+            },
+            {
+                _id: '5',
+                name: 'Organic Spice Mix',
+                category: 'Spices',
+                description: 'Freshly ground blend of organic spices. Enhances flavor without any chemical preservatives.',
+                price: 150,
+                originalPrice: 200,
+                image: 'masala.png',
+                discount: 25,
+                averageRating: 4.4,
+                totalReviews: 35
+            },
+            {
+                _id: '6',
+                name: 'Premium Organic Lentils',
+                category: 'Lentils',
+                description: 'High-protein organic lentils sourced from trusted farms. Ideal for healthy meals and nutrition.',
+                price: 120,
+                originalPrice: 160,
+                image: 'dhall.png',
+                discount: 25,
+                averageRating: 4.5,
+                totalReviews: 42
+            },
+            {
+                _id: '7',
+                name: 'Organic Millets',
+                category: 'Grains',
+                description: 'Nutritious whole grain millets with high fiber content. Perfect for breakfast and healthy snacks.',
+                price: 200,
+                originalPrice: 280,
+                image: 'millets.avif',
+                discount: 28,
+                averageRating: 4.3,
+                totalReviews: 28
+            },
+            {
+                _id: '8',
+                name: 'Grocery items',
+                category: 'Grocery',
+                description: 'Weekly bundle of assorted fresh organic vegetables. Packed with vitamins and natural goodness.',
+                price: 350,
+                originalPrice: 500,
+                image: 'grocery.png',
+                discount: 30,
+                averageRating: 4.9,
+                totalReviews: 95
+            }
+        ];
 
         // Load products from API
         async function loadProducts() {
             try {
-                const response = await fetch('/api/products?limit=100');
+                const response = await fetch(`${API_BASE_URL}/products?limit=100`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -983,6 +1252,7 @@
                     if (allProducts.length > 0) {
                         console.log('✓ Loaded', allProducts.length, 'products from database');
                         filteredProducts = [...allProducts];
+                        updateCategoryOptions();
                         displayProducts();
                         return;
                     }
@@ -990,154 +1260,34 @@
 
                 throw new Error('No products in database');
             } catch (error) {
-                console.warn('⚠️ Could not load products from API:', error.message);
-                console.log('Showing demo products as fallback');
-                showDemoProducts();
-            }
-        }
+                console.error('❌ Error loading products:', error.message);
+                console.log('💡 Start backend with: npm start (in the backend folder)');
 
-        // Show demo products
-        function showDemoProducts() {
-            allProducts = [
-                {
-                    _id: '1',
-                    name: 'Organic Basmati Rice',
-                    category: 'rice',
-                    price: 450,
-                    originalPrice: 550,
-                    image: 'rice.png',
-                    description: 'Premium quality organic basmati rice, aromatic and fluffy',
-                    shortDescription: 'Premium organic basmati rice',
-                    averageRating: 4.5,
-                    totalReviews: 128,
-                    stock: 50,
-                    variants: [
-                        { name: 'Weight', options: ['500g', '1kg', '2kg', '5kg'] }
-                    ],
-                    attributes: {
-                        organic: true,
-                        glutenFree: true,
-                        weight: '1kg'
-                    }
-                },
-                {
-                    _id: '2',
-                    name: 'Fresh Organic Vegetables Box',
-                    category: 'vegetables',
-                    price: 399,
-                    originalPrice: 499,
-                    image: 'vege.png',
-                    description: 'Freshly harvested seasonal organic vegetables',
-                    shortDescription: 'Mixed seasonal vegetables',
-                    averageRating: 4.8,
-                    totalReviews: 256,
-                    stock: 30,
-                    variants: [
-                        { name: 'Type', options: ['Seasonal Mix', 'Leafy Greens', 'Root Vegetables'] }
-                    ],
-                    attributes: {
-                        organic: true,
-                        vegan: true
-                    }
-                },
-                {
-                    _id: '3',
-                    name: 'Pure Natural Honey',
-                    category: 'honey',
-                    price: 299,
-                    originalPrice: 399,
-                    image: 'honey.png',
-                    description: 'Raw, unfiltered honey with natural benefits',
-                    shortDescription: 'Raw natural honey',
-                    averageRating: 4.9,
-                    totalReviews: 320,
-                    stock: 45,
-                    variants: [
-                        { name: 'Size', options: ['250ml', '500ml', '1L', '2L'] }
-                    ],
-                    attributes: {
-                        organic: true,
-                        glutenFree: true,
-                        vegan: false
-                    }
-                },
-                {
-                    _id: '4',
-                    name: 'Organic Coconut Oil',
-                    category: 'oil',
-                    price: 399,
-                    originalPrice: 499,
-                    image: 'oil.png',
-                    description: 'Cold-pressed virgin coconut oil',
-                    shortDescription: 'Virgin coconut oil',
-                    averageRating: 4.6,
-                    totalReviews: 189,
-                    stock: 25,
-                    variants: [
-                        { name: 'Size', options: ['200ml', '500ml', '1L'] }
-                    ],
-                    attributes: {
-                        organic: true,
-                        glutenFree: true,
-                        vegan: true
-                    }
-                },
-                {
-                    _id: '5',
-                    name: 'Organic Turmeric Powder',
-                    category: 'spices',
-                    price: 199,
-                    originalPrice: 249,
-                    image: 'spices.png',
-                    description: 'Pure turmeric powder with high curcumin content',
-                    shortDescription: 'Pure turmeric powder',
-                    averageRating: 4.7,
-                    totalReviews: 145,
-                    stock: 60,
-                    variants: [
-                        { name: 'Quantity', options: ['100g', '250g', '500g'] }
-                    ],
-                    attributes: {
-                        organic: true,
-                        glutenFree: true,
-                        vegan: true
-                    }
-                },
-                {
-                    _id: '6',
-                    name: 'Herbal Green Tea Blend',
-                    category: 'herbs',
-                    price: 149,
-                    originalPrice: 199,
-                    image: 'tea.png',
-                    description: 'Premium herbal blend with antioxidants',
-                    shortDescription: 'Green herbal tea',
-                    averageRating: 4.4,
-                    totalReviews: 98,
-                    stock: 40,
-                    variants: [
-                        { name: 'Type', options: ['Loose Leaf', 'Tea Bags'] }
-                    ],
-                    attributes: {
-                        organic: true,
-                        glutenFree: true,
-                        vegan: true
-                    }
+                if (USE_HARDCODED) {
+                    console.log('⚠️ Using hardcoded products as fallback (USE_HARDCODED=true)');
+                    allProducts = hardcodedProducts;
+                    filteredProducts = [...allProducts];
+                } else {
+                    // When backend is down, do not display sample products — show empty state
+                    allProducts = [];
+                    filteredProducts = [];
                 }
-            ];
-            filteredProducts = [...allProducts];
-            displayProducts();
+
+                updateCategoryOptions();
+                displayProducts();
+            }
         }
 
         // Filter and display products
         function filterAndDisplay() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const category = document.getElementById('categoryFilter').value;
+            const categoryFilter = document.getElementById('categoryFilter').value.toLowerCase();
 
             filteredProducts = allProducts.filter(product => {
                 const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
-                    product.description.toLowerCase().includes(searchTerm);
-                const matchesCategory = !category || product.category === category;
+                    product.description.toLowerCase().includes(searchTerm) ||
+                    product.category.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || product.category.toLowerCase() === categoryFilter;
                 return matchesSearch && matchesCategory;
             });
 
@@ -1148,6 +1298,23 @@
         // Filter products
         function filterProducts() {
             filterAndDisplay();
+        }
+
+        // Update category filter options dynamically
+        function updateCategoryOptions() {
+            const categories = [...new Set(allProducts.map(p => p.category))].sort();
+            const categorySelect = document.getElementById('categoryFilter');
+            const currentValue = categorySelect.value;
+
+            categorySelect.innerHTML = '<option value="">All Categories</option>';
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.toLowerCase();
+                option.textContent = cat;
+                categorySelect.appendChild(option);
+            });
+
+            categorySelect.value = currentValue;
         }
 
         // Sort products
@@ -1176,7 +1343,7 @@
             displayProducts();
         }
 
-        // Display products
+        // Display products grouped by category - UPDATED
         function displayProducts() {
             const grid = document.getElementById('productsGrid');
 
@@ -1192,50 +1359,92 @@
                 return;
             }
 
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const pageProducts = filteredProducts.slice(start, end);
+            // Group products by category
+            const groupedProducts = {};
+            filteredProducts.forEach(product => {
+                const category = product.category || 'Other';
+                if (!groupedProducts[category]) {
+                    groupedProducts[category] = [];
+                }
+                groupedProducts[category].push(product);
+            });
 
-            grid.innerHTML = pageProducts.map(product => `
-                <div class="product-card" onclick="openProductModal('${product._id}')">
-                    <div class="product-image-container">
-                        <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='placeholder.png'">
-                        ${product.attributes?.organic ? '<span class="product-badge organic">Organic</span>' : ''}
-                        ${product.originalPrice > product.price ? '<span class="product-badge sale">Sale</span>' : ''}
-                    </div>
-                    <div class="product-content">
-                        <span class="product-category">${product.category}</span>
-                        <h3 class="product-name">${product.name}</h3>
-                        <p class="product-description">${product.description}</p>
+            // Sort categories alphabetically
+            const sortedCategories = Object.keys(groupedProducts).sort();
 
-                        <div class="product-rating">
-                            <span class="stars">${generateStars(product.averageRating)}</span>
-                            <span class="rating-count">(${product.totalReviews || 0})</span>
-                        </div>
-
-                        ${product.variants?.length > 0 ? `
-                            <div class="product-variants">
-                                ${product.variants[0].options.slice(0, 2).map(opt =>
-                `<span class="variant-badge">${opt}</span>`
-            ).join('')}
-                                ${product.variants[0].options.length > 2 ? `<span class="variant-badge">+${product.variants[0].options.length - 2} more</span>` : ''}
-                            </div>
-                        ` : ''}
-
-                        <div class="product-footer">
-                            <div class="product-price">
-                                <span class="price-current">₹${product.price}</span>
-                                ${product.originalPrice > product.price ? `<span class="price-original">₹${product.originalPrice}</span>` : ''}
-                            </div>
-                            <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('${product._id}', 1)">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
+            // Generate HTML for grouped products
+            let html = '';
+            sortedCategories.forEach(category => {
+                const categoryProducts = groupedProducts[category];
+                html += `
+                    <div style="grid-column: 1/-1; margin: 30px 0 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 15px; padding-bottom: 15px; border-bottom: 3px solid #2e7d32;">
+                            <h2 style="margin: 0; color: #2e7d32; font-size: 24px; font-weight: 700;">
+                                <i class="fas fa-folder-open" style="margin-right: 10px;"></i>${category}
+                            </h2>
+                            <span style="background: #2e7d32; color: white; padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;">
+                                ${categoryProducts.length} items
+                            </span>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
 
-            displayPagination();
+                // Add products in this category
+                categoryProducts.forEach(product => {
+                    html += `
+                        <div class="product-card" onclick="openProductModal('${product._id}')">
+                            <div class="product-image-container">
+                                <img src="${getProductImageUrl(product.image)}" alt="${product.name}" class="product-image" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23f3f4f6%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23888888%22 font-family=%22Arial%22 font-size=%2218%22>Product+Image</text></svg>'">
+                                
+                                ${product.originalPrice > product.price ? '<span class="product-badge sale">Sale</span>' : ''}
+                            </div>
+                            <div class="product-content">
+                                <span class="product-category">${product.category}</span>
+                                <h3 class="product-name">${product.name}</h3>
+
+                                <!-- Compact actions: show only add-to-cart initially -->
+                                <div class="card-compact-actions">
+                                    <button class="add-to-cart-btn" onclick="event.stopPropagation(); toggleCardDetails('${product._id}')">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Expanded details shown after clicking add-to-cart -->
+                                <div id="card-details-${product._id}" class="card-details" style="display:none; margin-top:12px;">
+                                    <p class="product-description">${product.description}</p>
+
+                                    <div class="product-footer" style="margin-top:10px; align-items: center; gap: 8px;">
+                                        <div class="product-price" style="flex: 1;">
+                                            ${product.units && product.units.length > 0 ? `
+                                                <div id="card-units-${product._id}" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; margin-bottom: 8px;">
+                                                    ${product.units.map((u, idx) => {
+                                                    const unitLabel = { 'kg': 'kg', 'litre': 'L', 'ml': 'ml', 'g': 'g', 'piece': 'pcs' };
+                                                    return `<button class="unit-option" onclick="event.stopPropagation(); selectCardUnit('${product._id}', ${idx})" style="padding:8px; border:2px solid #ddd; border-radius:8px; background:white; font-weight:600; cursor:pointer;">${u.quantity}${unitLabel[u.unit]} - <span style="color:#dd610e;">₹${u.price}</span></button>`;
+                                                }).join('')}
+                                                </div>
+                                                <div style="display:flex; gap:8px; align-items:center;">
+                                                    <input id="card-quantity-${product._id}" type="number" min="1" value="1" style="width:70px; padding:6px; border:1px solid #ddd; border-radius:6px;">
+                                                    <button class="modal-add-cart" onclick="event.stopPropagation(); confirmAddToCartFromCard('${product._id}')">Add</button>
+                                                </div>
+                                            ` : `
+                                                <div style="display:flex; gap:8px; align-items:center;">
+                                                    <span class="price-current">₹${product.price}</span>
+                                                    ${product.originalPrice > product.price ? `<span class="price-original">₹${product.originalPrice}</span>` : ''}
+                                                    <input id="card-quantity-${product._id}" type="number" min="1" value="1" style="width:70px; padding:6px; border:1px solid #ddd; border-radius:6px; margin-left:8px;">
+                                                    <button class="modal-add-cart" onclick="event.stopPropagation(); confirmAddToCartFromCard('${product._id}')">Add</button>
+                                                </div>
+                                            `}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+
+            grid.innerHTML = html;
+            document.getElementById('pagination').innerHTML = ''; // Remove pagination for grouped view
         }
 
         // Display pagination
@@ -1286,6 +1495,66 @@
             return stars;
         }
 
+        // Toggle inline card details (show description, price, units)
+        function toggleCardDetails(productId) {
+            // Close any other open cards
+            document.querySelectorAll('.card-details').forEach(el => {
+                if (el.id !== `card-details-${productId}`) el.style.display = 'none';
+            });
+
+            const details = document.getElementById(`card-details-${productId}`);
+            if (!details) return;
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Select unit inside card (sets global selectedUnit for addToCart)
+        function selectCardUnit(productId, unitIndex) {
+            const product = allProducts.find(p => p._id === productId);
+            if (!product || !product.units) return;
+            selectedUnit = product.units[unitIndex];
+
+            // update styles
+            const unitButtons = document.querySelectorAll(`#card-units-${productId} .unit-option`);
+            unitButtons.forEach((btn, idx) => {
+                if (idx === unitIndex) {
+                    btn.style.borderColor = '#dd610e';
+                    btn.style.backgroundColor = '#fff5f0';
+                } else {
+                    btn.style.borderColor = '#ddd';
+                    btn.style.backgroundColor = 'white';
+                }
+            });
+        }
+
+        // Confirm add to cart from inline card details
+        function confirmAddToCartFromCard(productId) {
+            const isLoggedIn = checkUserLogin();
+            if (!isLoggedIn) {
+                showLoginModal();
+                return;
+            }
+
+            const qtyInput = document.getElementById(`card-quantity-${productId}`);
+            const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+
+            const product = allProducts.find(p => p._id === productId);
+            if (!product) return;
+
+            // If product has units and no unit selected, prompt user
+            if (product.units && product.units.length > 0 && !selectedUnit) {
+                alert('Please select a unit');
+                return;
+            }
+
+            // Add to cart (addToCart will use selectedUnit if set)
+            addToCart(productId, qty);
+
+            // Hide details and reset selectedUnit
+            const details = document.getElementById(`card-details-${productId}`);
+            if (details) details.style.display = 'none';
+            selectedUnit = null;
+        }
+
         // Open product modal
         async function openProductModal(productId) {
             const product = allProducts.find(p => p._id === productId);
@@ -1294,7 +1563,7 @@
             currentProductId = productId;
             selectedVariants = {};
 
-            document.getElementById('modalImage').src = product.image;
+            document.getElementById('modalImage').src = getProductImageUrl(product.image);
             document.getElementById('modalCategory').textContent = product.category.toUpperCase();
             document.getElementById('modalName').textContent = product.name;
             document.getElementById('modalPrice').textContent = `₹${product.price}`;
@@ -1302,6 +1571,32 @@
             document.getElementById('modalStars').innerHTML = generateStars(product.averageRating);
             document.getElementById('modalRatingCount').textContent = `(${product.totalReviews || 0} reviews)`;
             document.getElementById('modalQuantity').value = 1;
+
+            // Display Units/Pricing
+            const unitsSection = document.getElementById('unitsSection');
+            const unitsPricing = document.getElementById('unitsPricing');
+            if (product.units && product.units.length > 0) {
+                unitsSection.style.display = 'block';
+                const unitsList = product.units.map(u => {
+                    const unitLabel = {
+                        'kg': 'kg',
+                        'litre': 'L',
+                        'ml': 'ml',
+                        'g': 'g',
+                        'piece': 'pcs'
+                    };
+                    return `
+                        <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e0e0e0; text-align: center; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                            <div style="font-weight: 700; color: #333; font-size: 16px; margin-bottom: 6px;">${u.quantity}${unitLabel[u.unit] || u.unit}</div>
+                            <div style="font-size: 20px; font-weight: 700; color: #dd610e;">₹${u.price}</div>
+                            ${u.stock ? `<div style="font-size: 11px; color: #666; margin-top: 5px;">Stock: ${u.stock}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+                unitsPricing.innerHTML = unitsList;
+            } else {
+                unitsSection.style.display = 'none';
+            }
 
             // Stock status
             const stockEl = document.getElementById('modalStock');
@@ -1394,27 +1689,116 @@
             const product = allProducts.find(p => p._id === productId);
             if (!product) return;
 
+            // Use selected unit if available, otherwise use first unit or base price
+            const unitInfo = selectedUnit || (product.units && product.units[0]);
+
             const cartItem = {
                 productId: product._id,
                 name: product.name,
-                price: product.price,
+                price: unitInfo ? unitInfo.price : product.price,
                 quantity: quantity,
                 image: product.image,
+                unit: unitInfo ? `${unitInfo.quantity}${unitInfo.unit}` : null, // Store unit info
+                unitDetails: unitInfo,
                 variants: {}
             };
 
+            const userId = localStorage.getItem('userId') || 'guest';
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const existingItem = cart.find(item => item.productId === productId);
+            // Find existing item for this user with same unit
+            const existingItem = cart.find(item => item.productId === productId && item.unit === cartItem.unit && (item.userId || 'guest') === userId);
 
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
-                cart.push(cartItem);
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...cartItem
+                });
             }
 
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartBadge();
-            showToast(`✓ ${product.name} added to cart!`);
+            showToast(`✓ ${product.name} (${cartItem.unit || '1 unit'}) added to cart!`);
+            selectedUnit = null; // Reset selected unit
+        }
+
+        // Unit selector functions
+        function openUnitSelector(productId) {
+            const product = allProducts.find(p => p._id === productId);
+            if (!product || !product.units || product.units.length === 0) {
+                // No units defined, add to cart with default price
+                addToCart(productId, 1);
+                return;
+            }
+
+            currentProductId = productId;
+            selectedUnit = null;
+            document.getElementById('unitQuantityInput').value = 1;
+            document.getElementById('unitProductName').textContent = product.name;
+
+            // Create unit selection buttons
+            const unitContainer = document.getElementById('unitOptionsContainer');
+            unitContainer.innerHTML = product.units.map((unit, idx) => {
+                const unitLabel = { 'kg': 'kg', 'litre': 'L', 'ml': 'ml', 'g': 'g', 'piece': 'pcs' };
+                return `
+                    <button style="padding: 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; transition: all 0.3s;" 
+                            onclick="selectUnitOption(${idx})">
+                        <div>${unit.quantity}${unitLabel[unit.unit]} - <span style="color: #dd610e;">₹${unit.price}</span></div>
+                    </button>
+                `;
+            }).join('');
+
+            // Set confirm button handler
+            const confirmBtn = document.getElementById('confirmUnitBtn');
+            confirmBtn.onclick = () => {
+                if (!selectedUnit) {
+                    alert('Please select a unit');
+                    return;
+                }
+                const quantity = parseInt(document.getElementById('unitQuantityInput').value) || 1;
+                addToCart(currentProductId, quantity);
+                closeUnitSelector();
+            };
+
+            document.getElementById('unitSelectorModal').style.display = 'flex';
+            document.getElementById('unitSelectorModal').style.alignItems = 'center';
+            document.getElementById('unitSelectorModal').style.justifyContent = 'center';
+        }
+
+        function selectUnitOption(unitIndex) {
+            const product = allProducts.find(p => p._id === currentProductId);
+            if (!product || !product.units) return;
+
+            selectedUnit = product.units[unitIndex];
+
+            // Update button styling
+            const buttons = document.querySelectorAll('#unitOptionsContainer button');
+            buttons.forEach((btn, idx) => {
+                if (idx === unitIndex) {
+                    btn.style.borderColor = '#dd610e';
+                    btn.style.backgroundColor = '#fff5f0';
+                } else {
+                    btn.style.borderColor = '#ddd';
+                    btn.style.backgroundColor = 'white';
+                }
+            });
+        }
+
+        function closeUnitSelector() {
+            document.getElementById('unitSelectorModal').style.display = 'none';
+            selectedUnit = null;
+        }
+
+        function decrementUnitQuantity() {
+            const input = document.getElementById('unitQuantityInput');
+            input.value = Math.max(1, parseInt(input.value) - 1);
+        }
+
+        function incrementUnitQuantity() {
+            const input = document.getElementById('unitQuantityInput');
+            input.value = parseInt(input.value) + 1;
         }
 
         // Add to cart from modal
@@ -1428,9 +1812,23 @@
 
             if (!currentProductId) return;
 
-            const quantity = parseInt(document.getElementById('modalQuantity').value);
-            addToCart(currentProductId, quantity);
-            closeProductModal();
+            const product = allProducts.find(p => p._id === currentProductId);
+            if (!product) return;
+
+            // If product has units, use unit selector
+            if (product.units && product.units.length > 0) {
+                closeProductModal();
+                // Open unit selector with modal quantity
+                setTimeout(() => {
+                    openUnitSelector(currentProductId);
+                    document.getElementById('unitQuantityInput').value = parseInt(document.getElementById('modalQuantity').value) || 1;
+                }, 300);
+            } else {
+                // No units, add directly
+                const quantity = parseInt(document.getElementById('modalQuantity').value);
+                addToCart(currentProductId, quantity);
+                closeProductModal();
+            }
         }
 
         // Toggle wishlist
@@ -1462,9 +1860,11 @@
 
         // Update cart badge
         function updateCartBadge() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cartBadge').textContent = totalItems;
+            const all = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const userCart = uid === 'guest' ? all.filter(i => !i.userId || i.userId === 'guest') : all.filter(i => i.userId === uid);
+            const totalItems = userCart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+            const el = document.getElementById('cartBadge'); if (el) el.textContent = totalItems;
         }
 
         // Show toast
@@ -1519,18 +1919,55 @@
             if (userName && userEmail) {
                 // User is logged in
                 console.log('User logged in:', userName);
+                // Migrate any guest cart items to this user so cart is preserved after login
+                migrateGuestCartToUser();
             }
+        }
+
+        // Migrate guest cart items to current logged-in user (preserve items added before login)
+        function migrateGuestCartToUser() {
+            const uid = localStorage.getItem('userId');
+            if (!uid || uid === 'guest') return;
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let changed = false;
+            // Attach only items explicitly marked as 'guest' to this uid
+            for (const item of cart) {
+                if (item.userId === 'guest') {
+                    item.userId = uid;
+                    changed = true;
+                }
+            }
+            if (changed) localStorage.setItem('cart', JSON.stringify(cart));
         }
 
         // Run auth check on load
         updateAuthUI();
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            window.location.reload();
+        }
+
+        function checkUserSession() {
+            const userName = localStorage.getItem('userName');
+            const userId = localStorage.getItem('userId');
+
+            if (userName && userId) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            checkUserSession();
+        });
     </script>
 </body>
+
 </html>
-
-
-
-
-
-
-

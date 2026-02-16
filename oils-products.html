@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Oils - KCP Organics</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="product-detail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #4CAF50; margin: 0 15px; display: inline-block;">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none; color: #1B5E20; font-weight: 600;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Product Category Navigation -->
+    <section class="product-nav" style="background: #f5f5f5; padding: 15px 0; border-bottom: 2px solid #4CAF50;">
+        <div class="container">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="honey-products-detailed.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍯 Honey</a>
+                <a href="sweetener-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍶 Sweeteners</a>
+                <a href="oils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 600; padding: 5px 10px; border-bottom: 3px solid #4CAF50;">🫒 Oils</a>
+                <a href="rice-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🌾 Rice</a>
+                <a href="vegetables-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥬 Vegetables</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="product-hero" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);">
+        <div class="hero-content">
+            <h1>🫒 Premium Organic Oils</h1>
+            <p>Pure, Cold-Pressed, and Nutrient-Rich</p>
+        </div>
+    </section>
+
+    <!-- Product Introduction -->
+    <section class="product-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Liquid Gold for Your Kitchen</h2>
+                <p>Our collection of organic oils is extracted using traditional cold-pressing methods that preserve all the nutrients, flavor, and aroma. From coconut oil to gingelly oil, each variety offers unique health benefits and culinary applications. Perfect for cooking, beauty, and wellness.</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Cold-Pressed</h4>
+                        <p>No heat or chemicals used</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>100% Pure</h4>
+                        <p>No additives or preservatives</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-star"></i>
+                        <h4>Multi-Purpose</h4>
+                        <p>Cooking, cosmetics, and health</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Oil Varieties Grid -->
+    <section class="products-grid-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Oil Collection</h2>
+            
+            <div class="products-grid">
+                <!-- Coconut Oil -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-water" style="font-size: 80px; color: #D4A574;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Coconut Oil (Thengai Ennai)</h3>
+                        <p class="product-desc">Virgin coconut oil extracted from fresh coconut milk. Perfect for cooking, beauty treatments, and overall wellness. Retains its natural aroma and health benefits.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Boosts metabolism and energy</li>
+                                <li><i class="fas fa-check"></i> Excellent for skin and hair</li>
+                                <li><i class="fas fa-check"></i> Supports heart health</li>
+                                <li><i class="fas fa-check"></i> High smoke point for cooking</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Coconut Oil')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cold Pressed Groundnut Oil -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-fan" style="font-size: 80px; color: #8B4513;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Cold Pressed Groundnut Oil (Kadalai Ennai)</h3>
+                        <p class="product-desc">Pure groundnut oil extracted through cold pressing. Ideal for everyday cooking with a rich, nutty flavor and excellent nutritional profile.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Rich in vitamin E</li>
+                                <li><i class="fas fa-check"></i> Supports heart health</li>
+                                <li><i class="fas fa-check"></i> Natural anti-inflammatory</li>
+                                <li><i class="fas fa-check"></i> Perfect for daily cooking</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Groundnut Oil')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Gingelly Oil -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-droplets" style="font-size: 80px; color: #8B6F47;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Gingelly Oil (Nall Ennai)</h3>
+                        <p class="product-desc">Premium sesame oil with a distinctive rich flavor. Essential in traditional Indian cooking and Ayurvedic treatments. Small quantity goes a long way.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> High in antioxidants</li>
+                                <li><i class="fas fa-check"></i> Supports bone health</li>
+                                <li><i class="fas fa-check"></i> Traditional Ayurvedic oil</li>
+                                <li><i class="fas fa-check"></i> Perfect for massage therapy</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Gingelly Oil')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Castor Oil -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-spa" style="font-size: 80px; color: #CD853F;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Castor Oil (Vilaku Ennai)</h3>
+                        <p class="product-desc">Pure cold-pressed castor oil known for its therapeutic properties. Traditionally used in Ayurvedic medicine for healing and rejuvenation.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Promotes hair growth</li>
+                                <li><i class="fas fa-check"></i> Soothes skin conditions</li>
+                                <li><i class="fas fa-check"></i> Natural laxative properties</li>
+                                <li><i class="fas fa-check"></i> Traditional healing oil</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Castor Oil')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Neem Oil -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-leaf" style="font-size: 80px; color: #228B22;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Neem Oil (Veppa Ennai)</h3>
+                        <p class="product-desc">Pure neem oil extracted from neem seeds. A powerful medicinal oil used in traditional Indian medicine for skincare and wellness applications.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Powerful antibacterial properties</li>
+                                <li><i class="fas fa-check"></i> Treats skin conditions</li>
+                                <li><i class="fas fa-check"></i> Natural insect repellent</li>
+                                <li><i class="fas fa-check"></i> Supports immune system</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Neem Oil')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lamp Oil -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-fire" style="font-size: 80px; color: #FF6347;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Lamp Oil (Deepa Ennai)</h3>
+                        <p class="product-desc">Traditional oil specifically refined for use in oil lamps. Burns cleanly with minimal smoke, perfect for pooja and ceremonial use.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Clean, steady flame</li>
+                                <li><i class="fas fa-check"></i> Minimal smoke production</li>
+                                <li><i class="fas fa-check"></i> Traditional spiritual use</li>
+                                <li><i class="fas fa-check"></i> Long-lasting burn time</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Lamp Oil')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Oil Benefits -->
+    <section class="product-info-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Why Our Oils Are Special</h2>
+            <div class="info-grid">
+                <div class="info-box">
+                    <i class="fas fa-mortar-pestle"></i>
+                    <h3>Cold Extraction</h3>
+                    <p>Traditional cold-pressing methods preserve nutrients, ensuring maximum health benefits in every drop.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>100% Organic</h3>
+                    <p>No pesticides, no chemicals, no GMOs. Pure organic oils sourced from certified organic farms.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-flask"></i>
+                    <h3>Lab Tested</h3>
+                    <p>Every batch is tested for purity and quality, ensuring you get only the best.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-recycle"></i>
+                    <h3>Eco-Friendly Packaging</h3>
+                    <p>Packaged in recyclable glass bottles to preserve oil quality and protect the environment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Tips -->
+    <section class="usage-section">
+        <div class="container">
+            <h2>How to Use Our Oils</h2>
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <h4>🍳 Cooking & Cuisine</h4>
+                    <p>Use coconut and groundnut oils for high-heat cooking. Use gingelly oil for flavoring and finishing touches.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>💅 Beauty & Skincare</h4>
+                    <p>Apply coconut or neem oil directly to skin and hair. Perfect for massage therapy and natural beauty treatments.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🙏 Spiritual Use</h4>
+                    <p>Use lamp oil for pooja and ceremonies. Safe for indoor temple use with clean, steady burning.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>💊 Wellness & Health</h4>
+                    <p>Take castor oil or gingelly oil as traditional remedies for various health conditions as per Ayurvedic guidance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌿 KCP ORGANICS</h3>
+                <p>Bringing nature's best to your table with 100% organic products.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 support@kcporganics.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KCP Organics. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function addProduct(productName) {
+            if (!localStorage.getItem('userName')) {
+                alert('Please login to add products to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = localStorage.getItem('userId') || 'guest';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = {
+                productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                name: productName,
+                price: 299,
+                quantity: 1,
+                image: 'oil.png',
+                category: 'Oils'
+            };
+
+            const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...product
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('✅ ' + productName + ' added to cart!');
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const total = cart.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            window.location.reload();
+        }
+
+        function toggleCart() {
+            window.location.href = 'cart.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        });
+    </script>
+</body>
+</html>

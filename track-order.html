@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Order - KCP Organics</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,10 +16,10 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #aef8ad 0%, #c5e7df 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding-top: 85px;
         }
 
         .track-container {
@@ -314,9 +317,61 @@
             color: #f39c12;
             font-weight: 600;
         }
+
+        /* Download Bill Button */
+        .download-bill-container {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+            text-align: center;
+        }
+
+        .download-bill-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-bill-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .download-bill-btn:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+            <a href="track-order.html">Track Order</a>
+        </div>
+        <div class="section2" id="authSection">
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
     <div class="track-container">
         <div class="track-header">
             <h1>Track Your Order</h1>
@@ -427,6 +482,13 @@
                 <span class="detail-label">Tracking Number:</span>
                 <span class="detail-value" id="detailTracking">-</span>
             </div>
+
+            <!-- Download Bill Button -->
+            <div class="download-bill-container" style="margin-top: 20px; text-align: center;">
+                <button type="button" class="download-bill-btn" onclick="downloadOrderBill()" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s;">
+                    <i class="fas fa-file-pdf"></i> Download Invoice
+                </button>
+            </div>
         </div>
 
         <div class="back-button">
@@ -436,6 +498,35 @@
 
     <script>
         const API_URL = 'http://localhost:5000/api';
+        let currentOrder = null;  // Store current order for bill generation
+
+        // Logout function
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            window.location.reload();
+        }
+
+        // Check user session on load
+        function checkUserSession() {
+            const userName = localStorage.getItem('userName');
+            const userId = localStorage.getItem('userId');
+            
+            if (userName && userId) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserSession();
+        });
 
         document.getElementById('trackForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -482,7 +573,13 @@
         });
 
         function displayOrderDetails(order) {
-            document.getElementById('detailOrderId').textContent = order.orderId || order._id.substring(0, 8);
+            // Store order for bill generation
+            // Remove any existing ORD- prefix to keep it clean
+            const cleanOrderId = (order.orderId || order._id.substring(0, 8)).replace(/^ORD-/i, '');
+            currentOrder = order;
+            currentOrder.cleanOrderId = cleanOrderId;
+
+            document.getElementById('detailOrderId').textContent = 'ORD-' + cleanOrderId;
             document.getElementById('detailName').textContent = order.customerName || 'N/A';
             document.getElementById('detailDate').textContent = new Date(order.createdAt).toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -569,6 +666,273 @@
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
+        }
+
+        // Download Order Bill as PDF
+        function downloadOrderBill() {
+            if (!currentOrder) {
+                alert('Order details not available. Please search again.');
+                return;
+            }
+
+            // Check for libraries with more robust detection
+            if (typeof html2canvas === 'undefined') {
+                alert('HTML to Canvas library not loaded. Please refresh and try again.');
+                return;
+            }
+
+            if (typeof jsPDF === 'undefined' && (typeof window.jspdf === 'undefined' || !window.jspdf.jsPDF)) {
+                alert('PDF library not loaded. Please refresh and try again.');
+                return;
+            }
+
+            const billHTML = generateBillHTML(currentOrder);
+            const element = document.createElement('div');
+            element.innerHTML = billHTML;
+            element.style.padding = '30px';
+            element.style.backgroundColor = 'white';
+            element.style.width = '210mm';
+            element.style.height = 'auto';
+            element.style.position = 'absolute';
+            element.style.left = '-9999px';
+            element.style.fontFamily = 'Arial, sans-serif';
+            document.body.appendChild(element);
+
+            console.log('downloadInvoice called for track-order');
+            console.log('diagnostics:', { html2canvas: !!window.html2canvas, jspdf: !!window.jspdf, jsPDF: !!window.jsPDF });
+            try {
+                if (!window.html2canvas) {
+                    alert('HTML2Canvas not loaded. Please refresh.');
+                    return;
+                }
+                const PDFClass = window.jsPDF || (window.jspdf && window.jspdf.jsPDF) || (window.jspdf && window.jspdf.default && window.jspdf.default.jsPDF);
+                if (!PDFClass) {
+                    alert('PDF library not loaded. Please refresh.');
+                    return;
+                }
+                html2canvas(element, {
+                    backgroundColor: '#ffffff',
+                    scale: 2,
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true
+                }).then(canvas => {
+                    try {
+                        const pdf = new PDFClass({
+                            orientation: 'portrait',
+                            unit: 'mm',
+                            format: 'a4'
+                        });
+
+                        const imgData = canvas.toDataURL('image/png');
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+                        const imgWidth = pageWidth - 10;
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        
+                        let heightLeft = imgHeight;
+                        let position = 5;
+
+                        pdf.addImage(imgData, 'PNG', 5, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+
+                        while (heightLeft > 0) {
+                            position = heightLeft - imgHeight + 5;
+                            pdf.addPage();
+                            pdf.addImage(imgData, 'PNG', 5, position, imgWidth, imgHeight);
+                            heightLeft -= pageHeight;
+                        }
+
+                        const orderId = currentOrder.orderId || currentOrder._id.substring(0, 8);
+                        pdf.save(`KCP_Invoice_${orderId}.pdf`);
+                        document.body.removeChild(element);
+                        alert('Invoice downloaded successfully!');
+                    } catch (error) {
+                        console.error('Error creating PDF:', error);
+                        console.error('Falling back to simple PDF generation');
+                        try {
+                            const PDFClassFallback = window.jsPDF || (window.jspdf && window.jspdf.jsPDF) || (window.jspdf && window.jspdf.default && window.jspdf.default.jsPDF);
+                            if (!PDFClassFallback) throw new Error('jsPDF not available for fallback');
+                            generateSimplePdf(currentOrder, PDFClassFallback);
+                            if (document.body.contains(element)) document.body.removeChild(element);
+                            alert('Invoice downloaded (fallback)');
+                        } catch (err2) {
+                            console.error('Fallback PDF generation failed:', err2);
+                            alert('Error creating PDF. Please try again.');
+                            if (document.body.contains(element)) document.body.removeChild(element);
+                        }
+                        if (document.body.contains(element)) {
+                            document.body.removeChild(element);
+                        }
+                    }
+                }).catch(error => {
+                    console.error('Error generating PDF canvas:', error);
+                    console.error('Attempting fallback PDF generation');
+                    try {
+                        const PDFClassFallback = window.jsPDF || (window.jspdf && window.jspdf.jsPDF) || (window.jspdf && window.jspdf.default && window.jspdf.default.jsPDF);
+                        if (!PDFClassFallback) throw new Error('jsPDF not available for fallback');
+                        generateSimplePdf(currentOrder, PDFClassFallback);
+                        if (document.body.contains(element)) document.body.removeChild(element);
+                        alert('Invoice downloaded (fallback)');
+                    } catch (err) {
+                        console.error('Fallback generation failed:', err);
+                        alert('Error generating invoice. Please try again.');
+                        if (document.body.contains(element)) {
+                            document.body.removeChild(element);
+                        }
+                    }
+                    if (document.body.contains(element)) {
+                        document.body.removeChild(element);
+                    }
+                });
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                alert('Error generating invoice: ' + error.message);
+                if (document.body.contains(element)) {
+                    document.body.removeChild(element);
+                }
+            }
+        }
+
+        // Simple fallback PDF generator for track-order
+        function generateSimplePdf(order, PDFClass) {
+            const pdf = new PDFClass({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const margin = 10;
+            let y = 15;
+            pdf.setFontSize(14);
+            pdf.setFont(undefined, 'bold');
+            pdf.text('KCP ORGANICS - Invoice', pageWidth / 2, y, { align: 'center' });
+            y += 8;
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, 'normal');
+            pdf.text(`Order ID: ORD-${order.orderId || order._id.substring(0,8)}`, margin, y);
+            pdf.text(`Date: ${new Date(order.createdAt).toLocaleDateString('en-IN')}`, pageWidth - margin, y, { align: 'right' });
+            y += 8;
+            pdf.text(`Customer: ${order.customerName || order.customer || ''}`, margin, y);
+            y += 6;
+
+            // Header
+            pdf.setFont(undefined, 'bold');
+            pdf.text('S.No', margin, y);
+            pdf.text('Product', margin + 15, y);
+            pdf.text('Qty', pageWidth - margin - 30, y);
+            pdf.text('Total', pageWidth - margin, y, { align: 'right' });
+            y += 6;
+            pdf.setFont(undefined, 'normal');
+
+            (order.products || []).forEach((p, idx) => {
+                if (y > 270) { pdf.addPage(); y = 20; }
+                pdf.text(String(idx + 1), margin, y);
+                const name = p.name || p.productId || 'Product';
+                pdf.text(name, margin + 15, y);
+                pdf.text(String(p.quantity), pageWidth - margin - 30, y);
+                const lineTotal = ((p.price || 0) * (p.quantity || 0)).toFixed(2);
+                pdf.text(`₹${lineTotal}`, pageWidth - margin, y, { align: 'right' });
+                y += 6;
+            });
+
+            y += 6;
+            pdf.setFont(undefined, 'bold');
+            const subtotal = (order.totalAmount || 0) / 1.05;
+            const tax = (order.totalAmount || 0) - subtotal;
+            pdf.text(`Subtotal: ₹${subtotal.toFixed(2)}`, pageWidth - margin, y, { align: 'right' });
+            y += 6;
+            pdf.text(`Tax: ₹${tax.toFixed(2)}`, pageWidth - margin, y, { align: 'right' });
+            y += 6;
+            pdf.text(`Total: ₹${(order.totalAmount || 0).toFixed(2)}`, pageWidth - margin, y, { align: 'right' });
+
+            const orderId = order.orderId || (order._id && order._id.substring(0, 8)) || 'ORDER';
+            pdf.save(`KCP_Invoice_${orderId}.pdf`);
+        }
+
+        // Generate Bill HTML
+        function generateBillHTML(order) {
+            const subtotal = order.totalAmount / 1.05;
+            const tax = order.totalAmount - subtotal;
+
+            let productsHTML = order.products.map((product, index) => `
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">${index + 1}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: left;">${product.productId || 'N/A'}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: left;">${product.name || 'Unknown'}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: center;">${product.quantity}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: right;">₹${(product.price || 0).toFixed(2)}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: right;">₹${((product.price || 0) * product.quantity).toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            return `
+                <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto;">
+                    <!-- Header with Logo -->
+                    <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #2e7d32; padding-bottom: 20px;">
+                        <img src="logo_final.png" alt="KCP Organics Logo" style="max-height: 80px; margin-bottom: 15px;">
+                        <h1 style="color: #2e7d32; margin: 0 0 10px 0; font-size: 32px;">KCP ORGANICS</h1>
+                        <p style="margin: 5px 0; color: #666; font-size: 14px;">100% Organic | Farm Fresh to Your Doorstep</p>
+                        <p style="margin: 5px 0; color: #666; font-size: 12px;">Contact: +91 98765 43210 | Email: support@kcporganics.com</p>
+                    </div>
+
+                    <!-- Invoice Info -->
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div>
+                            <h3 style="color: #2e7d32; margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase;">Invoice Details</h3>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>Order ID:</strong> ORD-${order.cleanOrderId || order.orderId.replace(/^ORD-/i, '') || order._id.substring(0, 8)}</p>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString('en-IN')}</p>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>Status:</strong> ${(order.orderStatus || 'pending').toUpperCase()}</p>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>Payment Method:</strong> ${order.paymentMethod.toUpperCase()}</p>
+                        </div>
+                        <div>
+                            <h3 style="color: #2e7d32; margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase;">Bill To</h3>
+                            <p style="margin: 5px 0; font-size: 13px;"><strong>${order.customerName}</strong></p>
+                            <p style="margin: 5px 0; font-size: 12px;">${order.address || order.customerAddress}</p>
+                            <p style="margin: 5px 0; font-size: 12px;"><strong>Phone:</strong> ${order.customerPhone}</p>
+                            <p style="margin: 5px 0; font-size: 12px;"><strong>Email:</strong> ${order.customerEmail}</p>
+                        </div>
+                    </div>
+
+                    <!-- Products Table -->
+                    <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse; font-size: 13px;">
+                        <thead>
+                            <tr style="background-color: #2e7d32; color: white;">
+                                <th style="padding: 12px; text-align: center; font-weight: bold;">S.No</th>
+                                <th style="padding: 12px; text-align: left; font-weight: bold;">Product ID</th>
+                                <th style="padding: 12px; text-align: left; font-weight: bold;">Product Name</th>
+                                <th style="padding: 12px; text-align: center; font-weight: bold;">Qty</th>
+                                <th style="padding: 12px; text-align: right; font-weight: bold;">Unit Price</th>
+                                <th style="padding: 12px; text-align: right; font-weight: bold;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${productsHTML}
+                        </tbody>
+                    </table>
+
+                    <!-- Totals -->
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                        <div style="width: 300px;">
+                            <div style="display: flex; justify-content: space-between; padding: 10px; border-top: 2px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;">
+                                <span style="font-weight: bold;">Subtotal:</span>
+                                <span>₹${subtotal.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #e0e0e0;">
+                                <span style="font-weight: bold;">Tax (5%):</span>
+                                <span>₹${tax.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 10px; background-color: #f0f8f5; border-top: 2px solid #2e7d32;">
+                                <span style="font-weight: bold; font-size: 16px; color: #2e7d32;">Total Amount:</span>
+                                <span style="font-weight: bold; font-size: 16px; color: #2e7d32;">₹${order.totalAmount.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="border-top: 2px solid #2e7d32; padding-top: 20px; text-align: center;">
+                        <p style="margin: 5px 0; color: #666; font-size: 12px;">Thank you for shopping with KCP Organics!</p>
+                        <p style="margin: 5px 0; color: #666; font-size: 12px;">You can track your order using Order ID and Mobile Number at www.kcporganics.com</p>
+                        <p style="margin: 10px 0 0 0; color: #999; font-size: 11px;">This is a computer-generated invoice. No signature required.</p>
+                    </div>
+                </div>
+            `;
         }
     </script>
 </body>

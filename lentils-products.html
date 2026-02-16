@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lentils & Parupu - KCP Organics</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="product-detail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #4CAF50; margin: 0 15px; display: inline-block;">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none; color: #1B5E20; font-weight: 600;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Product Category Navigation -->
+    <section class="product-nav" style="background: #f5f5f5; padding: 15px 0; border-bottom: 2px solid #4CAF50;">
+        <div class="container">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="honey-products-detailed.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍯 Honey</a>
+                <a href="sweetener-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍶 Sweeteners</a>
+                <a href="oils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫒 Oils</a>
+                <a href="rice-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🌾 Rice</a>
+                <a href="vegetables-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥬 Vegetables</a>
+                <a href="masala-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">✨ Masala & Spices</a>
+                <a href="lentils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 600; padding: 5px 10px; border-bottom: 3px solid #4CAF50;">🫘 Lentils</a>
+                <a href="snacks-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥜 Snacks</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="product-hero" style="background: linear-gradient(135deg, #B2691D 0%, #D2B48C 100%);">
+        <div class="hero-content">
+            <h1>🫘 Lentils & Parupu</h1>
+            <p>Protein-Rich, Nutrient-Dense Legumes</p>
+        </div>
+    </section>
+
+    <!-- Product Introduction -->
+    <section class="product-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Pure, Organic Lentils & Traditional Parupu</h2>
+                <p>Our lentils and parupu varieties are sourced from certified organic farms and are completely free from pesticides. These nutrient-dense legumes are staples of traditional Indian cuisine and are excellent sources of protein, fiber, and essential minerals. Perfect for dal, curries, and traditional recipes.</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <h4>100% Organic</h4>
+                        <p>No chemicals or pesticides</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-heart"></i>
+                        <h4>Protein Rich</h4>
+                        <p>Natural protein powerhouse</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <h4>Energy Boosting</h4>
+                        <p>High fiber and nutrients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lentils Grid -->
+    <section class="products-grid-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Lentil Collection</h2>
+            
+            <div class="products-grid">
+                <!-- Red Lentils -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-bowl" style="font-size: 80px; color: #E74C3C;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Red Lentils (Masoor Dal)</h3>
+                        <p class="product-desc">Quick-cooking red lentils perfect for creamy dals and soups. Naturally sweet and mild, they cook quickly and are ideal for busy weeknight dinners.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Cooks in 15-20 minutes</li>
+                                <li><i class="fas fa-check"></i> High in protein</li>
+                                <li><i class="fas fa-check"></i> Rich in fiber</li>
+                                <li><i class="fas fa-check"></i> Easy to digest</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Red Lentils (Masoor Dal)')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Yellow Lentils -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-mortar-pestle" style="font-size: 80px; color: #FFD700;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Yellow Lentils (Chana Dal)</h3>
+                        <p class="product-desc">Creamy yellow lentils used extensively in South Indian cuisine. Great for dal, curries, and traditional recipes with mild, pleasant taste.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Mild and creamy</li>
+                                <li><i class="fas fa-check"></i> Rich in antioxidants</li>
+                                <li><i class="fas fa-check"></i> Excellent for curries</li>
+                                <li><i class="fas fa-check"></i> Great source of folate</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Yellow Lentils (Chana Dal)')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Black Lentils -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-circle" style="font-size: 80px; color: #2C3E50;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Black Lentils (Urad Dal)</h3>
+                        <p class="product-desc">Whole black lentils with earthy flavor, perfect for dal makhani and traditional preparations. Essential for South Indian cuisine.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Rich, earthy flavor</li>
+                                <li><i class="fas fa-check"></i> Traditional dal makhani</li>
+                                <li><i class="fas fa-check"></i> High in calcium</li>
+                                <li><i class="fas fa-check"></i> Essential amino acids</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Black Lentils (Urad Dal)')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Brown Lentils -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-circle" style="font-size: 80px; color: #8B6F47;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Brown Lentils (Sabut Masoor)</h3>
+                        <p class="product-desc">Whole brown lentils with nutty flavor and firm texture. Perfect for salads and mixed vegetable dishes.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Firm texture maintained</li>
+                                <li><i class="fas fa-check"></i> Nutty flavor profile</li>
+                                <li><i class="fas fa-check"></i> Great for salads</li>
+                                <li><i class="fas fa-check"></i> High in polyphenols</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Brown Lentils (Sabut Masoor)')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Split Chickpeas -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-clover" style="font-size: 80px; color: #D4A574;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Split Chickpeas (Chana Split)</h3>
+                        <p class="product-desc">Split chickpeas used in dal preparations and roasted snacks. Naturally sweet with creamy texture when cooked.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Very versatile</li>
+                                <li><i class="fas fa-check"></i> High in fiber</li>
+                                <li><i class="fas fa-check"></i> Creamy when cooked</li>
+                                <li><i class="fas fa-check"></i> Great for roasted snacks</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Split Chickpeas (Chana Split)')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Green Lentils -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-leaf" style="font-size: 80px; color: #558B2F;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Green Lentils (Moong Dal)</h3>
+                        <p class="product-desc">Quick-cooking green lentils with mild flavor. Perfect for sprouts, salads, and light dal preparations.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Light and easy to digest</li>
+                                <li><i class="fas fa-check"></i> Perfect for sprouts</li>
+                                <li><i class="fas fa-check"></i> Cooling in nature</li>
+                                <li><i class="fas fa-check"></i> Quick cooking time</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Green Lentils (Moong Dal)')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lentil Varieties Directory -->
+    <section class="products-grid-section" style="background: #f5f5f5;">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Complete Lentil & Parupu Directory</h2>
+            
+            <div class="vegetables-directory">
+                <div class="veg-category">
+                    <h4>🌾 Whole Lentils</h4>
+                    <ul>
+                        <li>Brown Lentils (Sabut Masoor)</li>
+                        <li>Black Lentils (Urad Dal)</li>
+                        <li>Green Lentils (Moong Dal)</li>
+                        <li>Black-eyed Peas</li>
+                    </ul>
+                </div>
+                <div class="veg-category">
+                    <h4>🫘 Split Lentils (Dal)</h4>
+                    <ul>
+                        <li>Red Lentils (Masoor Dal)</li>
+                        <li>Yellow Lentils (Chana Dal)</li>
+                        <li>Split Black Lentils</li>
+                        <li>Split Green Lentils</li>
+                    </ul>
+                </div>
+                <div class="veg-category">
+                    <h4>🌰 Chickpeas & Beans</h4>
+                    <ul>
+                        <li>Split Chickpeas (Chana Split)</li>
+                        <li>Whole Chickpeas (Kabuli)</li>
+                        <li>Horse Gram (Kollu)</li>
+                        <li>Fava Beans</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cooking & Nutrition Tips -->
+    <section class="usage-section">
+        <div class="container">
+            <h2>Lentil Cooking & Nutrition Guide</h2>
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <h4>⏱️ Cooking Times</h4>
+                    <p>Red lentils: 15-20 min | Brown lentils: 25-30 min | Black lentils: 35-40 min | Whole chickpeas: 45-60 min (soak 4 hours)</p>
+                </div>
+                <div class="usage-card">
+                    <h4>💧 Soaking Tips</h4>
+                    <p>Split lentils don't require soaking. Whole lentils and chickpeas should be soaked 4-8 hours for easier digestion.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🔥 Cooking Methods</h4>
+                    <p>Use 3 parts water to 1 part lentil. Bring to boil, then simmer. Add salt only after lentils are soft.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>💪 Nutritional Benefits</h4>
+                    <p>Lentils provide 25-30g protein per cup, high fiber, iron, folate, and essential minerals for plant-based diets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌿 KCP ORGANICS</h3>
+                <p>Bringing nature's best to your table with 100% organic products.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 support@kcporganics.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KCP Organics. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function addProduct(productName) {
+            if (!localStorage.getItem('userName')) {
+                alert('Please login to add products to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = localStorage.getItem('userId') || 'guest';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = {
+                productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                name: productName,
+                price: 179,
+                quantity: 1,
+                image: 'lentils.png',
+                category: 'Lentils & Parupu'
+            };
+
+            const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...product
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('✅ ' + productName + ' added to cart!');
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const total = cart.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            window.location.reload();
+        }
+
+        function toggleCart() {
+            window.location.href = 'cart.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        });
+    </script>
+</body>
+</html>

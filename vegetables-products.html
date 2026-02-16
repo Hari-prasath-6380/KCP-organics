@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Vegetables & Greens - KCP Organics</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="product-detail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #4CAF50; margin: 0 15px; display: inline-block;">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none; color: #1B5E20; font-weight: 600;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Product Category Navigation -->
+    <section class="product-nav" style="background: #f5f5f5; padding: 15px 0; border-bottom: 2px solid #4CAF50;">
+        <div class="container">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="honey-products-detailed.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍯 Honey</a>
+                <a href="sweetener-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍶 Sweeteners</a>
+                <a href="oils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫒 Oils</a>
+                <a href="rice-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🌾 Rice</a>
+                <a href="vegetables-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 600; padding: 5px 10px; border-bottom: 3px solid #4CAF50;">🥬 Vegetables</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="product-hero" style="background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%);">
+        <div class="hero-content">
+            <h1>🥬 Fresh Vegetables & Greens</h1>
+            <p>Farm-Fresh, Pesticide-Free, Nutrient-Rich</p>
+        </div>
+    </section>
+
+    <!-- Product Introduction -->
+    <section class="product-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Nature's Bounty, Direct from Farm</h2>
+                <p>Our fresh vegetables and leafy greens are harvested at peak ripeness directly from certified organic farms. No pesticides, no chemicals, just pure natural produce that's good for your health and the planet. Every vegetable is hand-picked to ensure the highest quality and freshness delivered to your doorstep.</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <h4>100% Organic</h4>
+                        <p>No pesticides or chemicals</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-truck-fast"></i>
+                        <h4>Farm Fresh</h4>
+                        <p>Harvested at peak ripeness</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-heart"></i>
+                        <h4>Nutrient-Rich</h4>
+                        <p>Maximum vitamins and minerals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vegetables Grid -->
+    <section class="products-grid-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Vegetable & Greens Collection</h2>
+            
+            <div class="products-grid">
+                <!-- Leafy Greens -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-leaf" style="font-size: 80px; color: #228B22;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Premium Leafy Greens</h3>
+                        <p class="product-desc">Fresh, vibrant leafy greens including Spinach, Kale, Amaranth, and traditional Indian greens. Rich in iron, calcium, and essential nutrients.</p>
+                        <div class="benefits-list">
+                            <h5>Varieties Include:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Spinach (Palak Keerai) - Iron-rich superfood</li>
+                                <li><i class="fas fa-check"></i> Amaranth (Senkeerai) - Ancient grain leaf</li>
+                                <li><i class="fas fa-check"></i> Drumstick Leaves (Murungai Keerai)</li>
+                                <li><i class="fas fa-check"></i> Fenugreek (Puthina) - Medicinal properties</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Premium Leafy Greens')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Root Vegetables -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-carrot" style="font-size: 80px; color: #FF8C00;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Root Vegetables</h3>
+                        <p class="product-desc">Wholesome root vegetables including potatoes, onions, and leafy root vegetables. Perfect for everyday cooking and traditional recipes.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Rich in carbohydrates and fiber</li>
+                                <li><i class="fas fa-check"></i> Long shelf life when properly stored</li>
+                                <li><i class="fas fa-check"></i> Versatile for various cuisines</li>
+                                <li><i class="fas fa-check"></i> Support digestive health</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Root Vegetables')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cruciferous Vegetables -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-broccoli" style="font-size: 80px; color: #3CB371;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Cruciferous Vegetables</h3>
+                        <p class="product-desc">Nutrient-powerhouses including cabbage, cauliflower, and okra. Excellent source of vitamins C, K, and cancer-fighting compounds.</p>
+                        <div class="benefits-list">
+                            <h5>Varieties Include:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Cabbage - Digestive support</li>
+                                <li><i class="fas fa-check"></i> Cauliflower - Low-carb option</li>
+                                <li><i class="fas fa-check"></i> Okra (Vendakai) - Unique texture</li>
+                                <li><i class="fas fa-check"></i> High in antioxidants</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Cruciferous Vegetables')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Traditional Vegetables -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-pepper-hot" style="font-size: 80px; color: #DC143C;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Traditional Vegetables</h3>
+                        <p class="product-desc">Authentic Indian vegetables including bitter gourd, bottle gourd, and ridge gourd. Essential for traditional recipes with unique health benefits.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Bitter Gourd - Blood sugar management</li>
+                                <li><i class="fas fa-check"></i> Ridge Gourd - Diuretic properties</li>
+                                <li><i class="fas fa-check"></i> Bottle Gourd - Cooling nature</li>
+                                <li><i class="fas fa-check"></i> Traditional medicinal use</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Traditional Vegetables')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seasonal Vegetables -->
+    <section class="product-info-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Seasonal Produce</h2>
+            <div class="info-grid">
+                <div class="info-box">
+                    <i class="fas fa-sun"></i>
+                    <h3>Summer Vegetables</h3>
+                    <p>Tomatoes, cucumber, bottle gourd, and ridge gourd. Cooling vegetables perfect for hot seasons.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Monsoon Greens</h3>
+                    <p>Leafy greens and tender vegetables at their peak. Rich in seasonal minerals and nutrients.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-snowflake"></i>
+                    <h3>Winter Crops</h3>
+                    <p>Cabbage, cauliflower, root vegetables. Warming vegetables for cooler months.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-apple-alt"></i>
+                    <h3>Year-Round Favorites</h3>
+                    <p>Onions, garlic, ginger. Essential herbs and vegetables always in stock.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complete Vegetable List -->
+    <section class="products-grid-section" style="background: #f5f5f5;">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Complete Vegetable & Greens Directory</h2>
+            
+            <div class="vegetables-directory">
+                <div class="veg-category">
+                    <h4>🥒 Vegetables</h4>
+                    <ul>
+                        <li>Tomato (Thakkali)</li>
+                        <li>Bottle Gourd (Peerkangai)</li>
+                        <li>Ridge Gourd (Pagarkai)</li>
+                        <li>Cluster Beans (Pudalangai)</li>
+                        <li>Pointed Gourd (Suraikai)</li>
+                        <li>Eggplant (Kathurikai)</li>
+                        <li>Okra (Vendakai)</li>
+                    </ul>
+                </div>
+                <div class="veg-category">
+                    <h4>🥗 Leafy Greens</h4>
+                    <ul>
+                        <li>Spinach (Palak Keerai)</li>
+                        <li>Amaranth (Senkeerai)</li>
+                        <li>Fenugreek (Puthina)</li>
+                        <li>Drumstick Leaves (Murungai Keerai)</li>
+                        <li>Coriander (Kothamalli)</li>
+                        <li>Mint Leaves</li>
+                        <li>Curry Leaves (Karuvepilly)</li>
+                    </ul>
+                </div>
+                <div class="veg-category">
+                    <h4>🌶️ Peppers & Spices</h4>
+                    <ul>
+                        <li>Green Chili</li>
+                        <li>Bell Peppers</li>
+                        <li>Ginger</li>
+                        <li>Garlic</li>
+                        <li>Onions (Chinna Vengayam)</li>
+                        <li>Coconut (Thengai)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Storage & Usage Tips -->
+    <section class="usage-section">
+        <div class="container">
+            <h2>Vegetable Storage & Cooking Tips</h2>
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <h4>🧊 Storage Tips</h4>
+                    <p>Store leafy greens in refrigerator's vegetable drawer. Root vegetables can be kept in cool, dark places. Use within 3-5 days for optimal freshness.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🍳 Cooking Methods</h4>
+                    <p>Steam or lightly sauté to retain nutrients. Avoid prolonged boiling. Try traditional recipes for authentic flavors.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🥗 Raw Consumption</h4>
+                    <p>Many greens can be enjoyed raw in salads. Wash thoroughly before consumption for food safety.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>💊 Health Benefits</h4>
+                    <p>Different vegetables offer different nutrients. Consume variety for complete nutritional benefits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌿 KCP ORGANICS</h3>
+                <p>Bringing nature's best to your table with 100% organic products.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 support@kcporganics.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KCP Organics. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+        .vegetables-directory {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .veg-category {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #4CAF50;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .veg-category h4 {
+            color: #1B5E20;
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .veg-category ul {
+            list-style: none;
+        }
+
+        .veg-category li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .veg-category li:last-child {
+            border-bottom: none;
+        }
+    </style>
+
+    <script>
+        function addProduct(productName) {
+            if (!localStorage.getItem('userName')) {
+                alert('Please login to add products to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = localStorage.getItem('userId') || 'guest';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = {
+                productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                name: productName,
+                price: 149,
+                quantity: 1,
+                image: 'vege.png',
+                category: 'Vegetables'
+            };
+
+            const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...product
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('✅ ' + productName + ' added to cart!');
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const total = cart.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            window.location.reload();
+        }
+
+        function toggleCart() {
+            window.location.href = 'cart.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traditional Rice Varieties - KCP Organics</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="product-detail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #4CAF50; margin: 0 15px; display: inline-block;">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none; color: #1B5E20; font-weight: 600;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Product Category Navigation -->
+    <section class="product-nav" style="background: #f5f5f5; padding: 15px 0; border-bottom: 2px solid #4CAF50;">
+        <div class="container">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="honey-products-detailed.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍯 Honey</a>
+                <a href="sweetener-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍶 Sweeteners</a>
+                <a href="oils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫒 Oils</a>
+                <a href="rice-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 600; padding: 5px 10px; border-bottom: 3px solid #4CAF50;">🌾 Rice</a>
+                <a href="vegetables-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥬 Vegetables</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="product-hero" style="background: linear-gradient(135deg, #8B7355 0%, #A0826D 100%);">
+        <div class="hero-content">
+            <h1>🌾 Traditional Rice Varieties</h1>
+            <p>Heritage Grains, Pure Nutrition, Authentic Flavors</p>
+        </div>
+    </section>
+
+    <!-- Product Introduction -->
+    <section class="product-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Ancient Wisdom in Every Grain</h2>
+                <p>Our collection of traditional rice varieties represents centuries of agricultural heritage. These time-honored cultivars have been nurtured by generations of Indian farmers, selected for their unique flavors, nutritional profiles, and cultural significance. Each variety tells a story of our land and people.</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-spa"></i>
+                        <h4>Heritage Grains</h4>
+                        <p>Centuries-old traditional varieties</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-heart"></i>
+                        <h4>High Nutrition</h4>
+                        <p>Rich in minerals and nutrients</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-utensils"></i>
+                        <h4>Authentic Taste</h4>
+                        <p>True flavor of traditional cuisine</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rice Varieties Grid -->
+    <section class="products-grid-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Rice Collection</h2>
+            
+            <div class="products-grid">
+                <!-- Basmati & Premium Varieties -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-wheat" style="font-size: 80px; color: #D2B48C;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Premium Long-Grain Rice</h3>
+                        <p class="product-desc">Including varieties like Thanga Samba, Soornamasuri, and Mappallai Samba. Premium long-grain rices perfect for special occasions and festive meals.</p>
+                        <div class="benefits-list">
+                            <h5>Varieties Include:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Thanga Samba - Golden, aromatic rice</li>
+                                <li><i class="fas fa-check"></i> Soornamasuri - Premium quality grain</li>
+                                <li><i class="fas fa-check"></i> Mappallai Samba - Wedding rice variety</li>
+                                <li><i class="fas fa-check"></i> Thooyamalli - Fine fragrant grain</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Premium Rice Collection')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Red & Black Varieties -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-gem" style="font-size: 80px; color: #8B0000;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Red & Black Rice Varieties</h3>
+                        <p class="product-desc">Colored rice varieties like Rathasalli, Karupu Kavuni, and Sivapu Kavuni. Rich in antioxidants and traditional medicinal properties.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> High in antioxidants and anthocyanins</li>
+                                <li><i class="fas fa-check"></i> Supports heart health</li>
+                                <li><i class="fas fa-check"></i> Traditional medicinal use</li>
+                                <li><i class="fas fa-check"></i> Unique flavors and textures</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Red & Black Rice')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Short-Grain Varieties -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-droplets" style="font-size: 80px; color: #CD853F;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Traditional Short-Grain Rice</h3>
+                        <p class="product-desc">Including Karunkuruvai, Kattuyanam, and Matti Arisi. Perfect for traditional dishes, idly, dosa, and everyday meals.</p>
+                        <div class="benefits-list">
+                            <h5>Varieties Include:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Karunkuruvai - Black rice variety</li>
+                                <li><i class="fas fa-check"></i> Kattuyanam - Ancient cultivar</li>
+                                <li><i class="fas fa-check"></i> Matti Arisi - Clay-grown rice</li>
+                                <li><i class="fas fa-check"></i> Idly Arisi - Perfect for fermentation</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Short-Grain Rice')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Specialty & Heirloom -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-crown" style="font-size: 80px; color: #FFD700;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Specialty & Heirloom Rice</h3>
+                        <p class="product-desc">Rare varieties like Poongar, Sivan Samba, and Vasanai Siraga Samba. Limited availability, cultivated using traditional methods.</p>
+                        <div class="benefits-list">
+                            <h5>Special Characteristics:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Heirloom varieties preserved for generations</li>
+                                <li><i class="fas fa-check"></i> Unique regional flavors and aromas</li>
+                                <li><i class="fas fa-check"></i> Limited cultivation, premium quality</li>
+                                <li><i class="fas fa-check"></i> Supports agricultural biodiversity</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Specialty Rice')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complete List Section -->
+    <section class="product-info-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Complete Rice Collection</h2>
+            <div class="rice-varieties-list">
+                <div class="variety-column">
+                    <h4>Premium Varieties</h4>
+                    <ul>
+                        <li>Kattuyanam</li>
+                        <li>Karunkuruvai</li>
+                        <li>Karupu Kavuni</li>
+                        <li>Rathasalli</li>
+                        <li>Sivapu Kavuni</li>
+                        <li>Matti Arisi</li>
+                    </ul>
+                </div>
+                <div class="variety-column">
+                    <h4>Aromatic Varieties</h4>
+                    <ul>
+                        <li>Soorakuruvai</li>
+                        <li>Soornamasuri</li>
+                        <li>Thanga Samba</li>
+                        <li>Thooyamalli</li>
+                        <li>Poongar</li>
+                        <li>Mappallai Samba</li>
+                    </ul>
+                </div>
+                <div class="variety-column">
+                    <h4>Specialty Varieties</h4>
+                    <ul>
+                        <li>Sivan Samba</li>
+                        <li>Vasanai Siraga Samba</li>
+                        <li>Pacharusi</li>
+                        <li>Illupai Poo Samba</li>
+                        <li>Idly Arusi</li>
+                        <li>Pal Kudavalzhi</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Tips -->
+    <section class="usage-section">
+        <div class="container">
+            <h2>How to Choose & Cook Rice</h2>
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <h4>🍚 Daily Meals</h4>
+                    <p>Use short-grain varieties like Idly Arisi and Kattuyanam for everyday cooking and fermented dishes.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🎉 Special Occasions</h4>
+                    <p>Choose premium long-grain varieties like Thanga Samba or Thooyamalli for festive celebrations.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>💚 Health Focus</h4>
+                    <p>Red and black rice varieties offer superior nutritional benefits with antioxidant properties.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>👨‍🍳 Culinary Experiments</h4>
+                    <p>Explore rare heirloom varieties to discover traditional flavors and unique cooking experiences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌿 KCP ORGANICS</h3>
+                <p>Bringing nature's best to your table with 100% organic products.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 support@kcporganics.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KCP Organics. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+        .rice-varieties-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .variety-column {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #4CAF50;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .variety-column h4 {
+            color: #1B5E20;
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .variety-column ul {
+            list-style: none;
+        }
+
+        .variety-column li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .variety-column li:last-child {
+            border-bottom: none;
+        }
+
+        .variety-column li:before {
+            content: "🌾 ";
+            margin-right: 8px;
+        }
+    </style>
+
+    <script>
+        function addProduct(productName) {
+            if (!localStorage.getItem('userName')) {
+                alert('Please login to add products to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = localStorage.getItem('userId') || 'guest';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = {
+                productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                name: productName,
+                price: 199,
+                quantity: 1,
+                image: 'rice.png',
+                category: 'Rice'
+            };
+
+            const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...product
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('✅ ' + productName + ' added to cart!');
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const total = cart.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            window.location.reload();
+        }
+
+        function toggleCart() {
+            window.location.href = 'cart.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        });
+    </script>
+</body>
+</html>

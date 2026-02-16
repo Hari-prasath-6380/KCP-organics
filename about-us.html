@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - KCP Organics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="about-us.css">
+</head>
+<body style="font-family: 'Poppins', sans-serif; padding-top: 85px;">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html" class="active">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>About KCP Organics</h1>
+            <p>Purely Organic. Truly Trusted.</p>
+            <p>Direct from Farm — Free from Chemicals.</p>
+        </div>
+    </section>
+
+    <!-- Company Story Section -->
+    <section class="company-story">
+        <div class="story-container">
+            <div class="story-image">
+                <img src="Gemini_Generated_Image_7voe977voe977voe.png" alt="Company Story">
+            </div>
+            <div class="story-content">
+                <h2>Our Story</h2>
+                <p> Since 2016, KCP Organics has been on a mission to bring truly organic food to every table. Starting with fresh vegetables, fruits, and greens grown without harmful chemicals or pesticides, we’ve always believed that healthy food is the foundation of healthy lives.</p>
+                <p> In 2021, we opened our KCP Organics Marketplace to make these pure and chemical-free products accessible to our growing community. By partnering with trusted organic farmers, we ensure that every product reflects our commitment to quality, safety, and sustainability.</p>
+                <p> At KCP Organics, it’s more than just food — it’s a promise. A promise to deliver fresh, wholesome, and trustworthy products that families can enjoy with confidence, every day.</p>
+                <div class="story-highlights">
+                    <div class="highlight">
+                        <i class="fas fa-leaf"></i>
+                        <h3>100% Organic</h3>
+                        <p>No chemicals or pesticides</p>
+                    </div>
+                    <div class="highlight">
+                        <i class="fas fa-hands-helping"></i>
+                        <h3>Fair Trade</h3>
+                        <p>Supporting local farmers</p>
+                    </div>
+                    <div class="highlight">
+                        <i class="fas fa-star"></i>
+                        <h3>Premium Quality</h3>
+                        <p>Handpicked & tested</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section class="mission-vision">
+        <div class="mission-vision-container">
+            <div class="mission-card">
+                <div class="card-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>KCP Organics is dedicated to practicing truly organic farming, supporting trusted farmers, and delivering high-quality, chemical-free fruits, vegetables, greens, and grocery products that families can rely on every day.</p>
+            </div>
+            <div class="vision-card">
+                <div class="card-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>To provide every home with fresh, wholesome, and truly organic food that is healthy, safe, and chemical-free.</p>
+            </div>
+            <div class="values-card">
+                <div class="card-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Our Values</h3>
+                <p>Integrity, sustainability, quality, and compassion guide every decision we make. We believe in transparency with our customers and respect for Mother Nature.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section class="certifications">
+        <div class="certifications-container">
+            <h2>Our Certifications & Standards</h2>
+            <p class="section-subtitle">Certified and recognized by leading organic and quality assurance organizations</p>
+            
+            <div class="certifications-grid">
+                <div class="certification-card">
+                    <div class="cert-icon">
+                       
+                    </div>
+                    <h3>Udyam Certified</h3>
+                    <img src="udyam_certificate.png" alt="Udyam Registered">
+                </div>
+                
+                <div class="certification-card">
+                    <div class="cert-icon">
+                    </div>
+                    <h3>Fssai Certified</h3>
+                    <img src="fssai_certificate.jpeg" alt="fssai certified">
+                </div>
+                
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery">
+        <div class="gallery-container">
+            <h2>Our Farms & Facilities</h2>
+            <p class="section-subtitle">From farm to table - a glimpse into our sustainable operations</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/350x300?text=Farm+Field" alt="Farm Field">
+                    <div class="gallery-overlay">
+                        <h3>Organic Farming</h3>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/350x300?text=Honey+Harvest" alt="Honey Harvest">
+                    <div class="gallery-overlay">
+                        <h3>Pure Honey Extraction</h3>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/350x300?text=Processing+Unit" alt="Processing Unit">
+                    <div class="gallery-overlay">
+                        <h3>Modern Processing</h3>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/350x300?text=Quality+Check" alt="Quality Check">
+                    <div class="gallery-overlay">
+                        <h3>Quality Control</h3>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/350x300?text=Packaging" alt="Packaging">
+                    <div class="gallery-overlay">
+                        <h3>Eco-Friendly Packaging</h3>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/350x300?text=Farmers+Team" alt="Farmers Team">
+                    <div class="gallery-overlay">
+                        <h3>Our Dedicated Team</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Videos Section -->
+    <section class="about-videos">
+        <div class="videos-container">
+            <h2>Why Choose KCP Organics</h2>
+            <p class="section-subtitle">Watch our stories, processes, and customer testimonials</p>
+            
+            <!-- Add Video Button for Admin -->
+            <div id="adminAddVideoBtn" class="admin-add-video-btn" style="display:none; margin-bottom: 20px;">
+                <button onclick="openAddAboutVideoModal()" class="btn-add-video">
+                    <i class="fas fa-plus"></i> Add Video
+                </button>
+            </div>
+            
+            <div id="videosGrid" class="videos-grid">
+                <!-- Videos will be loaded here dynamically -->
+                <div class="no-videos-message" id="noVideosMessage">
+                    <i class="fas fa-video"></i>
+                    <p>No videos available yet. Check back soon!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add/Edit Video Modal for About Us -->
+    <div id="addAboutVideoModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Video to About Us</h2>
+                <span class="close" onclick="closeAddAboutVideoModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addAboutVideoForm">
+                    <div class="form-group">
+                        <label for="aboutVideoTitle">Video Title *</label>
+                        <input type="text" id="aboutVideoTitle" placeholder="e.g., Our Farm Tour" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Video Source *</label>
+                        <div class="video-source-tabs">
+                            <button type="button" class="tab-btn active" data-tab="upload-tab" onclick="switchVideoSourceTab('upload-tab')">Upload from Computer</button>
+                            <button type="button" class="tab-btn" data-tab="url-tab" onclick="switchVideoSourceTab('url-tab')">Video URL</button>
+                        </div>
+                    </div>
+                    <div id="upload-tab" class="form-group tab-content active">
+                        <label for="aboutVideoFile">Select Video File (MP4, WebM) *</label>
+                        <input type="file" id="aboutVideoFile" accept="video/mp4,video/webm,.mp4,.webm" required>
+                        <small style="color: #666; margin-top: 5px; display: block;">Max file size: 100MB</small>
+                        <div id="uploadProgress" style="display:none; margin-top: 10px;">
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                            </div>
+                            <p id="progressText" style="font-size: 12px; color: #666;">Uploading...</p>
+                        </div>
+                    </div>
+                    <div id="url-tab" class="form-group tab-content">
+                        <label for="aboutVideoUrl">Video URL (YouTube/Vimeo/Direct)</label>
+                        <input type="text" id="aboutVideoUrl" placeholder="https://youtube.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label for="aboutVideoDescription">Description</label>
+                        <textarea id="aboutVideoDescription" placeholder="Brief description of the video" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="aboutVideoThumbnail">Thumbnail URL</label>
+                        <input type="text" id="aboutVideoThumbnail" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="aboutVideoActive" checked>
+                            Active (Show on page)
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">Add Video</button>
+                        <button type="button" class="btn-cancel" onclick="closeAddAboutVideoModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3 id="farmCount">500+</h3>
+                <p>Hectares of Organic Farms</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="productCount">50+</h3>
+                <p>Product Varieties</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="customerCount">10K+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="yearCount">15+</h3>
+                <p>Years of Excellence</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Join Our Organic Movement</h2>
+            <p>Experience the pure goodness of organic farming. Every purchase supports sustainable agriculture and healthy living.</p>
+            <a href="products.html" class="cta-button">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About KCP</h4>
+                <ul>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 KCP Organics. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            window.location.reload();
+        }
+
+        function checkUserSession() {
+            const userName = localStorage.getItem('userName');
+            const userId = localStorage.getItem('userId');
+            
+            if (userName && userId) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserSession();
+        });
+    </script>
+    <script src="about-us.js"></script>
+</body>
+</html>

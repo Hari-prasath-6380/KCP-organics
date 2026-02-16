@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Message = require('../models/Message');
-const { sendMessageNotificationToAdmin } = require('../services/notificationService');
+const { sendTelegramMessage } = require('../services/notificationService');
 
 // Get all messages
 router.get('/', async (req, res) => {
@@ -54,17 +54,13 @@ router.post('/', async (req, res) => {
 
         await newMessage.save();
         
-        // Send notification to admin (email and SMS)
+        // Send notification to admin via Telegram (free service)
         try {
-            await sendMessageNotificationToAdmin({
-                name,
-                email,
-                subject,
-                message
-            });
-            console.log('✅ Admin notification sent successfully');
+            const telegramMessage = `📩 *New Message from Contact Form*\n\n👤 *From:* ${name}\n📧 *Email:* ${email}\n📝 *Subject:* ${subject}\n\n💬 *Message:*\n${message}`;
+            await sendTelegramMessage(telegramMessage);
+            console.log('✅ Telegram notification sent to admin');
         } catch (notifError) {
-            console.error('⚠️ Failed to send admin notification:', notifError);
+            console.error('⚠️ Failed to send Telegram notification:', notifError);
             // Don't fail the request if notification fails
         }
 

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masala & Spices - KCP Organics</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="product-detail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_final.png" alt="logo">
+        </div>
+        <div class="section1">
+            <a href="home.html">Home</a>
+            <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #4CAF50; margin: 0 15px; display: inline-block;">
+                <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+            </div>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none; color: #1B5E20; font-weight: 600;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Product Category Navigation -->
+    <section class="product-nav" style="background: #f5f5f5; padding: 15px 0; border-bottom: 2px solid #4CAF50;">
+        <div class="container">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="honey-products-detailed.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍯 Honey</a>
+                <a href="sweetener-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🍶 Sweeteners</a>
+                <a href="oils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫒 Oils</a>
+                <a href="rice-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🌾 Rice</a>
+                <a href="vegetables-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥬 Vegetables</a>
+                <a href="masala-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 600; padding: 5px 10px; border-bottom: 3px solid #4CAF50;">✨ Masala & Spices</a>
+                <a href="lentils-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🫘 Lentils</a>
+                <a href="snacks-products.html" style="color: #1B5E20; text-decoration: none; font-weight: 500; padding: 5px 10px;">🥜 Snacks</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="product-hero" style="background: linear-gradient(135deg, #C62828 0%, #E53935 100%);">
+        <div class="hero-content">
+            <h1>✨ Masala & Spices</h1>
+            <p>Aromatic, Pure, and Freshly Ground</p>
+        </div>
+    </section>
+
+    <!-- Product Introduction -->
+    <section class="product-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Traditional Masala Blends & Pure Spices</h2>
+                <p>Elevate your cooking with our authentic masala blends and pure spices. Each blend is carefully crafted from traditionally sourced ingredients, ground fresh to preserve maximum aroma and flavor. Our spices are 100% organic, with no additives or preservatives.</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Freshly Ground</h4>
+                        <p>Ground in small batches</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-flask"></i>
+                        <h4>Pure Quality</h4>
+                        <p>No additives or fillers</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-star"></i>
+                        <h4>Authentic Blends</h4>
+                        <p>Traditional recipes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Masala Grid -->
+    <section class="products-grid-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Our Masala Collection</h2>
+            
+            <div class="products-grid">
+                <!-- Garam Masala -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-mortar-pestle" style="font-size: 80px; color: #C62828;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Garam Masala Blend</h3>
+                        <p class="product-desc">Authentic blend of warming spices perfect for curries, vegetables, and meat dishes. Made from freshly ground cumin, coriander, cardamom, cinnamon, and cloves.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Aids digestion</li>
+                                <li><i class="fas fa-check"></i> Anti-inflammatory properties</li>
+                                <li><i class="fas fa-check"></i> Enhances flavor naturally</li>
+                                <li><i class="fas fa-check"></i> Freshly ground daily</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Garam Masala Blend')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sambar Powder -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-spoon" style="font-size: 80px; color: #D32F2F;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Sambar Powder</h3>
+                        <p class="product-desc">Traditional South Indian spice blend perfect for sambar, vegetables, and dal preparations. A perfect harmony of fenugreek, chili, and coriander.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Authentic South Indian taste</li>
+                                <li><i class="fas fa-check"></i> Rich in antioxidants</li>
+                                <li><i class="fas fa-check"></i> Aids protein absorption</li>
+                                <li><i class="fas fa-check"></i> No additives added</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Sambar Powder')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rasam Powder -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-pepper-hot" style="font-size: 80px; color: #E53935;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Rasam Powder</h3>
+                        <p class="product-desc">Tangy and spicy powder for traditional rasam soup. Made with dried red chili, peppercorn, cumin, and fenugreek for authentic flavor.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Improves digestion</li>
+                                <li><i class="fas fa-check"></i> Metabolism booster</li>
+                                <li><i class="fas fa-check"></i> Antioxidant rich</li>
+                                <li><i class="fas fa-check"></i> Traditional Indian recipe</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Rasam Powder')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Curry Powder -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-flask-vial" style="font-size: 80px; color: #F57F17;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Curry Powder</h3>
+                        <p class="product-desc">Versatile blend suitable for curries, rice, and vegetable dishes. Perfect balance of turmeric, coriander, and fenugreek for rich flavor.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Turmeric anti-inflammatory</li>
+                                <li><i class="fas fa-check"></i> Perfect for everyday cooking</li>
+                                <li><i class="fas fa-check"></i> Natural color and flavor</li>
+                                <li><i class="fas fa-check"></i> Versatile use</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Curry Powder')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Biryani Masala -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-bowl-rice" style="font-size: 80px; color: #BF360C;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Biryani Masala</h3>
+                        <p class="product-desc">Premium blend for fragrant biryani preparation. Contains cardamom, cinnamon, bay leaves, and other premium spices for authentic taste.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Restaurant-quality flavor</li>
+                                <li><i class="fas fa-check"></i> Premium spice selection</li>
+                                <li><i class="fas fa-check"></i> Aromatic and fragrant</li>
+                                <li><i class="fas fa-check"></i> Perfect for special meals</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Biryani Masala')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Idly-Dosa Powder -->
+                <div class="product-card-detail">
+                    <div class="product-image-container">
+                        <i class="fas fa-drumstick-bite" style="font-size: 80px; color: #5D4037;"></i>
+                    </div>
+                    <div class="product-details">
+                        <h3>Idly-Dosa Powder</h3>
+                        <p class="product-desc">Ready-to-use powder for traditional South Indian breakfast. Perfect blend for authentic idly and dosa preparation.</p>
+                        <div class="benefits-list">
+                            <h5>Key Benefits:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Saves preparation time</li>
+                                <li><i class="fas fa-check"></i> Authentic South Indian taste</li>
+                                <li><i class="fas fa-check"></i> Perfect fermentation aid</li>
+                                <li><i class="fas fa-check"></i> Easy breakfast solution</li>
+                            </ul>
+                        </div>
+                        <button class="add-product-btn" onclick="addProduct('Idly-Dosa Powder')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spice Information -->
+    <section class="product-info-section">
+        <div class="container">
+            <h2 style="text-align: center; color: #1B5E20; margin-bottom: 50px;">Spice Categories</h2>
+            <div class="info-grid">
+                <div class="info-box">
+                    <i class="fas fa-fire"></i>
+                    <h3>Hot & Spicy</h3>
+                    <p>Red chili, black pepper, and cayenne for bold flavors and heat.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Aromatic Spices</h3>
+                    <p>Cardamom, cinnamon, clove for warming and aromatic dishes.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-sun"></i>
+                    <h3>Golden Spices</h3>
+                    <p>Turmeric and cumin for health benefits and natural color.</p>
+                </div>
+                <div class="info-box">
+                    <i class="fas fa-heart"></i>
+                    <h3>Medicinal Value</h3>
+                    <p>Each spice offers unique health and wellness benefits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Storage & Usage Tips -->
+    <section class="usage-section">
+        <div class="container">
+            <h2>Spice Storage & Usage Tips</h2>
+            <div class="usage-grid">
+                <div class="usage-card">
+                    <h4>🏺 Storage Tips</h4>
+                    <p>Store in airtight containers away from sunlight and heat. Keep in a cool, dry place for maximum shelf life (6-12 months).</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🔥 Enhancing Flavor</h4>
+                    <p>Toast spices lightly in a pan before use to release essential oils and enhance aroma.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>📊 Measurement Guide</h4>
+                    <p>1 teaspoon of masala per 4 servings is standard. Adjust according to taste preference.</p>
+                </div>
+                <div class="usage-card">
+                    <h4>🍽️ Versatile Use</h4>
+                    <p>Use for curries, rice, vegetables, soups, and marinades. Great for seasoning oils and dressings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌿 KCP ORGANICS</h3>
+                <p>Bringing nature's best to your table with 100% organic products.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📞 +91 98765 43210</p>
+                <p>📧 support@kcporganics.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KCP Organics. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function addProduct(productName) {
+            if (!localStorage.getItem('userName')) {
+                alert('Please login to add products to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = localStorage.getItem('userId') || 'guest';
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = {
+                productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                name: productName,
+                price: 199,
+                quantity: 1,
+                image: 'masala.png',
+                category: 'Masala & Spices'
+            };
+
+            const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+                    userId: userId,
+                    ...product
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('✅ ' + productName + ' added to cart!');
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const uid = localStorage.getItem('userId') || 'guest';
+            const total = cart.filter(i => (i.userId || 'guest') === uid).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            window.location.reload();
+        }
+
+        function toggleCart() {
+            window.location.href = 'cart.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userName').style.display = 'inline';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
+                document.getElementById('logoutLink').style.display = 'inline';
+            }
+        });
+    </script>
+</body>
+</html>

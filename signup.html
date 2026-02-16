@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign Up - KCP Organics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
@@ -20,40 +22,7 @@
             background-position: center;
             background-repeat: no-repeat;
             min-height: 100vh;
-            padding-top: 90px; /* give space for fixed navbar */
-        }
-
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: rgb(253, 250, 250);
-            height: 90px;
-            padding: 0 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 0; /* optional */
-            font-size: 18px;
-            z-index: 1000;
-        }
-
-        .navbar a {
-            text-decoration: none;
-            color: black;
-            font-weight: 600;
-        }
-
-        .logo img {
-            height: 65px;
-        }
-
-        .section1,
-        .section2 {
-            display: flex;
-            gap: 40px;
+            padding-top: 85px;
         }
 
         /* Back Button fixed below navbar */
@@ -284,11 +253,14 @@
                 if (response.ok) {
                     messageDiv.innerText = data.message + ' Redirecting...';
                     messageDiv.style.color = 'green';
-                    // Store user info and redirect
+                    // Store user info and token, then redirect
                     if (data.data) {
                         localStorage.setItem('userName', data.data.name);
                         localStorage.setItem('userId', data.data._id);
                         localStorage.setItem('userRole', data.data.role);
+                    }
+                    if (data.token) {
+                        localStorage.setItem('token', data.token);
                     }
                     form.reset();
                     setTimeout(() => {

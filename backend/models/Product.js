@@ -15,6 +15,17 @@ const productSchema = new mongoose.Schema({
     stock: { type: Number, default: 0, index: true },
     sku: { type: String, unique: true, sparse: true },
     
+    // Unit Information (for litre/kg pricing)
+    units: [
+        {
+            unit: { type: String, enum: ['kg', 'litre', 'ml', 'g', 'piece'], required: true },
+            quantity: { type: Number, required: true }, // e.g., 1 for 1kg, 500 for 500ml
+            price: { type: Number, required: true },
+            stock: { type: Number, default: 0 },
+            sku: String
+        }
+    ],
+    
     // Images & Media
     image: { type: String, default: 'product.jpg' },
     images: [{ type: String }], // multiple product images

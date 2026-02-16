@@ -1,9 +1,10 @@
 <html>
 <head>
   <title>KCP ORGANICS</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" type="text/css" href="home-enhancements.css">
+  <link rel="stylesheet" type="text/css" href="home-videos.css">
 </head>
 
 <body>
@@ -13,27 +14,28 @@
     </div>
     <div class="section1">
       <a href="home.html">Home</a>
-      <a href="#">About us</a>
+      <a href="about-us.html">About us</a>
       <a href="products.html">Products</a>
       <a href="contact.html">Contact us</a>
+      <a href="admin-dashboard.html">Admin</a>
+      <a href="track-order.html">Track Order</a>
     </div>
     <div class="section2" id="authSection">
-      <div class="navbar-cart" onclick="toggleCart()" style="position: relative; cursor: pointer; font-size: 24px; color: #dd610e; margin: 0 15px; display: inline-block;">
+      <div class="navbar-cart" onclick="toggleCart()">
         <i class="fas fa-shopping-cart"></i>
-        <span style="position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold;" id="cartBadge">0</span>
+        <span id="cartBadge">0</span>
       </div>
       <a href="login.html" id="loginLink">Login</a>
       <a href="signup.html" id="signupLink">Sign up</a>
-      <span id="userName" style="display: none; color: #2e7d32; font-weight: 600;"></span>
+      <span id="userName" style="display: none;"></span>
       <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
     </div>
   </nav>
   <video class="carousel-img" autoplay muted loop>
     <source src="From KlickPin CF rainy days di 2025 _ Hujan Belajar.mp4" type="video/mp4">
   </video>
-  <img src="carousel_img1.jpg" alt="carousel-img" class="carousel-img" />
-  <img src="carousel_img2.jpg" alt="carousel-img" class="carousel-img" />
-  <!-- img src="carousel_img3.png" alt="carousel-img" class="carousel-img" /> -->
+  <img src="carousel_img4.jpeg" alt="carousel-img" class="carousel-img" />
+  <img src="carrousel2.jpeg" alt="carousel-img" class="carousel-img" />
   <div class="carousel-text">
     <h1>Welcome to KCP Organics</h1>
     <p>மண்ணில் விளைந்தது, மனதில் கலந்தது.</p>
@@ -48,47 +50,145 @@
   <div class="slide-track">
 
     <!-- Products (1st set) -->
-    <a href="/rice" class="product-card">
+    <a href="rice-products.html" class="product-card">
       <img src="rice.png"height="80%" alt="Rice">
       <span>Organic Rice</span>
     </a>
-    <a href="/vegetables" class="product-card">
+    <a href="vegetables-products.html" class="product-card">
       <img src="vege.png"height="80%" alt="Vegetables">
       <span>Fresh Vegetables</span>
     </a>
-    <a href="honey_products.html" class="product-card">
+    <a href="honey-products-detailed.html" class="product-card">
       <img src="honey.png"height="80%" alt="Honey">
       <span>Natural Honey</span>
     </a>
-    <a href="/sweetener" class="product-card">
-      <img src="sweetener.png!bw700"height="80%" alt="Rice">
+    <a href="sweetener-products.html" class="product-card">
+      <img src="sweetener.png!bw700"height="80%" alt="Sweetener">
       <span>Sweetener</span>
     </a>
-    <a href="/oil" class="product-card">
+    <a href="oils-products.html" class="product-card">
       <img src="oil.png"height="80%" alt="Oil">
       <span>Oil Varieties</span>
+    </a>
+    <a href="#" class="product-card">
+      <img src="soap1.jpeg"height="80%" alt="Coming Soon">
+      <span>Soap Liquid</span>
     </a>
 
-    <!-- Same products repeated (2nd set for no gap) -->
-    <a href="/rice" class="product-card">
+    <a href="#" class="product-card">
+      <img src="millets.avif"height="80%" alt="Coming Soon">
+      <span>Millets</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="masala.png"height="80%" alt="Coming Soon">
+      <span>Spices</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="dhall.png"height="80%" alt="Coming Soon">
+      <span>Dhall varities</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="Podi-Varieties.webp"height="80%" alt="Coming Soon">
+      <span>Podi varities</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="pickle.jpg"height="80%" alt="Coming Soon">
+      <span>Pickle varities</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="snacks.jpeg"height="80%" alt="Coming Soon">
+      <span>Snacks varities</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="grocery.png"height="80%" alt="Coming Soon">
+      <span>Grocery items</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="fruits.png"height="80%" alt="Coming Soon">
+      <span>Fruits</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="keerai.jpeg"height="80%" alt="Coming Soon">
+      <span>Lettuce(Keerai)</span>
+    </a>
+
+    <!-- Duplicate products for seamless carousel loop (2nd set) -->
+    <a href="rice-products.html" class="product-card">
       <img src="rice.png"height="80%" alt="Rice">
       <span>Organic Rice</span>
     </a>
-    <a href="/vegetables" class="product-card">
+    <a href="vegetables-products.html" class="product-card">
       <img src="vege.png"height="80%" alt="Vegetables">
       <span>Fresh Vegetables</span>
     </a>
-    <a href="honey_products.html" class="product-card">
+    <a href="honey-products-detailed.html" class="product-card">
       <img src="honey.png"height="80%" alt="Honey">
       <span>Natural Honey</span>
     </a>
-    <a href="/sweetener" class="product-card">
-      <img src="sweetener.png!bw700"height="80%" alt="Rice">
+    <a href="sweetener-products.html" class="product-card">
+      <img src="sweetener.png!bw700"height="80%" alt="Sweetener">
       <span>Sweetener</span>
     </a>
-    <a href="/oil" class="product-card">
+    <a href="oils-products.html" class="product-card">
       <img src="oil.png"height="80%" alt="Oil">
       <span>Oil Varieties</span>
+    </a>
+    <a href="#" class="product-card">
+      <img src="soap1.jpeg"height="80%" alt="Coming Soon">
+      <span>Soap Liquid</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="millets.avif"height="80%" alt="Coming Soon">
+      <span>Millets</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="masala.png"height="80%" alt="Coming Soon">
+      <span>Spices</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="dhall.png"height="80%" alt="Coming Soon">
+      <span>Dhall varities</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="Podi-Varieties.webp"height="80%" alt="Coming Soon">
+      <span>Podi varities</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="pickle.jpg"height="80%" alt="Coming Soon">
+      <span>Pickle varities</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="snacks.jpeg"height="80%" alt="Coming Soon">
+      <span>Snacks varities</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="grocery.png"height="80%" alt="Coming Soon">
+      <span>Grocery items</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="fruits.png"height="80%" alt="Coming Soon">
+      <span>Fruits</span>
+    </a>
+
+    <a href="#" class="product-card">
+      <img src="keerai.jpeg"height="80%" alt="Coming Soon">
+      <span>Lettuce(Keerai)</span>
     </a>
 
   </div>
@@ -100,7 +200,6 @@
     <div class="section-header-products">
       <h2>🛒 Featured Products</h2>
       <p>Explore our latest organic products added by our team</p>
-      <a href="shop.html" class="view-all-btn">View All Products <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="dynamic-products-grid" id="dynamicProductsGrid">
       <div class="products-loading">
@@ -108,18 +207,43 @@
         <p>Loading products...</p>
       </div>
     </div>
+    <div class="view-more-products-container" id="viewMoreContainer" style="text-align: center; margin-top: 40px; display: none;">
+      <a href="products.html" class="view-more-btn" style="display: inline-block; padding: 14px 40px; background-color: #dd610e; color: white; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: 600; transition: all 0.3s ease; border: 2px solid #dd610e;">
+        View More Products <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+      </a>
+    </div>
   </div>
 </section>
 
 
 
-  <div class="mission-box">
-      <iframe src="vision.html" height="400" width="100%" frameborder="0"></iframe>
-  </div><br><br>
+  <!-- Mission & Vision Section -->
+  <section class="mission-vision-section">
+    <h2 class="mv-title">Mission & Vision of KCP Organics</h2>
+    <div class="mv-container">
+      <div class="mv-card">
+        <h3>🌱 Our Mission</h3>
+        <p>
+          KCP Organics is dedicated to practicing truly organic farming,
+          supporting trusted farmers, and delivering high-quality,
+          chemical-free fruits, vegetables, greens, and grocery products
+          that families can rely on every day.
+        </p>
+      </div>
+      <div class="mv-card">
+        <h3>🌍 Our Vision</h3>
+        <p>
+          To provide every home with fresh, wholesome, and truly organic
+          food that is healthy, safe, and chemical-free.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  <div class="shop-by-videos">
-      <iframe src="shop-by-videos.html" height="400" width="100%" frameborder="0"></iframe>
-  </div>
+  <!-- Shop by Videos Section -->
+  <!-- Shop by Videos section removed -->
+
+
 
   <!-- ========== ORGANIC BENEFITS SECTION ========== -->
   <section class="organic-info-section">
@@ -191,7 +315,7 @@
   </section>
 
   <!-- ========== CERTIFICATIONS SECTION ========== -->
-  <section class="certifications-section">
+  <!-- <section class="certifications-section">
     <div class="organic-container">
       <h2>🏆 Our Certifications & Promises</h2>
       <p class="certification-intro">Trusted quality backed by recognized certifications</p>
@@ -218,7 +342,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- ========== CUSTOMER REVIEWS SECTION ========== -->
   <section class="reviews-section">
@@ -412,9 +536,8 @@
         </div>
         <p>Bringing nature's best to your table. We are committed to providing 100% organic, chemical-free products directly from trusted farmers to your home.</p>
         <div class="social-links">
-          <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.facebook.com/share/17etRdJUJX/" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/kcp_organic?igsh=MW9sdmxibjF4c2ozeQ==" title="Instagram"><i class="fab fa-instagram"></i></a>  
           <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
           <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
@@ -451,11 +574,11 @@
           </li>
           <li>
             <i class="fas fa-phone"></i>
-            <span>+91 98765 43210</span>
+            <span>+91 8883566777</span>
           </li>
           <li>
             <i class="fas fa-envelope"></i>
-            <span>support@kcporganics.com</span>
+            <span>kcporganicsonlinestore@gmail.com</span>
           </li>
         </ul>
       </div>
@@ -500,6 +623,29 @@
   <script>
     let currentIndex = 0;
     const images = document.querySelectorAll('.carousel-img');
+
+    // Cache-bust carousel media (images and videos) so updated files are fetched
+    images.forEach(el => {
+      try {
+        const ts = Date.now();
+        if (el.tagName === 'IMG') {
+          el.src = el.src.split('?')[0] + '?v=' + ts;
+        } else if (el.tagName === 'VIDEO') {
+          // update <source> elements inside video and reload
+          const srcEl = el.querySelector('source');
+          if (srcEl && srcEl.src) {
+            srcEl.src = srcEl.src.split('?')[0] + '?v=' + ts;
+            // reload video to pick up new source
+            try { el.load(); } catch (e) { /* ignore */ }
+          } else if (el.src) {
+            el.src = el.src.split('?')[0] + '?v=' + ts;
+            try { el.load(); } catch (e) { /* ignore */ }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to cache-bust carousel media', e);
+      }
+    });
 
     function showSlide(index) {
       images.forEach((img, i) => {
@@ -771,65 +917,114 @@
       if (e.key === 'Enter') sendMessage();
     });
 
+    // ========== HARDCODED PRODUCTS FOR HOME PAGE ==========
+    const homePageProducts = [
+      {
+        _id: '1',
+        name: 'Organic Basmati Rice',
+        category: 'Rice',
+        description: 'Premium quality long-grain basmati rice, naturally aged and fragrant.',
+        image: 'rice.png'
+      },
+      {
+        _id: '2',
+        name: 'Fresh Organic Vegetables',
+        category: 'Vegetables',
+        description: 'Handpicked fresh vegetables directly from organic farms. Pesticide-free.',
+        image: 'vege.png'
+      },
+      {
+        _id: '3',
+        name: 'Pure Organic Honey',
+        category: 'Honey',
+        description: 'Raw, unfiltered honey from organic beehives. Rich in antioxidants.',
+        image: 'honey.png'
+      },
+      {
+        _id: '4',
+        name: 'Natural Coconut Oil',
+        category: 'Oil',
+        description: 'Cold-pressed virgin coconut oil. Great for cooking and skincare.',
+        image: 'oil.png'
+      },
+      {
+        _id: '5',
+        name: 'Organic Spice Mix',
+        category: 'Spices',
+        description: 'Freshly ground blend of organic spices without preservatives.',
+        image: 'masala.png'
+      },
+      {
+        _id: '6',
+        name: 'Premium Organic Lentils',
+        category: 'Lentils',
+        description: 'High-protein organic lentils for healthy meals and nutrition.',
+        image: 'dhall.png'
+      },
+      {
+        _id: '7',
+        name: 'Organic Millets',
+        category: 'Grains',
+        description: 'Nutritious whole grain millets with high fiber content.',
+        image: 'millets.avif'
+      },
+      {
+        _id: '8',
+        name: 'Grocery items',
+        category: 'Grocery',
+        description: 'Weekly bundle of assorted fresh organic vegetables. Packed with vitamins and natural goodness.',
+        price: 350,
+        originalPrice: 500,
+        image: 'grocery.png',
+        discount: 30,
+        averageRating: 4.9,
+        totalReviews: 95
+      }
+    ];
+
     // ========== LOAD DYNAMIC PRODUCTS ==========
     async function loadDynamicProducts() {
       const container = document.getElementById('dynamicProductsGrid');
+      const viewMoreContainer = document.getElementById('viewMoreContainer');
       
-      try {
-        const response = await fetch('http://localhost:5000/api/products?limit=8');
-        const data = await response.json();
+      // Always display the 8 hardcoded products on home page
+      displayHomeProducts(homePageProducts);
+      viewMoreContainer.style.display = 'block';
+    }
 
-        if (!data.success || !data.data || data.data.length === 0) {
-          container.innerHTML = `
-            <div class="no-products-message">
-              <i class="fas fa-box-open"></i>
-              <p>No products available yet. Check back soon!</p>
-              <a href="shop.html" class="shop-btn">Browse All Products</a>
-            </div>
-          `;
-          return;
-        }
-
-        container.innerHTML = data.data.map(product => `
-          <div class="dynamic-product-card" onclick="window.location.href='product-details.html?id=${product._id}'">
-            <div class="product-image-wrapper">
-              <img src="${getProductImageUrl(product.image)}" alt="${escapeHtmlHome(product.name)}" onerror="this.src='https://via.placeholder.com/250x250?text=Product'">
-              ${product.discount > 0 ? `<span class="discount-badge">-${product.discount}%</span>` : ''}
-            </div>
-            <div class="product-info-home">
-              <h3>${escapeHtmlHome(product.name)}</h3>
-              <p class="product-category-home">${product.category}</p>
-              <div class="product-rating-home">
-                ${generateStarsHome(product.averageRating || 0)}
-                <span>(${product.totalReviews || 0} reviews)</span>
-              </div>
-              <div class="product-price-home">
-                <span class="current-price-home">₹${product.price.toFixed(2)}</span>
-                ${product.originalPrice && product.originalPrice > product.price ? 
-                  `<span class="original-price-home">₹${product.originalPrice.toFixed(2)}</span>` : ''}
-              </div>
-              <button class="add-to-cart-home" onclick="event.stopPropagation(); addToCartHome('${product._id}', '${escapeHtmlHome(product.name)}', ${product.price}, '${product.image || 'https://via.placeholder.com/200x200?text=Product'}')">
-                <i class="fas fa-shopping-cart"></i> Add to Cart
-              </button>
-            </div>
-          </div>
-        `).join('');
-        
-      } catch (error) {
-        console.error('Error loading products:', error);
+    function displayHomeProducts(products) {
+      const container = document.getElementById('dynamicProductsGrid');
+      
+      if (!products || products.length === 0) {
         container.innerHTML = `
           <div class="no-products-message">
-            <i class="fas fa-exclamation-triangle"></i>
-            <p>Error loading products. Please try again later.</p>
+            <i class="fas fa-box-open"></i>
+            <p>No products available yet. Check back soon!</p>
+            <a href="products.html" class="shop-btn">Browse All Products</a>
           </div>
         `;
+        return;
       }
+
+      container.innerHTML = products.map(product => `
+        <div class="dynamic-product-card" onclick="window.location.href='products.html'">
+          <div class="product-image-wrapper">
+            <img src="${getProductImageUrl(product.image)}" alt="${escapeHtmlHome(product.name)}" onerror="this.src='https://via.placeholder.com/250x250?text=Product'">
+          </div>
+          <div class="product-info-home">
+            <h3>${escapeHtmlHome(product.name)}</h3>
+            <p class="product-category-home">${product.category}</p>
+            <p class="product-description-home">${escapeHtmlHome(product.description)}</p>
+          </div>
+        </div>
+      `).join('');
     }
 
     function getProductImageUrl(imagePath) {
       if (!imagePath) return 'https://via.placeholder.com/250x250?text=Product';
       if (imagePath.startsWith('http')) return imagePath;
       if (imagePath.startsWith('/uploads')) return `http://localhost:5000${imagePath}`;
+
       if (imagePath === 'product.jpg') return 'https://via.placeholder.com/250x250?text=Product';
       return imagePath;
     }
@@ -866,22 +1061,26 @@
         setTimeout(() => window.location.href = 'login.html', 1500);
         return;
       }
-
+      const userId = localStorage.getItem('userId') || 'guest';
+      // keep a global cart array but tag items per user
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const existingItem = cart.find(item => item.productId === productId);
+      let existingItem = cart.find(item => item.productId === productId && (item.userId || 'guest') === userId);
 
       if (existingItem) {
         existingItem.quantity += 1;
         showToastHome('✓ Product quantity updated in cart');
       } else {
-        cart.push({
+        const cartItem = {
+          cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+          userId: userId,
           productId: productId,
           name: productName,
           price: price,
           quantity: 1,
           image: image,
           variants: {}
-        });
+        };
+        cart.push(cartItem);
         showToastHome('✓ Product added to cart');
       }
 
@@ -917,9 +1116,33 @@
 
     // Load products on page load
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('🌿 KCP Organics Home - Initializing...');
+      
       loadDynamicProducts();
       checkUserSession();
       updateCartBadge();
+      
+      // Check API connection first, then load videos
+      checkApiConnection().then((isConnected) => {
+        if (isConnected) {
+          setTimeout(() => {
+            console.log('Loading videos...');
+            loadVideos();
+          }, 100);
+        } else {
+          console.warn('Skipping video load - API not available');
+          const container = document.getElementById('videoGrid');
+          if (container) {
+            container.innerHTML = `
+              <div class="no-videos" style="grid-column: 1 / -1; padding: 40px; text-align: center;">
+                <i class="fas fa-server" style="font-size: 50px; margin-bottom: 15px; opacity: 0.5;"></i>
+                <p><strong>Backend Server Not Running</strong></p>
+                <p style="font-size: 12px; color: #999; margin-top: 10px;">Start the backend server with: <code>npm start</code> in the backend folder</p>
+              </div>
+            `;
+          }
+        }
+      });
     });
 
     // Check if user is logged in
@@ -946,21 +1169,46 @@
     }
 
     // Update cart badge
-    function updateCartBadge() {
+    function getCurrentUserIdHome() {
+      return localStorage.getItem('userId') || 'guest';
+    }
+
+    function getAllCartItemsHome() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      const badge = document.getElementById('cartBadge');
-      if (badge) {
-        badge.textContent = totalItems;
+      let changed = false;
+      for (const item of cart) {
+        if (!item.cartItemId) {
+          item.cartItemId = 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+          changed = true;
+        }
       }
+      if (changed) localStorage.setItem('cart', JSON.stringify(cart));
+      return cart;
+    }
+
+    function getUserCartItemsHome() {
+      const uid = getCurrentUserIdHome();
+      const all = getAllCartItemsHome();
+      if (uid === 'guest') return all.filter(i => !i.userId || i.userId === 'guest');
+      return all.filter(i => i.userId === uid);
+    }
+
+    function updateCartBadge() {
+      const cart = getUserCartItemsHome();
+      const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) badge.textContent = totalItems;
     }
 
     // Cart Modal Functions
     function toggleCart() {
         window.location.href = 'cart.html';
     }
+
+    // Shop by Videos functionality removed from homepage
   </script>
 
+  <script src="home.js"></script>
 </body>
 
 </html>

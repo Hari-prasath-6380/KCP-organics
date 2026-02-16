@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
-const { sendOrderDetailedSMS, sendOrderWhatsApp, sendOrderTelegram } = require('../services/notificationService');
+const { sendOrderTelegram } = require('../services/notificationService');
 
 // Get order count - MUST come before /:id route
 router.get('/count/pending', async (req, res) => {
@@ -173,26 +173,13 @@ router.post('/', async (req, res) => {
         // Send notifications asynchronously (don't wait for them)
         setImmediate(async () => {
             try {
-                console.log('[POST /api/orders] Starting notifications...');
-                
-                // Send detailed SMS with product information
-                console.log('[POST /api/orders] Sending SMS...');
-                await sendOrderDetailedSMS(phone, orderDetails);
-                console.log('[POST /api/orders] SMS sent');
-                
-                // Send WhatsApp notification with product information
-                console.log('[POST /api/orders] Sending WhatsApp...');
-                await sendOrderWhatsApp(phone, orderDetails);
-                console.log('[POST /api/orders] WhatsApp sent');
+                console.log('[POST /api/orders] Starting Telegram notification...');
                 
                 // Send Telegram notification (FREE) to admin
-                console.log('[POST /api/orders] Sending Telegram notification...');
                 await sendOrderTelegram(orderDetails);
-                console.log('[POST /api/orders] Telegram notification sent');
-                
-                console.log('[POST /api/orders] ✅ All notifications sent successfully');
+                console.log('[POST /api/orders] ✅ Telegram notification sent successfully');
             } catch (error) {
-                console.error('[POST /api/orders] ❌ Notification error:', error.message);
+                console.error('[POST /api/orders] ❌ Telegram notification error:', error.message);
             }
         });
 
