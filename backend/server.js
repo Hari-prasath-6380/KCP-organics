@@ -98,20 +98,21 @@ app.get("/health", (req, res) => {
 // ================= SERVE FRONTEND =================
 
 // serve static files from public folder
-app.use(express.static(path.join(__dirname, "public")));
+const rootPath = path.join(__dirname, "..");
+
+// serve css, js, images from root folder
+app.use(express.static(rootPath));
 
 // homepage
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend", "home.html"));
+  res.sendFile(path.join(rootPath, "home.html"));
 });
 
-// handle all non-API routes (for pages)
-// handle all frontend routes except API
+// all non-API routes → open website
 app.use((req, res, next) => {
   if (req.path.startsWith("/api")) return next();
-  res.sendFile(path.join(__dirname, "../frontend", "home.html"));
+  res.sendFile(path.join(rootPath, "home.html"));
 });
-
 
 // ================= ERROR HANDLER =================
 app.use((err, req, res, next) => {
