@@ -106,10 +106,12 @@ app.get("/", (req, res) => {
 });
 
 // handle all non-API routes (for pages)
-app.get("*", (req, res, next) => {
+// handle all frontend routes except API
+app.use((req, res, next) => {
   if (req.path.startsWith("/api")) return next();
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 
 // ================= ERROR HANDLER =================
 app.use((err, req, res, next) => {
@@ -118,9 +120,10 @@ app.use((err, req, res, next) => {
 });
 
 // ================= API 404 ONLY =================
-app.use("/api/*", (req, res) => {
+app.use("/api", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
+
 
 // ================= START SERVER =================
 const PORT = process.env.PORT || 5000;
