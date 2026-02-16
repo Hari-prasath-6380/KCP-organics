@@ -102,14 +102,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // homepage
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "home.html"));
 });
 
 // handle all non-API routes (for pages)
 // handle all frontend routes except API
 app.use((req, res, next) => {
   if (req.path.startsWith("/api")) return next();
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "home.html"));
 });
 
 
