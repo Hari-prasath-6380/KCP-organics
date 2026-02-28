@@ -388,3 +388,92 @@ body{
     height: 60% !important;
   }
 }
+
+/* Mobile navbar toggle */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+}
+.nav-toggle .hamburger,
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+  display: block;
+  background: #166534;
+  height: 3px;
+  width: 24px;
+  border-radius: 3px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+  content: '';
+  display: block;
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    height: 64px;
+    padding: 0 16px;
+  }
+  .logo img { height: 48px; }
+  .section1 { display: none; }
+  .section2 { display: none; }
+  .nav-toggle { display: flex; }
+
+  /* Mobile menu (visible when active) */
+  .mobile-menu {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    padding: 12px 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 999;
+  }
+
+  .mobile-menu a {
+    color: #333;
+    text-decoration: none;
+    padding: 10px 8px;
+    border-radius: 8px;
+  }
+
+  .mobile-menu.show { display: flex; }
+}
+
+/* Make images and videos fluid */
+img, video { max-width: 100%; height: auto; }
+
+
+/* Additional mobile polish */
+@media (max-width: 600px) {
+  .carousel-text h1 { font-size: 28px; }
+  .carousel-text p { font-size: 18px; }
+  .carousel { height: auto; }
+  .video-wrapper video { width: 100%; border-radius: 12px; }
+  .organic-container { padding: 0 16px; }
+  .poster-text h2 { font-size: 20px; }
+  .poster-btn { padding: 10px 18px; font-size: 14px; }
+  .mv-container { grid-template-columns: 1fr; }
+  .reviews-grid, .benefit-card { margin-bottom: 16px; }
+  .product-card { border-radius: 12px; padding: 8px; }
+}
+
+@media (max-width: 420px) {
+  .navbar { height: 56px; padding: 0 12px; }
+  .logo img { height: 40px; }
+  .carousel-text h1 { font-size: 22px; }
+  .carousel-text p { font-size: 16px; }
+}
+
