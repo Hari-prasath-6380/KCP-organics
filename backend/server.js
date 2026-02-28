@@ -16,9 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ================= DATABASE =================
+const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/kcp_organics';
 mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
+  .connect(mongoUri)
+  .then(() => console.log("✅ MongoDB connected", mongoUri))
   .catch((err) => console.log("❌ MongoDB error:", err));
 
 // ================= MODELS =================
