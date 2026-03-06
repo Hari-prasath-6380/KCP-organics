@@ -1,0 +1,85 @@
+[{
+  "_id": {
+    "$oid": "6970e5ab3e48191f4d2248c2"
+  },
+  "reviewerName": "Test User",
+  "rating": 5,
+  "title": "Great Product",
+  "comment": "Really good organic honey!",
+  "verified": false,
+  "helpful": 0,
+  "unhelpful": 0,
+  "createdAt": {
+    "$date": "2026-01-21T14:41:47.328Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-21T14:41:47.328Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6976fbcd29ec3013dd478441"
+  },
+  "userId": {
+    "$oid": "6963b8c26ae775ecf340e385"
+  },
+  "reviewerName": "Testing",
+  "rating": 4,
+  "title": "Oil Varieties",
+  "comment": "ftyj",
+  "verified": false,
+  "helpful": 0,
+  "unhelpful": 0,
+  "createdAt": {
+    "$date": "2026-01-26T05:29:49.140Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-26T05:29:49.140Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "697f5c253e1436b0548262ee"
+  },
+  "productId": {
+    "$oid": "697788c7c2a4e0a3861ca8fb"
+  },
+  "reviewerName": "Anonymous",
+  "rating": 5,
+  "title": "Great!",
+  "comment": "Very nice product",
+  "verified": false,
+  "helpful": 0,
+  "unhelpful": 0,
+  "createdAt": {
+    "$date": "2026-02-01T13:59:01.397Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-01T13:59:01.397Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "697f5fb68798926669538b86"
+  },
+  "userId": {
+    "$oid": "6963b8c26ae775ecf340e385"
+  },
+  "reviewerName": "Hari ",
+  "rating": 5,
+  "title": "Fresh Vegetables",
+  "comment": "feff",
+  "verified": false,
+  "helpful": 0,
+  "unhelpful": 0,
+  "createdAt": {
+    "$date": "2026-02-01T14:14:14.303Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-01T14:14:14.303Z"
+  },
+  "__v": 0
+}]

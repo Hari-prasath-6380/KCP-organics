@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupProductForm();
     setupUserForm();
     setupImageUpload();
+    setupDocxImport();
     initializeAnalytics();
     loadReviewsBadge();
     loadVideosBadge();
@@ -284,6 +285,71 @@ function setupImageUpload() {
             handleImageSelect();
         }
     });
+}
+
+// ===== DOCX IMPORT =====
+function setupDocxImport() {
+    const importBtn = document.getElementById('importDocxBtn');
+    const fileInput = document.getElementById('docxInput');
+    if (!importBtn || !fileInput) return;
+
+    importBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        // Basic validation
+        if (!file.name.toLowerCase().endsWith('.docx')) {
+            alert('Please select a .docx Word document');
+            fileInput.value = '';
+            return;
+        }
+
+        // Confirm action
+        if (!confirm('Import products from this Word document? The file will be parsed and products created.')) {
+            fileInput.value = '';
+            return;
+        }
+
+        try {
+            importBtn.disabled = true;
+            importBtn.textContent = 'Importing...';
+            const result = await uploadDocx(file);
+            if (result && result.success) {
+                alert(`Import complete. Created ${result.created || result.createdCount || 0} products.`);
+                loadProducts();
+            } else {
+                alert('Import finished with errors: ' + (result.message || JSON.stringify(result.errors || result)));
+            }
+        } catch (err) {
+            console.error('Error importing docx:', err);
+            alert('Error importing document: ' + err.message);
+        } finally {
+            importBtn.disabled = false;
+            importBtn.textContent = 'Import from Word';
+            fileInput.value = '';
+        }
+    });
+}
+
+async function uploadDocx(file) {
+    const formData = new FormData();
+    formData.append('docx', file);
+
+    const res = await fetch(`${API_URL}/uploads/upload-docx`, {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`HTTP ${res.status}: ${text}`);
+    }
+
+    return res.json();
 }
 
 async function handleImageSelect() {

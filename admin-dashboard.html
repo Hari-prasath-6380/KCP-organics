@@ -75,7 +75,7 @@
                 <div class="header-right">
                     <div class="user-profile">
                         <span id="adminName">Admin</span>
-                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <img src="logo_final.png" height="150" width="150" alt="Profile">
                     </div>
                 </div>
             </header>
@@ -172,9 +172,15 @@
                 <section id="products" class="section-content">
                     <div class="section-header">
                         <h2>Product Management</h2>
-                        <button class="btn btn-primary" onclick="openProductModal()">
-                            <i class="fas fa-plus"></i> Add Product
-                        </button>
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn btn-primary" onclick="openProductModal()">
+                                <i class="fas fa-plus"></i> Add Product
+                            </button>
+                            <button class="btn btn-secondary" id="importDocxBtn">
+                                <i class="fas fa-file-word"></i> Import from Word
+                            </button>
+                            <input type="file" id="docxInput" accept=".docx" style="display:none">
+                        </div>
                     </div>
                     <div id="productsContainer" style="background: white; border-radius: 8px; padding: 20px;">
                         <div id="productsTableContent">Loading...</div>

@@ -1,0 +1,230 @@
+[{
+  "_id": {
+    "$oid": "6963b8c26ae775ecf340e385"
+  },
+  "name": "HARI PRASATH G",
+  "email": "hari@gmail.com",
+  "number": "6380442089",
+  "password": "1234",
+  "role": "Farmer",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6963bb2293d69f2981c23c41"
+  },
+  "name": "Thirumoorthy",
+  "email": "thiru@gmail.com",
+  "number": "456785215",
+  "password": "1234",
+  "role": "Farmer",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6968774d4d7f451bf7b7b565"
+  },
+  "name": "KCP",
+  "email": "kcp@gmail.com",
+  "number": "123456789",
+  "password": "1234",
+  "role": "Farmer",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696b28b36b0fc7cba0b3a46f"
+  },
+  "name": "KCP Prganics",
+  "email": "kcp_organics@gmail.com",
+  "number": 1234567895,
+  "password": "1234",
+  "role": "Citizen",
+  "createdAt": {
+    "$date": "2026-01-17T06:14:11.859Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-17T06:14:11.859Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6970dbe5c4dbf31b9350cfc9"
+  },
+  "name": "HARI PRASATH GUNASEKARAN",
+  "email": "user@gmail.com",
+  "number": 6380442089,
+  "password": "12345",
+  "role": "citizen",
+  "profileImage": null,
+  "bio": "",
+  "isEmailVerified": false,
+  "preferences": {
+    "newsletter": true,
+    "notifications": true,
+    "smsNotifications": false
+  },
+  "totalOrders": 0,
+  "totalSpent": 0,
+  "isActive": true,
+  "isBanned": false,
+  "addresses": [],
+  "createdAt": {
+    "$date": "2026-01-21T14:00:05.529Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-21T14:00:05.529Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6973850d9829747a915633b5"
+  },
+  "name": "Thirumoorthy",
+  "email": "thirumoorthy@gmail.com",
+  "number": 1234567895,
+  "password": "1234",
+  "role": "farmer",
+  "profileImage": null,
+  "bio": "",
+  "isEmailVerified": false,
+  "preferences": {
+    "newsletter": true,
+    "notifications": true,
+    "smsNotifications": false
+  },
+  "totalOrders": 0,
+  "totalSpent": 0,
+  "isActive": true,
+  "isBanned": false,
+  "addresses": [],
+  "createdAt": {
+    "$date": "2026-01-23T14:26:21.614Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-23T14:26:21.614Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6976ef4355ca9296c9294583"
+  },
+  "name": "Testing",
+  "email": "test@gmail.com",
+  "number": 1234567895,
+  "password": "1234",
+  "role": "citizen",
+  "profileImage": null,
+  "bio": "",
+  "isEmailVerified": false,
+  "preferences": {
+    "newsletter": true,
+    "notifications": true,
+    "smsNotifications": false
+  },
+  "totalOrders": 0,
+  "totalSpent": 0,
+  "isActive": true,
+  "isBanned": false,
+  "addresses": [],
+  "createdAt": {
+    "$date": "2026-01-26T04:36:19.846Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-26T04:36:19.846Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698b42680b9d560c547e2914"
+  },
+  "name": "Demo user",
+  "email": "demo@gmail.com",
+  "number": 1234567895,
+  "password": "1234",
+  "role": "farmer",
+  "profileImage": null,
+  "bio": "",
+  "isEmailVerified": false,
+  "preferences": {
+    "newsletter": true,
+    "notifications": true,
+    "smsNotifications": false
+  },
+  "totalOrders": 0,
+  "totalSpent": 0,
+  "isActive": true,
+  "isBanned": false,
+  "addresses": [],
+  "createdAt": {
+    "$date": "2026-02-10T14:36:24.991Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-10T14:36:24.991Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698f30ede9ff0ba8d652da47"
+  },
+  "name": "guna",
+  "email": "guna@gmail.com",
+  "number": 6382721995,
+  "password": "1234",
+  "role": "citizen",
+  "profileImage": null,
+  "bio": "",
+  "isEmailVerified": false,
+  "preferences": {
+    "newsletter": true,
+    "notifications": true,
+    "smsNotifications": false
+  },
+  "totalOrders": 0,
+  "totalSpent": 0,
+  "isActive": true,
+  "isBanned": false,
+  "addresses": [],
+  "createdAt": {
+    "$date": "2026-02-13T14:10:53.543Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-13T14:10:53.543Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a2b512d4e81e3458bdd2ac"
+  },
+  "name": "Thirumoorthy",
+  "email": "thiruk@gmail.com",
+  "number": 123456789,
+  "password": "1234",
+  "role": "farmer",
+  "profileImage": null,
+  "bio": "",
+  "isEmailVerified": false,
+  "preferences": {
+    "newsletter": true,
+    "notifications": true,
+    "smsNotifications": false
+  },
+  "totalOrders": 0,
+  "totalSpent": 0,
+  "isActive": true,
+  "isBanned": false,
+  "addresses": [],
+  "createdAt": {
+    "$date": "2026-02-28T09:27:46.276Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-28T09:27:46.276Z"
+  },
+  "__v": 0
+}]

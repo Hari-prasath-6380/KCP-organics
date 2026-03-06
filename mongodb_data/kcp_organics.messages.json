@@ -1,0 +1,342 @@
+[{
+  "_id": {
+    "$oid": "696f92b6e1449ed9e2442948"
+  },
+  "name": "Test User",
+  "email": "test@example.com",
+  "subject": "Product Inquiry",
+  "message": "This is a test message to verify the API works.",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-01-20T14:35:34.493Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-20T14:38:11.084Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696f93665269a8a45bd77f66"
+  },
+  "name": "Hari",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Order Status",
+  "message": "hii",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-01-20T14:38:30.085Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-20T14:38:55.515Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696f957bd95113a6e7e539b1"
+  },
+  "name": "Hari",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Bulk Order",
+  "message": "Hello",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-01-20T14:47:23.802Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-21T14:16:20.056Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696f95b7d95113a6e7e539e5"
+  },
+  "name": "Hari",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Partnership",
+  "message": "hello",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-01-20T14:48:23.255Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-07T16:55:58.827Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696f9679d95113a6e7e53aa7"
+  },
+  "name": "Chat User",
+  "email": "chat@kcporganics.com",
+  "subject": "Live Chat Message",
+  "message": "I need to  purchase a natural product",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-01-20T14:51:37.675Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-21T14:01:16.082Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696f968cd95113a6e7e53aa9"
+  },
+  "name": "Chat User",
+  "email": "chat@kcporganics.com",
+  "subject": "Live Chat Message",
+  "message": "What type of products available",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-01-20T14:51:56.866Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-23T14:37:17.732Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6976fbf229ec3013dd478499"
+  },
+  "name": "Testing",
+  "email": "test@gmail.com",
+  "subject": "Product Inquiry",
+  "message": "ftyuhjio",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-01-26T05:30:26.866Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-29T10:36:35.156Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "697f5cbc3e1436b05482631f"
+  },
+  "name": "ed3ed",
+  "email": "2rf2qr@gmail.com",
+  "subject": "Order Status",
+  "message": "d2rd2qr",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-01T14:01:32.198Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-01T14:03:26.451Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "697f5d063e1436b05482636b"
+  },
+  "name": "Hari",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Bulk Order",
+  "message": "ef2ef",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-01T14:02:46.628Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-01T14:03:21.243Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "697f5fc28798926669538b88"
+  },
+  "name": "Hari",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Order Status",
+  "message": "serfw",
+  "status": "unread",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-01T14:14:26.761Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-01T14:14:26.761Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "697f6805f4688118966cdaac"
+  },
+  "name": "afa",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Order Status",
+  "message": "dafa",
+  "status": "unread",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-01T14:49:41.329Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-01T14:49:41.329Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6982072e3489470e643d0546"
+  },
+  "name": "Chat User",
+  "email": "chat@kcporganics.com",
+  "subject": "Live Chat Message",
+  "message": "Hello",
+  "status": "unread",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-03T14:33:18.467Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-03T14:33:18.467Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6982073f3489470e643d0548"
+  },
+  "name": "Chat User",
+  "email": "chat@kcporganics.com",
+  "subject": "Live Chat Message",
+  "message": "How much price",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-03T14:33:35.414Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-07T15:02:08.972Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698208e73489470e643d0550"
+  },
+  "name": "Chat User",
+  "email": "chat@kcporganics.com",
+  "subject": "Live Chat Message",
+  "message": "Hii",
+  "status": "unread",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-03T14:40:39.036Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-03T14:40:39.036Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698209063489470e643d0558"
+  },
+  "name": "Chat User",
+  "email": "chat@kcporganics.com",
+  "subject": "Live Chat Message",
+  "message": "Jii",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-03T14:41:10.674Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-07T15:02:03.735Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698752f518527a9ba54f691e"
+  },
+  "name": "Hari",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Feedback",
+  "message": "Good",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-07T14:57:57.025Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-07T14:58:17.641Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698780830418b92926e7d9b7"
+  },
+  "name": "Hari",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Partnership",
+  "message": "VBZ",
+  "status": "read",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-07T18:12:19.814Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T08:54:11.881Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a2b544d4e81e3458bdd356"
+  },
+  "name": "Thirumoorthy",
+  "email": "thirumoorthy@gmail.com",
+  "subject": "Product feedback",
+  "message": "Your product was very good and natural.",
+  "status": "unread",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-28T09:28:36.339Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-28T09:28:36.339Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a2b555d4e81e3458bdd358"
+  },
+  "name": "HARI PRASATH G",
+  "email": "hariprasathg6380@gmail.com",
+  "subject": "Product feedback",
+  "message": "Hello",
+  "status": "unread",
+  "reply": "",
+  "createdAt": {
+    "$date": "2026-02-28T09:28:53.994Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-28T09:28:53.994Z"
+  },
+  "__v": 0
+}]

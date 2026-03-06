@@ -417,6 +417,10 @@ body{
   margin-top: 6px;
 }
 
+.mobile-menu{
+  display: none;
+}
+
 @media (max-width: 768px) {
   .navbar {
     height: 64px;
@@ -431,6 +435,7 @@ body{
   .mobile-menu {
     position: absolute;
     top: 64px;
+    /* display: block; */
     left: 0;
     right: 0;
     background: #ffffff;

@@ -1,0 +1,499 @@
+[{
+  "_id": {
+    "$oid": "698f419a5d5219836433d757"
+  },
+  "name": "Murugai Honey",
+  "slug": "murugai-honey",
+  "description": "Overview:\nMurugai Honey is sourced from the nectar of Murugai  flowers, giving it a unique flavor and medicinal properties. At KCP Organics, this honey is harvested using organic, chemical-free methods, preserving its natural goodness and therapeutic benefits.\n\nHealth Benefits:\nMurugai Honey is known for its immune-boosting properties. It is also antibacterial and anti-inflammatory, supporting digestive health, skin care, and overall wellness. Regular use can help alleviate cold symptoms and maintain a healthy body naturally.\n\n\nUses:\nEnjoy it as a sweetener for tea and beverages, mix in smoothies, or use in Ayurvedic remedies. Its distinct flavor also enhances marinades and healthy desserts.\n\nWhy KCP Organics:\nOur Murugai Honey is 100% natural and raw, sourced from trusted organic locations, ensuring purity, freshness, and maximum nutrient retention.",
+  "shortDescription": "Overview:\nMurugai Honey is sourced from the nectar of Murugai  flowers, giving it a unique flavor and medicinal properties. At KCP Organics, this honey is harvested using organic, chemical-free method",
+  "price": 325,
+  "originalPrice": 325,
+  "discount": 0,
+  "stock": 0,
+  "units": [
+    {
+      "unit": "ml",
+      "quantity": 250,
+      "price": 325,
+      "stock": 0,
+      "_id": {
+        "$oid": "698f419a5d5219836433d758"
+      }
+    },
+    {
+      "unit": "ml",
+      "quantity": 500,
+      "price": 650,
+      "stock": 0,
+      "_id": {
+        "$oid": "698f419a5d5219836433d759"
+      }
+    }
+  ],
+  "image": "/uploads/products/murungai_honey-1770996120904-383137750.webp",
+  "images": [],
+  "category": "Honey",
+  "tags": [],
+  "variants": [],
+  "attributes": {
+    "organic": true,
+    "glutenFree": false,
+    "vegan": false,
+    "nonGMO": true
+  },
+  "averageRating": 0,
+  "totalReviews": 0,
+  "ratingBreakdown": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "metaTitle": "Murugai Honey",
+  "metaKeywords": [],
+  "views": 0,
+  "sales": 0,
+  "wishlistCount": 0,
+  "isActive": true,
+  "isFeatured": false,
+  "isOnSale": false,
+  "createdAt": {
+    "$date": "2026-02-13T15:22:02.577Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-13T15:22:02.577Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698f42355d5219836433dad8"
+  },
+  "name": "Multi Flower Honey",
+  "slug": "multi-flower-honey",
+  "description": "Overview: \nKCP Organics Multi-Flower Honey is harvested from a variety of blossoms, resulting in a rich, balanced, and naturally sweet honey. Grown in pristine organic environments, it is completely chemical-free and unprocessed, retaining its natural flavour and nutrients.\n\nHealth Benefits:\nThis honey is packed with antioxidants, vitamins, and minerals, supporting overall wellness and vitality. Regular consumption may boost immunity, aid digestion, and provide a natural energy source. Its gentle sweetness makes it suitable for all ages, from children to adults.\n\nUses:\nmulti-Flower Honey is perfect for tea, coffee, smoothies, and baking. It can also be used as a natural sweetener in desserts or home remedies for cough and sore throat.\n\n\nWhy KCP Organics:\nOur Multi-Flower Honey comes from trusted organic farms, ensuring quality, purity, and sustainability. It is a premium, natural product that brings the taste and benefits of nature directly to your home.",
+  "shortDescription": "Overview: \nKCP Organics Multi-Flower Honey is harvested from a variety of blossoms, resulting in a rich, balanced, and naturally sweet honey. Grown in pristine organic environments, it is completely c",
+  "price": 200,
+  "originalPrice": 200,
+  "discount": 0,
+  "stock": 0,
+  "units": [
+    {
+      "unit": "ml",
+      "quantity": 250,
+      "price": 200,
+      "stock": 0,
+      "_id": {
+        "$oid": "698f42355d5219836433dad9"
+      }
+    },
+    {
+      "unit": "ml",
+      "quantity": 500,
+      "price": 400,
+      "stock": 0,
+      "_id": {
+        "$oid": "698f42355d5219836433dada"
+      }
+    }
+  ],
+  "image": "/uploads/products/multiflower_honey-1770996275499-200032877.jpg",
+  "images": [],
+  "category": "Honey",
+  "tags": [],
+  "variants": [],
+  "attributes": {
+    "organic": true,
+    "glutenFree": false,
+    "vegan": false,
+    "nonGMO": true
+  },
+  "averageRating": 0,
+  "totalReviews": 0,
+  "ratingBreakdown": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "metaTitle": "Multi Flower Honey",
+  "metaKeywords": [],
+  "views": 0,
+  "sales": 0,
+  "wishlistCount": 0,
+  "isActive": true,
+  "isFeatured": false,
+  "isOnSale": false,
+  "createdAt": {
+    "$date": "2026-02-13T15:24:37.638Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-13T15:24:37.638Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698f435b5d5219836433e0c8"
+  },
+  "name": "Native Honey",
+  "slug": "native-honey",
+  "description": "Overview:\n\nNative Honey is collected from wild forest flowers and traditional village beekeeping farms, offering a rich aroma and naturally balanced sweetness. At KCP Organics, our Native Honey is harvested using ethical and chemical-free methods, ensuring it remains raw, unprocessed, and packed with natural nutrients.\n\nHealth Benefits:\n\nNative Honey is known for its natural immunity-boosting properties. It contains antioxidants, antibacterial, and anti-inflammatory compounds that support digestion, improve energy levels, and promote healthy skin. Regular consumption may help soothe sore throats, reduce cough, and enhance overall wellness naturally.\n\nUses:\n\nUse it as a natural sweetener in tea, coffee, and warm water. It can be added to smoothies, drizzled over fruits and cereals, or used in traditional home remedies. Its rich taste also enhances baking, desserts, and healthy recipes.\n\nWhy KCP Organics:\n\nOur Native Honey is 100% pure, raw, and free from additives or artificial processing. Sourced from trusted natural environments, we ensure quality, authenticity, and maximum nutritional value in every bottle.",
+  "shortDescription": "Overview:\n\nNative Honey is collected from wild forest flowers and traditional village beekeeping farms, offering a rich aroma and naturally balanced sweetness. At KCP Organics, our Native Honey is har",
+  "price": 320,
+  "originalPrice": 320,
+  "discount": 0,
+  "stock": 0,
+  "units": [
+    {
+      "unit": "ml",
+      "quantity": 250,
+      "price": 320,
+      "stock": 0,
+      "_id": {
+        "$oid": "698f435b5d5219836433e0c9"
+      }
+    }
+  ],
+  "image": "/uploads/products/native_honey-1770996569815-671977161.webp",
+  "images": [],
+  "category": "Honey",
+  "tags": [],
+  "variants": [],
+  "attributes": {
+    "organic": true,
+    "glutenFree": false,
+    "vegan": false,
+    "nonGMO": true
+  },
+  "averageRating": 0,
+  "totalReviews": 0,
+  "ratingBreakdown": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "metaTitle": "Native Honey",
+  "metaKeywords": [],
+  "views": 0,
+  "sales": 0,
+  "wishlistCount": 0,
+  "isActive": true,
+  "isFeatured": false,
+  "isOnSale": false,
+  "createdAt": {
+    "$date": "2026-02-13T15:29:31.698Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-13T15:29:31.698Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698f43f65d5219836433e4fa"
+  },
+  "name": "Cavity Honey",
+  "slug": "cavity-honey",
+  "description": "Overview:\nCavity Honey is harvested from traditional beehives, keeping its natural taste and nutritional value intact. At KCP Organics, we ensure this honey remains pure, chemical-free, and unprocessed, offering an authentic natural experience.\n\nHealth Benefits:\nRich in enzymes, antioxidants, and minerals, Cavity Honey helps boost immunity, support digestion, and improve energy levels. Its therapeutic properties make it beneficial for coughs, colds, and general wellness.\n\n\nUses:\nPerfect for daily consumption, it can be added to hot beverages, spreads, or recipes. Its natural flavor also makes it ideal for traditional remedies and home remedies.\n\nWhy KCP Organics:\nSourced responsibly from trusted organic farms, our Cavity Honey is raw, unfiltered, and sustainable, delivering natural goodness and premium quality in every jar",
+  "shortDescription": "Overview:\nCavity Honey is harvested from traditional beehives, keeping its natural taste and nutritional value intact. At KCP Organics, we ensure this honey remains pure, chemical-free, and unprocesse",
+  "price": 400,
+  "originalPrice": 400,
+  "discount": 0,
+  "stock": 0,
+  "units": [
+    {
+      "unit": "ml",
+      "quantity": 250,
+      "price": 400,
+      "stock": 0,
+      "_id": {
+        "$oid": "698f43f65d5219836433e4fb"
+      }
+    }
+  ],
+  "image": "/uploads/products/cavity_honey-1770996722704-207912524.webp",
+  "images": [],
+  "category": "Honey",
+  "tags": [],
+  "variants": [],
+  "attributes": {
+    "organic": true,
+    "glutenFree": false,
+    "vegan": false,
+    "nonGMO": true
+  },
+  "averageRating": 0,
+  "totalReviews": 0,
+  "ratingBreakdown": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "metaTitle": "Cavity Honey",
+  "metaKeywords": [],
+  "views": 0,
+  "sales": 0,
+  "wishlistCount": 0,
+  "isActive": true,
+  "isFeatured": false,
+  "isOnSale": false,
+  "createdAt": {
+    "$date": "2026-02-13T15:32:06.342Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-13T15:32:06.342Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6992d58344d48c18a522874f"
+  },
+  "name": "County Sugar",
+  "slug": "county-sugar",
+  "description": "o Made from 100% organic sugarcane\no Unrefined & chemical-free\no Rich in iron & minerals\no Easy to dissolve, perfect for daily use\no Healthy alternative to white sugar\n\nOverview:\nKCP Organics Nattu Sarkarai is a naturally prepared jaggery powder made from organically grown sugarcane cultivated without chemical fertilizers or pesticides. Fresh sugarcane juice is traditionally extracted and slow-boiled to preserve its natural nutrients, aroma, and color. The jaggery is then carefully powdered, making it convenient for everyday use while retaining its traditional essence.\n\nHealth Benefits:\nUnlike refined sugar, jaggery powder contains natural minerals such as iron, calcium, and potassium. It supports digestion by activating digestive enzymes and helps cleanse the system. Regular consumption in moderation may improve energy levels and reduce fatigue. Its antioxidant properties also help strengthen immunity and overall wellness.\n\nUses:\nIdeal for daily beverages like tea, coffee, and herbal drinks. It is also widely used in baking, sweets, porridges, and traditional recipes. Its fine texture allows quick dissolving without altering taste.\n\n\nWhy KCP Organics:\nWe focus on organic sugarcane and traditional preparation, ensuring purity, natural sweetness, and safe everyday consumption.",
+  "shortDescription": "o Made from 100% organic sugarcane\no Unrefined & chemical-free\no Rich in iron & minerals\no Easy to dissolve, perfect for daily use\no Healthy alternative to white sugar\n\nOverview:\nKCP Organics Nattu Sa",
+  "price": 80,
+  "originalPrice": 80,
+  "discount": 0,
+  "stock": 0,
+  "units": [
+    {
+      "unit": "kg",
+      "quantity": 1,
+      "price": 80,
+      "stock": 0,
+      "_id": {
+        "$oid": "6992d5bd44d48c18a52289e5"
+      }
+    }
+  ],
+  "image": "/uploads/products/country_sugar-1771230591369-470839496.jpeg",
+  "images": [],
+  "category": "Sweetener",
+  "tags": [],
+  "variants": [],
+  "attributes": {
+    "organic": true,
+    "glutenFree": false,
+    "vegan": false,
+    "nonGMO": true
+  },
+  "averageRating": 0,
+  "totalReviews": 0,
+  "ratingBreakdown": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "metaTitle": "County Sugar",
+  "metaKeywords": [],
+  "views": 2,
+  "sales": 0,
+  "wishlistCount": 0,
+  "isActive": true,
+  "isFeatured": false,
+  "isOnSale": false,
+  "createdAt": {
+    "$date": "2026-02-16T08:29:55.604Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-16T08:30:53.355Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6992d69244d48c18a5228ec6"
+  },
+  "name": "Round Jaggery",
+  "slug": "round-jaggery",
+  "description": "o Traditional solid jaggery form\no Prepared from organic sugarcane juice\no No preservatives or artificial color\no Supports digestion & natural energy\no Ideal for beverages & sweets\n\nOverview:\nKCP Organics Kundu Vellam is a classic village-style jaggery made from organic sugarcane juice, carefully boiled and shaped into solid balls. The preparation process avoids chemicals, bleaching agents, and preservatives, maintaining the jaggery’s rich texture and earthy sweetness.\n\nHealth Benefits:\nKundu Vellam provides slow-releasing natural energy, making it ideal for daily consumption. It supports digestion, helps relieve acidity, and contributes to better blood circulation due to its iron content. It is also known to reduce cold-related discomfort.\n\nUses:\nCommonly used in tea, coffee, traditional sweets, kozhukattai, payasam, and home remedies. It can be melted or grated as required.\n\nWhy KCP Organics:\nOur jaggery balls are made using organic sugarcane and age-old methods, delivering authentic taste and trusted quality.",
+  "shortDescription": "o Traditional solid jaggery form\no Prepared from organic sugarcane juice\no No preservatives or artificial color\no Supports digestion & natural energy\no Ideal for beverages & sweets\n\nOverview:\nKCP Orga",
+  "price": 140,
+  "originalPrice": 140,
+  "discount": 0,
+  "stock": 0,
+  "units": [
+    {
+      "unit": "kg",
+      "quantity": 1,
+      "price": 140,
+      "stock": 0,
+      "_id": {
+        "$oid": "6992d69244d48c18a5228ec7"
+      }
+    }
+  ],
+  "image": "/uploads/products/round_jaggery-1771230864357-241945076.webp",
+  "images": [],
+  "category": "Sweetener",
+  "tags": [],
+  "variants": [],
+  "attributes": {
+    "organic": true,
+    "glutenFree": false,
+    "vegan": false,
+    "nonGMO": true
+  },
+  "averageRating": 0,
+  "totalReviews": 0,
+  "ratingBreakdown": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "metaTitle": "Round Jaggery",
+  "metaKeywords": [],
+  "views": 0,
+  "sales": 0,
+  "wishlistCount": 0,
+  "isActive": true,
+  "isFeatured": false,
+  "isOnSale": false,
+  "createdAt": {
+    "$date": "2026-02-16T08:34:26.449Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-16T08:34:26.449Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6992d75e44d48c18a5229324"
+  },
+  "name": "Palm Jaggery",
+  "slug": "palm-jaggery",
+  "description": "o Made from pure palm sap\no Naturally dark, rich & aromatic\no High mineral content\no Helps immunity & digestion\no Traditionally prepared\n\nOverview:\nKCP Organics Panang Karupatti is prepared from naturally collected palm sap, processed through slow heating to preserve its nutritional richness. No chemicals or artificial enhancers are added, resulting in a dark, aromatic jaggery with a strong traditional flavor.\n\nHealth Benefits:\nPalm jaggery is valued for its high mineral content, including iron, magnesium, and zinc. It helps improve digestion, strengthens immunity, and supports detoxification. Traditionally, it is considered beneficial for respiratory health and metabolism.\n\nUses:\nUsed in traditional sweets, herbal drinks, medicinal preparations, and porridges. Its deep flavor adds richness to recipes.\n\nWhy KCP Organics:\nWe source palm sap responsibly and follow traditional preparation methods to ensure purity and sustainability.",
+  "shortDescription": "o Made from pure palm sap\no Naturally dark, rich & aromatic\no High mineral content\no Helps immunity & digestion\no Traditionally prepared\n\nOverview:\nKCP Organics Panang Karupatti is prepared from natur",
+  "price": 200,
+  "originalPrice": 200,
+  "discount": 0,
+  "stock": 0,
+  "units": [
+    {
+      "unit": "g",
+      "quantity": 500,
+      "price": 200,
+      "stock": 0,
+      "_id": {
+        "$oid": "6992d75e44d48c18a5229325"
+      }
+    },
+    {
+      "unit": "kg",
+      "quantity": 1,
+      "price": 400,
+      "stock": 0,
+      "_id": {
+        "$oid": "6992d75e44d48c18a5229326"
+      }
+    }
+  ],
+  "image": "/uploads/products/palm_jaggery-1771231068100-369358791.jpg",
+  "images": [],
+  "category": "Sweetener",
+  "tags": [],
+  "variants": [],
+  "attributes": {
+    "organic": true,
+    "glutenFree": false,
+    "vegan": false,
+    "nonGMO": true
+  },
+  "averageRating": 0,
+  "totalReviews": 0,
+  "ratingBreakdown": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "metaTitle": "Palm Jaggery",
+  "metaKeywords": [],
+  "views": 0,
+  "sales": 0,
+  "wishlistCount": 0,
+  "isActive": true,
+  "isFeatured": false,
+  "isOnSale": false,
+  "createdAt": {
+    "$date": "2026-02-16T08:37:50.616Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-16T08:37:50.616Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6992d81444d48c18a5229799"
+  },
+  "name": "Palm Sugar Candy",
+  "slug": "palm-sugar-candy",
+  "description": "o Natural palm sap crystals\no Chemical-free & unbleached\no Gentle on digestion\no Traditionally used for cough & cold\no Perfect for herbal drinks\n\nOverview:\nKCP Organics Panangarkandu is made by naturally crystallizing palm sap into sugar candy form. This traditional process produces clear, natural crystals without bleaching, chemicals, or additives.\n\nHealth Benefits:\nPanangarkandu is commonly used for throat comfort, cough relief, and digestion support. It provides gentle sweetness and is easy on the digestive system. It is often recommended in traditional home remedies.\n\nUses:\nPerfect for herbal teas, milk, medicinal drinks, and wellness recipes. Its crystal form allows controlled sweetness.\n\nWhy KCP Organics:\nPrepared using pure palm sap and natural crystallization, our palm sugar candy reflects authenticity, purity, and care",
+  "shortDescription": "o Natural palm sap crystals\no Chemical-free & unbleached\no Gentle on digestion\no Traditionally used for cough & cold\no Perfect for herbal drinks\n\nOverview:\nKCP Organics Panangarkandu is made by natura",
+  "price": 188,
+  "originalPrice": 188,
+  "discount": 0,
+  "stock": 0,
+  "units": [
+    {
+      "unit": "g",
+      "quantity": 250,
+      "price": 188,
+      "stock": 0,
+      "_id": {
+        "$oid": "6992d81444d48c18a522979a"
+      }
+    }
+  ],
+  "image": "/uploads/products/Palm Sugar Candy-1771231181803-539464702.webp",
+  "images": [],
+  "category": "Sweetener",
+  "tags": [],
+  "variants": [],
+  "attributes": {
+    "organic": true,
+    "glutenFree": false,
+    "vegan": false,
+    "nonGMO": true
+  },
+  "averageRating": 0,
+  "totalReviews": 0,
+  "ratingBreakdown": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "metaTitle": "Palm Sugar Candy",
+  "metaKeywords": [],
+  "views": 0,
+  "sales": 0,
+  "wishlistCount": 0,
+  "isActive": true,
+  "isFeatured": false,
+  "isOnSale": false,
+  "createdAt": {
+    "$date": "2026-02-16T08:40:52.496Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-16T08:40:52.496Z"
+  },
+  "__v": 0
+}]

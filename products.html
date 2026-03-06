@@ -249,6 +249,20 @@
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
         }
 
+        /* Stock pill shown on product card */
+        .stock-pill {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #2e7d32;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(46,125,50,0.12);
+        }
+
         .product-content {
             padding: 20px;
             flex: 1;
@@ -1055,6 +1069,12 @@
 
                     <div class="modal-details" id="modalDetails"></div>
 
+                    <!-- Reviews for this product -->
+                    <div id="modalReviews" style="margin-top:20px;">
+                        <h4 style="margin:0 0 10px 0; color:#2e7d32; font-weight:700;">Customer Reviews</h4>
+                        <div id="modalReviewsList">Loading reviews...</div>
+                    </div>
+
                     <div class="modal-actions">
                         <button class="modal-add-cart" id="modalAddCart" onclick="addToCartFromModal()">
                             <span>Add to Cart</span>
@@ -1401,6 +1421,11 @@
                             <div class="product-content">
                                 <span class="product-category">${product.category}</span>
                                 <h3 class="product-name">${product.name}</h3>
+                                <div class="product-rating">
+                                    <span class="stars">${generateStars(product.averageRating)}</span>
+                                    <span class="rating-count">(${product.totalReviews || 0})</span>
+                                </div>
+                                <div class="stock-pill">${product.stock > 0 ? `In stock: ${product.stock}` : 'Out of stock'}</div>
 
                                 <!-- Compact actions: show only add-to-cart initially -->
                                 <div class="card-compact-actions">
@@ -1640,6 +1665,42 @@
             }
             detailsEl.innerHTML = detailsHTML || '';
 
+            // Load reviews for this product and render them for all users
+            const reviewsContainer = document.getElementById('modalReviewsList');
+            reviewsContainer.innerHTML = 'Loading reviews...';
+            (async () => {
+                try {
+                    const rres = await fetch(`${API_BASE_URL}/reviews/product/${productId}?limit=10`);
+                    if (!rres.ok) {
+                        reviewsContainer.innerHTML = '<div style="color:#d32f2f;">Unable to load reviews</div>';
+                    } else {
+                        const rjson = await rres.json();
+                        const reviews = rjson.data || [];
+                        if (reviews.length === 0) {
+                            reviewsContainer.innerHTML = '<div style="color:#666">No reviews yet. Be the first to review!</div>';
+                        } else {
+                            reviewsContainer.innerHTML = reviews.map(rv => `
+                                <div style="padding:12px; border-bottom:1px solid #eee; display:flex; gap:12px;">
+                                    <div style="width:48px; height:48px; border-radius:50%; background:#f0f0f0; display:flex; align-items:center; justify-content:center; font-weight:700; color:#555;">${(rv.reviewerName||'A').charAt(0).toUpperCase()}</div>
+                                    <div style="flex:1;">
+                                        <div style="display:flex; align-items:center; gap:8px;">
+                                            <div style="color:#ffc107; font-weight:700;">${'★'.repeat(Math.round(rv.rating||0))}${'☆'.repeat(5 - Math.round(rv.rating||0))}</div>
+                                            <div style="font-size:13px; color:#333; font-weight:700;">${rv.reviewerName || 'Anonymous'}</div>
+                                            <div style="font-size:12px; color:#999; margin-left:6px;">${new Date(rv.createdAt).toLocaleDateString()}</div>
+                                        </div>
+                                        <div style="font-size:14px; color:#444; margin-top:6px;">${rv.title || ''}</div>
+                                        <div style="margin-top:6px; color:#666; white-space:pre-wrap;">${rv.comment}</div>
+                                    </div>
+                                </div>
+                            `).join('');
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error loading reviews:', err);
+                    reviewsContainer.innerHTML = '<div style="color:#d32f2f;">Error loading reviews</div>';
+                }
+            })();
+
             document.getElementById('productModal').classList.add('active');
         }
 
@@ -1678,7 +1739,7 @@
         }
 
         // Add to cart
-        function addToCart(productId, quantity = 1) {
+        async function addToCart(productId, quantity = 1) {
             // Check if user is logged in
             const isLoggedIn = checkUserLogin();
             if (!isLoggedIn) {
@@ -1692,36 +1753,60 @@
             // Use selected unit if available, otherwise use first unit or base price
             const unitInfo = selectedUnit || (product.units && product.units[0]);
 
-            const cartItem = {
-                productId: product._id,
-                name: product.name,
-                price: unitInfo ? unitInfo.price : product.price,
-                quantity: quantity,
-                image: product.image,
-                unit: unitInfo ? `${unitInfo.quantity}${unitInfo.unit}` : null, // Store unit info
-                unitDetails: unitInfo,
-                variants: {}
-            };
-
-            const userId = localStorage.getItem('userId') || 'guest';
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            // Find existing item for this user with same unit
-            const existingItem = cart.find(item => item.productId === productId && item.unit === cartItem.unit && (item.userId || 'guest') === userId);
-
-            if (existingItem) {
-                existingItem.quantity += quantity;
-            } else {
-                cart.push({
-                    cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
-                    userId: userId,
-                    ...cartItem
-                });
+            // Determine unitIndex if applicable
+            let unitIndex = null;
+            if (unitInfo && product.units && product.units.length > 0) {
+                unitIndex = product.units.findIndex(u => u.quantity === unitInfo.quantity && u.unit === unitInfo.unit && u.price === unitInfo.price);
+                if (unitIndex === -1) unitIndex = null;
             }
 
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartBadge();
-            showToast(`✓ ${product.name} (${cartItem.unit || '1 unit'}) added to cart!`);
-            selectedUnit = null; // Reset selected unit
+            // Call backend to reserve/decrement stock
+            try {
+                const res = await fetch(`${API_BASE_URL}/products/${productId}/decrement`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ quantity, unitIndex })
+                });
+
+                const result = await res.json();
+                if (!res.ok || !result.success) {
+                    throw new Error(result.message || 'Unable to reserve stock');
+                }
+
+                // Update local product stock info from server response
+                const updated = result.data;
+                // Update in allProducts
+                const idx = allProducts.findIndex(p => p._id === productId);
+                if (idx > -1) allProducts[idx] = updated;
+
+                const cartItem = {
+                    productId: updated._id,
+                    name: updated.name,
+                    price: unitIndex !== null && updated.units && updated.units[unitIndex] ? updated.units[unitIndex].price : (unitInfo ? unitInfo.price : updated.price),
+                    quantity: quantity,
+                    image: updated.image,
+                    unit: unitIndex !== null && updated.units && updated.units[unitIndex] ? `${updated.units[unitIndex].quantity}${updated.units[unitIndex].unit}` : (unitInfo ? `${unitInfo.quantity}${unitInfo.unit}` : null),
+                    unitDetails: unitIndex !== null && updated.units ? updated.units[unitIndex] : unitInfo,
+                    variants: {}
+                };
+
+                const userId = localStorage.getItem('userId') || 'guest';
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const existingItem = cart.find(item => item.productId === productId && item.unit === cartItem.unit && (item.userId || 'guest') === userId);
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({ cartItemId: 'ci_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6), userId: userId, ...cartItem });
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartBadge();
+                showToast(`✓ ${updated.name} (${cartItem.unit || '1 unit'}) added to cart!`);
+                selectedUnit = null; // Reset selected unit
+            } catch (err) {
+                console.error('Error reserving stock:', err);
+                alert('Unable to add to cart: ' + (err.message || 'Stock issue'));
+            }
         }
 
         // Unit selector functions

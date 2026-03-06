@@ -1,0 +1,46 @@
+[{
+  "_id": {
+    "$oid": "698f3ce42946c99a316bfbe2"
+  },
+  "title": "Sample",
+  "videoUrl": "/uploads/videos/From KlickPin CF rainy days di 2025 _ Hujan Belajar-1770994916803-374932748.mp4",
+  "thumbnailUrl": "",
+  "productId": null,
+  "productName": "",
+  "productLink": "",
+  "description": "dwefdvr",
+  "category": "about-us",
+  "isActive": true,
+  "displayOrder": 0,
+  "views": 0,
+  "createdAt": {
+    "$date": "2026-02-13T15:01:56.906Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-13T15:01:56.911Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698f3d3f2946c99a316bff6a"
+  },
+  "title": "Sample",
+  "videoUrl": "/uploads/videos/video_poster-1770995007600-775083687.mp4",
+  "thumbnailUrl": "",
+  "productId": null,
+  "productName": "",
+  "productLink": "",
+  "description": "",
+  "category": "about-us",
+  "isActive": true,
+  "displayOrder": 0,
+  "views": 1,
+  "createdAt": {
+    "$date": "2026-02-13T15:03:27.644Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-13T15:03:27.645Z"
+  },
+  "__v": 0
+}]
