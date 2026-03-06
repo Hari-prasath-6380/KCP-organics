@@ -848,7 +848,7 @@
 
         // Normalize image paths (handle truncated placeholders like '60x60?text=Product')
         function getImageUrl(imagePath) {
-            const ORIGIN = 'http://localhost:5000';
+            const ORIGIN = 'https://kcp-organics-1.onrender.com';
             if (!imagePath) return 'https://via.placeholder.com/60x60?text=Product';
             if (imagePath.startsWith('http')) return imagePath;
             const placeholderMatch = imagePath.match(/^\d+x\d+\?text=.*$/);
@@ -995,7 +995,7 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
             try {
-                const response = await fetch('http://localhost:5000/api/orders', {
+                const response = await fetch('https://kcp-organics-1.onrender.com/api/orders', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)

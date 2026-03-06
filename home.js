@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://kcp-organics-1.onrender.com/api';
 
 // Load Home videos on page load
 document.addEventListener('DOMContentLoaded', () => {

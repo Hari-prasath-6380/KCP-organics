@@ -39,9 +39,9 @@ Server running on port 5000
 ```
 
 ### 2. Access the Application
-- **Main Site**: http://localhost:5000/home.html
-- **About Us Page**: http://localhost:5000/about-us.html
-- **Admin Dashboard**: http://localhost:5000/admin-dashboard.html
+- **Main Site**: https://kcp-organics-1.onrender.com/home.html
+- **About Us Page**: https://kcp-organics-1.onrender.com/about-us.html
+- **Admin Dashboard**: https://kcp-organics-1.onrender.com/admin-dashboard.html
 
 ## 📋 Feature Walkthrough
 
@@ -307,17 +307,17 @@ Expected: All sources embed and play correctly
 
 ### Get About Us Videos
 ```bash
-curl http://localhost:5000/api/videos?category=about-us&active=true
+curl https://kcp-organics-1.onrender.com/api/videos?category=about-us&active=true
 ```
 
 ### Get All Videos (Admin)
 ```bash
-curl http://localhost:5000/api/videos/admin/all?category=about-us
+curl https://kcp-organics-1.onrender.com/api/videos/admin/all?category=about-us
 ```
 
 ### Create Video
 ```bash
-curl -X POST http://localhost:5000/api/videos \
+curl -X POST https://kcp-organics-1.onrender.com/api/videos \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Test Video",
@@ -330,7 +330,7 @@ curl -X POST http://localhost:5000/api/videos \
 
 ### Update Video
 ```bash
-curl -X PATCH http://localhost:5000/api/videos/VIDEO_ID \
+curl -X PATCH https://kcp-organics-1.onrender.com/api/videos/VIDEO_ID \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Updated Title",
@@ -340,12 +340,12 @@ curl -X PATCH http://localhost:5000/api/videos/VIDEO_ID \
 
 ### Toggle Video Status
 ```bash
-curl -X PATCH http://localhost:5000/api/videos/VIDEO_ID/toggle
+curl -X PATCH https://kcp-organics-1.onrender.com/api/videos/VIDEO_ID/toggle
 ```
 
 ### Delete Video
 ```bash
-curl -X DELETE http://localhost:5000/api/videos/VIDEO_ID
+curl -X DELETE https://kcp-organics-1.onrender.com/api/videos/VIDEO_ID
 ```
 
 ## 🔧 Troubleshooting

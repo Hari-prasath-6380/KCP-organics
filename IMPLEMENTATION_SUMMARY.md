@@ -306,7 +306,7 @@ The admin can track:
 1. **Backend Must Be Running**
    - Videos API depends on backend server
    - Start with: `cd backend && node server.js`
-   - Runs on port 5000 by default
+   - Production URL: https://kcp-organics-1.onrender.com
 
 2. **MongoDB Required**
    - Video data stored in MongoDB

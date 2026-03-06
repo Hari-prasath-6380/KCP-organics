@@ -41,7 +41,7 @@ function loadCartCount() {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    fetch(`${API_URL}/cart`, {
+    fetch(`https://kcp-organics-1.onrender.com/api/cart`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,

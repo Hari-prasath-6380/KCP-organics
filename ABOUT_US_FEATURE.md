@@ -64,7 +64,7 @@ Located in the admin panel sidebar under "About Us" section.
 ## API Endpoints
 
 ### Videos API
-All endpoints are available at `http://localhost:5000/api/videos`
+All endpoints are available at `https://kcp-organics-1.onrender.com/api/videos`
 
 #### GET /api/videos
 Get all active videos (filtered by category)

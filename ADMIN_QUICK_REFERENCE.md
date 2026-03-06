@@ -288,7 +288,7 @@ A: Edit the video anytime or delete and re-add.
 1. **Check ABOUT_US_FEATURE.md** for detailed documentation
 2. **Review SETUP_AND_TESTING_GUIDE.md** for testing instructions
 3. **Check browser console** (F12) for error messages
-4. **Verify backend is running** on http://localhost:5000
+4. **Verify backend is running** on https://kcp-organics-1.onrender.com
 5. **Hard refresh page** (Ctrl+F5) to clear cache
 
 ---

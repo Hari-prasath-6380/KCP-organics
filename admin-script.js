@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://kcp-organics-1.onrender.com/api';
 let uploadedImageUrl = ''; // Store uploaded image URL
 let isImageUploading = false; // Track if image is currently uploading
 
@@ -1545,7 +1545,7 @@ async function loadVideos() {
 function getFullUrl(path) {
     if (!path) return '';
     if (path.startsWith('http')) return path;
-    return `http://localhost:5000${path}`;
+    return `https://kcp-organics-1.onrender.com${path}`;
 }
 
 function openVideoModal() {

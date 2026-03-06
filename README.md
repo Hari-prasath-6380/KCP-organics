@@ -45,8 +45,8 @@ node server.js
 ```
 
 ### 2. Visit the Pages
-- **About Us Page**: http://localhost:5000/about-us.html
-- **Admin Dashboard**: http://localhost:5000/admin-dashboard.html
+- **About Us Page**: https://kcp-organics-1.onrender.com/about-us.html
+- **Admin Dashboard**: https://kcp-organics-1.onrender.com/admin-dashboard.html
 
 ### 3. Add Your First Video
 1. Log in to admin dashboard
@@ -334,8 +334,8 @@ KCP_ORGANICS/
 ### Installation
 1. Navigate to project directory
 2. Start backend: `cd backend && node server.js`
-3. Open http://localhost:5000/about-us.html
-4. Log in to admin: http://localhost:5000/admin-dashboard.html
+3. Open https://kcp-organics-1.onrender.com/about-us.html
+4. Log in to admin: https://kcp-organics-1.onrender.com/admin-dashboard.html
 
 ### First Video
 Follow the Quick Start section above (5 minutes)

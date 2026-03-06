@@ -481,7 +481,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:5000/api';
+        const API_URL = 'https://kcp-organics-1.onrender.com/api';
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let currentPage = 1;
         let totalPages = 1;
@@ -588,7 +588,7 @@
         function getImageUrl(imagePath) {
             if (!imagePath) return 'https://via.placeholder.com/200x200?text=No+Image';
             if (imagePath.startsWith('http')) return imagePath;
-            if (imagePath.startsWith('/uploads')) return `http://localhost:5000${imagePath}`;
+            if (imagePath.startsWith('/uploads')) return `https://kcp-organics-1.onrender.com${imagePath}`;
             if (imagePath === 'product.jpg') return 'https://via.placeholder.com/200x200?text=Product';
             return imagePath;
         }
