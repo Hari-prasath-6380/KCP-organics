@@ -1455,6 +1455,265 @@
                 font-size: 9px;
             }
         }
+
+        /* Large Device Optimization */
+        @media (min-width: 1400px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 28px;
+            }
+
+            .products-controls {
+                gap: 25px;
+                padding: 30px;
+            }
+
+            .search-box {
+                min-width: 350px;
+            }
+
+            .products-header h1 {
+                font-size: 52px;
+            }
+
+            .search-box input {
+                padding: 16px 50px 16px 20px;
+                font-size: 16px;
+            }
+
+            .filter-sort select {
+                padding: 14px 20px;
+                font-size: 15px;
+            }
+        }
+
+        /* Full HD and Large Desktops (1920px+) */
+        @media (min-width: 1920px) {
+            .products-container {
+                max-width: 1800px;
+                padding: 0 30px 60px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 32px;
+            }
+
+            .products-header {
+                padding: 20px 30px;
+                margin-bottom: 20px;
+            }
+
+            .products-header h1 {
+                font-size: 60px;
+                margin-bottom: 10px;
+            }
+
+            .products-header p {
+                font-size: 18px;
+            }
+
+            .products-controls {
+                gap: 30px;
+                padding: 35px;
+                margin-bottom: 50px;
+            }
+
+            .search-box {
+                min-width: 450px;
+            }
+
+            .search-box input {
+                padding: 18px 55px 18px 22px;
+                font-size: 17px;
+            }
+
+            .search-box i {
+                font-size: 18px;
+                right: 20px;
+            }
+
+            .filter-sort select {
+                padding: 16px 22px;
+                font-size: 16px;
+            }
+
+            .product-card {
+                border-radius: 20px;
+            }
+
+            .product-image {
+                height: 280px;
+            }
+
+            .product-name {
+                font-size: 17px;
+            }
+
+            .product-price {
+                font-size: 18px;
+                margin: 8px 0;
+            }
+
+            .add-to-cart-btn {
+                padding: 14px 20px;
+                font-size: 16px;
+            }
+
+            .product-footer {
+                gap: 8px;
+                padding-top: 10px;
+                font-size: 14px;
+            }
+
+            .order-footer {
+                gap: 8px;
+                padding-top: 8px;
+                font-size: 14px;
+            }
+
+            .stock-badge-over-image {
+                font-size: 18px;
+                padding: 12px 18px;
+                border-radius: 8px;
+            }
+
+            .stock-pill {
+                padding: 10px 16px;
+                font-size: 15px;
+            }
+
+            .toast {
+                bottom: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                font-size: 15px;
+                border-radius: 12px;
+            }
+        }
+
+        /* 4K and Ultra-Wide Displays (2560px+) */
+        @media (min-width: 2560px) {
+            .products-container {
+                max-width: 2200px;
+                padding: 0 40px 80px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 40px;
+            }
+
+            .products-header {
+                padding: 30px 40px;
+                margin-bottom: 30px;
+            }
+
+            .products-header h1 {
+                font-size: 72px;
+                margin-bottom: 15px;
+            }
+
+            .products-header p {
+                font-size: 22px;
+                letter-spacing: 0.5px;
+            }
+
+            .products-controls {
+                gap: 40px;
+                padding: 45px;
+                margin-bottom: 60px;
+            }
+
+            .search-box {
+                min-width: 600px;
+            }
+
+            .search-box input {
+                padding: 22px 65px 22px 28px;
+                font-size: 19px;
+            }
+
+            .search-box i {
+                font-size: 20px;
+                right: 25px;
+            }
+
+            .filter-sort select {
+                padding: 20px 28px;
+                font-size: 18px;
+                min-width: 220px;
+            }
+
+            .product-card {
+                border-radius: 24px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            }
+
+            .product-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+            }
+
+            .product-image {
+                height: 340px;
+            }
+
+            .product-name {
+                font-size: 20px;
+                margin: 12px 0 8px;
+            }
+
+            .product-price {
+                font-size: 22px;
+                margin: 12px 0;
+            }
+
+            .add-to-cart-btn {
+                padding: 18px 28px;
+                font-size: 18px;
+                margin-top: 12px;
+            }
+
+            .product-footer {
+                gap: 10px;
+                padding-top: 12px;
+                font-size: 16px;
+            }
+
+            .order-footer {
+                gap: 10px;
+                padding-top: 10px;
+                font-size: 16px;
+            }
+
+            .stock-badge-over-image {
+                font-size: 22px;
+                padding: 16px 24px;
+                border-radius: 10px;
+                top: 16px;
+                right: 16px;
+            }
+
+            .stock-pill {
+                padding: 12px 20px;
+                font-size: 17px;
+            }
+
+            .modal-stock {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+
+            .toast {
+                bottom: 30px;
+                right: 30px;
+                padding: 20px 32px;
+                font-size: 17px;
+                border-radius: 16px;
+                max-width: 600px;
+            }
+        }
     </style>
 </head>
 
