@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Message = require('../models/Message');
-const { sendTelegramMessage } = require('../services/notificationService');
+const { sendTelegramMessage, sendUserMessageWhatsApp } = require('../services/notificationService');
 
 // Get all messages
 router.get('/', async (req, res) => {
@@ -62,6 +62,15 @@ router.post('/', async (req, res) => {
         } catch (notifError) {
             console.error('⚠️ Failed to send Telegram notification:', notifError);
             // Don't fail the request if notification fails
+        }
+
+        // Send notification to admin via WhatsApp
+        try {
+            await sendUserMessageWhatsApp(name, email, `Subject: ${subject}\n\n${message}`);
+            console.log('✅ WhatsApp notification sent to admin');
+        } catch (whatsappError) {
+            console.error('⚠️ Failed to send WhatsApp notification:', whatsappError.message);
+            // Don't fail the request if WhatsApp notification fails
         }
 
         res.status(201).json({ success: true, message: 'Message sent successfully', data: newMessage });

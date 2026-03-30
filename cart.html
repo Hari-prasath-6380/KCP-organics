@@ -149,6 +149,22 @@
             transform: scale(1.05);
         }
 
+        .cart-item-stock-badge {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(46, 125, 50, 0.95);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+            z-index: 10;
+        }
+
         .cart-item-info {
             display: flex;
             flex-direction: column;
@@ -516,24 +532,34 @@
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo">
-            <img src="logo_final.png" alt="KCP Organics Logo">
+            <a href="home.html"><img src="logo_final.png" alt="logo"></a>
         </div>
         <div class="section1">
             <a href="home.html">Home</a>
-            <a href="about-us.html">About Us</a>
+            <a href="about-us.html">About us</a>
             <a href="products.html">Products</a>
-            <a href="contact.html">Contact</a>
+            <a href="contact.html">Contact us</a>
+            <a href="admin-dashboard.html">Admin</a>
+            <a href="track-order.html">Track Order</a>
         </div>
         <div class="section2" id="authSection">
-            <div class="navbar-cart" onclick="viewCart()">
+            <div class="navbar-cart" onclick="toggleCart()">
                 <i class="fas fa-shopping-cart"></i>
                 <span id="cartBadge">0</span>
             </div>
             <a href="login.html" id="loginLink">Login</a>
             <a href="signup.html" id="signupLink">Sign up</a>
-            <span id="userName" style="display: none;"></span>
-            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+            <div class="user-dropdown" id="userDropdown" style="display: none;">
+                <span id="userName" class="dropdown-toggle"></span>
+                <div class="dropdown-menu">
+                  <a href="#" onclick="openMyOrders(event)"><i class="fas fa-box"></i> My Orders</a>
+                  <a href="#" onclick="logoutUser(event)"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
         </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="hamburger"></span>
+        </button>
     </nav>
 
     <!-- Page Header -->
@@ -590,8 +616,8 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        const API_BASE_URL = 'https://kcp-organics-1.onrender.com/api';
-        const IMAGE_BASE_URL = 'https://kcp-organics-1.onrender.com';
+        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
+        const IMAGE_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://kcp-organics-1.onrender.com';
 
         // Initialize cart display
         document.addEventListener('DOMContentLoaded', () => {
@@ -600,7 +626,18 @@
             displayCart();
             updateCartBadge();
             updateAuthUI();
+            setupStorageListener();
         });
+
+        // Listen for stock refresh signal from checkout after order placed
+        function setupStorageListener() {
+            window.addEventListener('storage', (event) => {
+                if (event.key === 'stockNeedsRefresh' && event.newValue === 'true') {
+                    console.log('📢 Refreshing cart stock status due to new order');
+                    displayCart(); // This will reload stock status for all items
+                }
+            });
+        }
 
         // Get proper image URL with fallback
         function getCartImageUrl(imagePath) {
@@ -608,6 +645,53 @@
             if (imagePath.startsWith('http')) return imagePath;
             if (imagePath.startsWith('/uploads')) return `${IMAGE_BASE_URL}${imagePath}`;
             return `${IMAGE_BASE_URL}/uploads/products/${imagePath}`;
+        }
+
+        // Load stock status for a cart item (non-blocking)
+        async function loadStockStatus(productName, cartItemId, orderedQty) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/products/stock/by-name?name=${encodeURIComponent(productName)}`);
+                const data = await response.json();
+                
+                const stockElement = document.getElementById(`stock-${cartItemId}`);
+                if (!stockElement) return;
+
+                if (!data.success || !data.data) {
+                    // Show default if backend not responding
+                    stockElement.innerHTML = '📦 No info';
+                    stockElement.style.background = 'rgba(128, 128, 128, 0.95)';
+                    stockElement.style.color = 'white';
+                    return;
+                }
+
+                const availableStock = data.data.stock || 0;
+                
+                if (availableStock <= 0) {
+                    stockElement.innerHTML = '❌ Out of Stock';
+                    stockElement.style.background = 'rgba(198, 40, 40, 0.95)';
+                    stockElement.style.color = 'white';
+                } else if (availableStock < orderedQty) {
+                    stockElement.innerHTML = `⚠️ Only ${availableStock}`;
+                    stockElement.style.background = 'rgba(230, 81, 0, 0.95)';
+                    stockElement.style.color = 'white';
+                } else if (availableStock <= 10) {
+                    stockElement.innerHTML = `⚠️ ${availableStock} left`;
+                    stockElement.style.background = 'rgba(230, 81, 0, 0.95)';
+                    stockElement.style.color = 'white';
+                } else {
+                    stockElement.innerHTML = `✓ Stock: ${availableStock}`;
+                    stockElement.style.background = 'rgba(46, 125, 50, 0.95)';
+                    stockElement.style.color = 'white';
+                }
+            } catch (error) {
+                console.warn('Error loading stock for', productName, error);
+                const stockElement = document.getElementById(`stock-${cartItemId}`);
+                if (stockElement) {
+                    stockElement.innerHTML = '📦 No info';
+                    stockElement.style.background = 'rgba(128, 128, 128, 0.95)';
+                    stockElement.style.color = 'white';
+                }
+            }
         }
 
         // Cart helpers: support multi-user cart stored as single array
@@ -679,6 +763,7 @@
                              alt="${item.name}" 
                              class="cart-item-image" 
                              onerror="this.src='https://via.placeholder.com/180x180?text=Product'">
+                        <div class="cart-item-stock-badge" id="stock-${item.cartItemId}">📦 Loading...</div>
                     </div>
                     <div class="cart-item-info">
                         <h3>${item.name}</h3>
@@ -698,6 +783,11 @@
                     </div>
                 </div>
             `).join('');
+
+            // Load stock info for each item
+            cart.forEach(item => {
+                loadStockStatus(item.name, item.cartItemId, item.quantity);
+            });
 
             updateSummary(cart, calculateSubtotal(cart));
         }
@@ -805,14 +895,95 @@
             if (userName) {
                 document.getElementById('loginLink').style.display = 'none';
                 document.getElementById('signupLink').style.display = 'none';
-                document.getElementById('userName').style.display = 'inline';
-                document.getElementById('userName').textContent = `👋 ${userName}`;
-                document.getElementById('logoutLink').style.display = 'inline';
+                document.getElementById('userDropdown').style.display = 'block';
+                document.getElementById('userName').textContent = 'Welcome, ' + userName;
             }
         }
 
+        // Open My Orders modal
+        function openMyOrders(event) {
+            event.preventDefault();
+            const userId = localStorage.getItem('userId');
+            const userName = localStorage.getItem('userName');
+            
+            if (!userId || !userName) {
+                alert('Please login to view your orders');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Create modal for orders
+            const modal = document.createElement('div');
+            modal.className = 'orders-modal';
+            modal.innerHTML = `
+                <div class="orders-modal-content">
+                    <div class="orders-modal-header">
+                        <h2>My Orders</h2>
+                        <button onclick="this.closest('.orders-modal').remove()" class="close-btn">&times;</button>
+                    </div>
+                    <div class="orders-modal-body" id="ordersContainer">
+                        <div style="text-align: center; padding: 40px;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 32px; color: #dd610e;"></i>
+                            <p style="margin-top: 10px;">Loading your orders...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Fetch user orders
+            const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
+            fetch(`${API_BASE_URL}/orders/user/${userId}`)
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('ordersContainer');
+                    if (data.success && data.data && data.data.length > 0) {
+                        container.innerHTML = data.data.map(order => `
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <span class="order-id"><strong>Order #${order._id.substring(0, 8).toUpperCase()}</strong></span>
+                                    <span class="order-date">${new Date(order.createdAt).toLocaleDateString('en-IN')}</span>
+                                </div>
+                                <div class="order-items">
+                                    ${order.products.map(item => `
+                                        <div class="order-item">
+                                            <span class="item-name">${item.name} × ${item.quantity}</span>
+                                            <span class="item-price">₹${(item.price * item.quantity).toFixed(2)}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="order-footer">
+                                    <span class="order-total"><strong>Total: ₹${order.totalAmount.toFixed(2)}</strong></span>
+                                    <span class="order-status" style="background: ${order.orderStatus === 'delivered' ? '#27ae60' : order.orderStatus === 'pending' ? '#f39c12' : '#e74c3c'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                                        ${order.orderStatus || 'Pending'}
+                                    </span>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 40px;">
+                                <i class="fas fa-box-open" style="font-size: 48px; color: #ccc;"></i>
+                                <p style="margin-top: 10px; color: #666;">No orders found. Start shopping!</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading orders:', error);
+                    document.getElementById('ordersContainer').innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #e74c3c;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 32px;"></i>
+                            <p>Error loading orders: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        }
+
         // Logout
-        function logoutUser() {
+        function logoutUser(event) {
+            if (event) event.preventDefault();
             localStorage.removeItem('userName');
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userId');

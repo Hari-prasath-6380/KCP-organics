@@ -18,7 +18,7 @@ video::-moz-media-controls {
 }
 
 .home-videos-section {
-    padding: 80px 20px;
+    padding: clamp(40px, 8vw, 80px) 20px;
     background: #f8f9fa;
 }
 
@@ -28,7 +28,7 @@ video::-moz-media-controls {
 }
 
 .home-videos-container h2 {
-    font-size: 42px;
+    font-size: clamp(28px, 5vw, 42px);
     color: #2e7d32;
     text-align: center;
     margin-bottom: 15px;
@@ -38,7 +38,7 @@ video::-moz-media-controls {
 .home-videos-container .section-subtitle {
     text-align: center;
     color: #666;
-    font-size: 18px;
+    font-size: clamp(14px, 3vw, 18px);
     margin-bottom: 40px;
 }
 
@@ -56,6 +56,22 @@ video::-moz-media-controls {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .home-videos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .home-videos-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 }
 
 .home-video-item:hover {
@@ -149,41 +165,57 @@ video::-moz-media-controls {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .home-videos-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
     }
-    
-    .home-video-thumbnail {
-        height: 200px;
+}
+
+@media (max-width: 768px) {
+    .home-videos-section {
+        padding: 50px 16px;
     }
-    
+    .home-videos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+    }
+    .home-video-thumbnail {
+        padding-bottom: 56.25%;
+    }
     .home-videos-container h2 {
-        font-size: 32px;
+        font-size: 28px;
+    }
+    .home-videos-container .section-subtitle {
+        font-size: 15px;
     }
 }
 
 @media (max-width: 480px) {
     .home-videos-section {
-        padding: 40px 15px;
+        padding: 36px 14px;
     }
-    
     .home-videos-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 16px;
     }
-    
-    .home-video-thumbnail {
-        height: 220px;
-    }
-    
     .home-videos-container h2 {
-        font-size: 28px;
+        font-size: 22px;
     }
-    
     .home-videos-container .section-subtitle {
-        font-size: 16px;
-        margin-bottom: 30px;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    .home-video-info h3 {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 360px) {
+    .home-videos-section {
+        padding: 28px 10px;
+    }
+    .home-videos-container h2 {
+        font-size: 19px;
     }
 }

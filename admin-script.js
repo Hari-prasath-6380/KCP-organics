@@ -194,8 +194,8 @@ async function loadProducts() {
                             ${groupedProducts[category].map(product => `
                                 <tr style="border-bottom: 1px solid #eee;">
                                     <td style="padding: 12px 15px;"><strong>${product.name}</strong></td>
-                                    <td style="padding: 12px 15px;">$${product.price.toFixed(2)}</td>
-                                    <td style="padding: 12px 15px;">
+                                    <td style="padding: 12px 15px;">₹${product.price.toFixed(2)}</td>
+                                    <td style="padding: 12px 15px;" id="stock-cell-${product._id}">
                                         <span style="background: ${product.stock > 20 ? '#4CAF50' : product.stock > 0 ? '#FFC107' : '#f44336'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
                                             ${product.stock} units
                                         </span>
@@ -204,6 +204,7 @@ async function loadProducts() {
                                     <td style="padding: 12px 15px;">
                                         <div class="action-buttons">
                                             <button class="btn btn-info" onclick="editProduct('${product._id}')" style="padding: 6px 12px; font-size: 12px;">Edit</button>
+                                            <button class="btn btn-secondary" onclick="quickUpdateStock('${product._id}', '${product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', ${product.stock})" style="padding: 6px 12px; font-size: 12px; background:#2e7d32; color:white;"><i class='fas fa-boxes'></i> Stock</button>
                                             <button class="btn btn-danger" onclick="deleteProduct('${product._id}')" style="padding: 6px 12px; font-size: 12px;">Delete</button>
                                         </div>
                                     </td>
@@ -239,6 +240,35 @@ function openProductModal() {
 
 function closeProductModal() {
     document.getElementById('productModal').classList.remove('show');
+}
+
+// Quick stock update without opening full edit modal
+async function quickUpdateStock(productId, productName, currentStock) {
+    const newStock = prompt(`Update stock for "${productName}"\nCurrent stock: ${currentStock}\n\nEnter new stock quantity:`, currentStock);
+    if (newStock === null) return; // cancelled
+    const qty = parseInt(newStock);
+    if (isNaN(qty) || qty < 0) { alert('Please enter a valid number (0 or more)'); return; }
+    try {
+        const response = await fetch(`${API_URL}/products/${productId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ stock: qty, updatedAt: new Date() })
+        });
+        const data = await response.json();
+        if (data.success) {
+            // Update the cell in-place
+            const cell = document.getElementById(`stock-cell-${productId}`);
+            if (cell) {
+                const colour = qty > 20 ? '#4CAF50' : qty > 0 ? '#FFC107' : '#f44336';
+                cell.innerHTML = `<span style="background:${colour}; color:white; padding:4px 8px; border-radius:4px; font-size:12px;">${qty} units</span>`;
+            }
+            alert(`✅ Stock updated to ${qty} for "${productName}"`);
+        } else {
+            alert('Error: ' + (data.message || 'Failed to update stock'));
+        }
+    } catch (err) {
+        alert('Error updating stock: ' + err.message);
+    }
 }
 
 // ===== IMAGE UPLOAD SETUP =====
@@ -395,33 +425,43 @@ async function uploadImage(file) {
     isImageUploading = true; // Set upload flag
 
     try {
-        console.log('Uploading image:', file.name);
+        console.log('📤 Uploading image:', file.name, `(${(file.size/1024/1024).toFixed(2)}MB)`);
         const response = await fetch(`${API_URL}/uploads/upload`, {
             method: 'POST',
             body: formData
         });
 
-        console.log('Upload response status:', response.status);
+        console.log('📦 Upload response status:', response.status);
         
+        // Check response is OK
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
-        console.log('Upload result:', result);
+        console.log('✅ Upload result:', result);
 
-        if (result.success) {
+        if (result.success && result.imageUrl) {
             uploadedImageUrl = result.imageUrl;
-            console.log('Image uploaded successfully:', uploadedImageUrl);
-            document.getElementById('uploadStatus').style.display = 'none'; // Hide status
-            document.getElementById('uploadStatus').innerHTML = '<i class="fas fa-check-circle"></i> Image uploaded successfully!';
+            console.log('✅ Image URL stored:', uploadedImageUrl);
+            
+            // Show success message
+            const uploadStatus = document.getElementById('uploadStatus');
+            uploadStatus.innerHTML = '<i class="fas fa-check-circle" style="color:green;"></i> Image uploaded successfully!';
+            uploadStatus.style.color = '#2ecc71';
+            uploadStatus.style.display = 'block';
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                uploadStatus.style.display = 'none';
+            }, 3000);
         } else {
-            alert('Error uploading image: ' + (result.message || 'Unknown error'));
-            removeImage();
+            throw new Error(result.message || 'Upload succeeded but no image URL returned');
         }
     } catch (error) {
-        console.error('Error uploading image:', error);
-        alert('Error uploading image: ' + error.message);
+        console.error('❌ Error uploading image:', error);
+        alert('❌ Error uploading image: ' + error.message);
         removeImage();
     } finally {
         isImageUploading = false; // Clear upload flag
@@ -454,7 +494,7 @@ function setupProductForm() {
         
         // Check if image is still uploading
         if (isImageUploading) {
-            alert('Please wait for the image to finish uploading before submitting the form.');
+            alert('⏳ Please wait for the image to finish uploading before submitting the form.');
             return;
         }
         
@@ -466,44 +506,59 @@ function setupProductForm() {
         const description = document.getElementById('productDescription').value.trim();
         
         if (!name || !category || !description) {
-            alert('Please fill in all required fields marked with *');
+            alert('❌ Please fill in all required fields marked with *');
             return;
         }
         
         // Get units - REQUIRED
         const units = getUnitsFromForm();
         if (units.length === 0) {
-            alert('Please add at least one product unit with price');
+            alert('❌ Please add at least one product unit with price');
             return;
         }
         
         // Determine image URL
         let imageUrl = 'product.jpg'; // default image
-        
         if (uploadedImageUrl) {
             imageUrl = uploadedImageUrl; // Use uploaded image if available
+            console.log('📸 Using uploaded image:', imageUrl);
+        } else {
+            // Warn user if editing and no new image uploaded (keep existing)
+            if (!productId) {
+                console.warn('⚠️  No image uploaded - using default image');
+            }
         }
         
         // Calculate base price from first unit (for backward compatibility)
         const basePrice = units[0].price;
         
+        // Validate price
+        if (!basePrice || isNaN(basePrice) || basePrice <= 0) {
+            alert('❌ First unit must have a valid price greater than 0');
+            return;
+        }
+        
+        // Read stock from the form input
+        const stockInput = document.getElementById('productStock');
+        const stockValue = stockInput ? (parseInt(stockInput.value) || 0) : 0;
+
         const productData = {
             name,
             category,
             price: basePrice,
-            stock: 0, // Stock is managed per unit
+            stock: stockValue,
             description,
             image: imageUrl,
-            units: units
+            units: units.map(u => ({ ...u, stock: stockValue }))
         };
 
-        console.log('Submitting product:', productData);
+        console.log('📝 Submitting product:', productData);
 
         try {
             const url = productId ? `${API_URL}/products/${productId}` : `${API_URL}/products`;
             const method = productId ? 'PUT' : 'POST';
 
-            console.log(`${method} to ${url}`);
+            console.log(`🚀 ${method} to ${url}`);
 
             const response = await fetch(url, {
                 method,
@@ -511,27 +566,28 @@ function setupProductForm() {
                 body: JSON.stringify(productData)
             });
 
-            console.log('Response status:', response.status);
+            console.log('📬 Response status:', response.status);
             
+            const result = await response.json();
+            console.log('📬 Response data:', result);
+
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorMsg = result.message || `Server error (${response.status})`;
+                throw new Error(errorMsg);
             }
 
-            const result = await response.json();
-            console.log('Response data:', result);
-
             if (result.success) {
-                alert(productId ? 'Product updated successfully!' : 'Product added successfully!');
+                alert(productId ? '✅ Product updated successfully!' : '✅ Product added successfully!');
                 closeProductModal();
                 uploadedImageUrl = ''; // Reset image URL
                 loadProducts();
                 loadDashboardData();
             } else {
-                alert('Error: ' + (result.message || 'Unknown error'));
+                alert('❌ Error: ' + (result.message || 'Unknown error'));
             }
         } catch (error) {
-            console.error('Error saving product:', error);
-            alert('Error saving product: ' + error.message);
+            console.error('❌ Error saving product:', error);
+            alert('❌ Error saving product: ' + error.message);
         }
     });
 }

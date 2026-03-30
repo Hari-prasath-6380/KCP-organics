@@ -7,6 +7,16 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 // Admin notification details
 const ADMIN_PHONE = process.env.ADMIN_PHONE || '6380442089';
 
+// ===== WHATSAPP INTEGRATION =====
+let whatsappModule = null;
+try {
+    whatsappModule = require('../whatsapp');
+    console.log('✅ WhatsApp module loaded successfully');
+} catch (error) {
+    console.warn('⚠️  WhatsApp module not available:', error.message);
+    console.log('💡 Install whatsapp-web.js to enable WhatsApp notifications');
+}
+
 // Send Telegram message (FREE)
 async function sendTelegramMessage(message) {
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
@@ -70,12 +80,7 @@ async function sendTelegramMessage(message) {
     }
 }
 
-// Email configuration removed - Using Telegram only
-// Email transporter removed to eliminate authentication errors
-console.log('📱 Using Telegram notification service (FREE, fully configured)');
-
-// SMS and WhatsApp removed - Using Telegram only
-console.log('💬 SMS and WhatsApp services removed - Using Telegram instead');
+console.log('📱 Using Telegram + WhatsApp notification services');
 
 // Send order notification via Telegram (FREE)
 async function sendOrderTelegram(orderDetails) {
@@ -113,11 +118,80 @@ async function sendOrderTelegram(orderDetails) {
     }
 }
 
-// Admin notification removed - Using Telegram only
-console.log('📨 Admin email notifications removed - Using Telegram instead');
+// Send order notification via WhatsApp
+async function sendOrderWhatsApp(orderDetails) {
+    if (!whatsappModule) {
+        console.warn('⚠️  WhatsApp module not available - skipping WhatsApp notification');
+        return false;
+    }
+
+    try {
+        // Check if client is ready
+        const isReady = whatsappModule.isClientReady ? whatsappModule.isClientReady() : false;
+        if (!isReady) {
+            console.warn('⚠️  WhatsApp client not ready yet - notification will be skipped');
+            console.warn('💡 Tip: WhatsApp client may still be initializing. Check server logs for QR code.');
+            return false;
+        }
+
+        // Format data for WhatsApp notification - match expected structure
+        const whatsappData = {
+            customerName: orderDetails.customerName,
+            phone: orderDetails.customerPhone,
+            items: (orderDetails.products || []).map(p => ({
+                title: p.name || p.productName || 'Product',
+                qty: p.quantity || 0,
+                price: p.price || 0
+            })),
+            totalAmount: orderDetails.amount || orderDetails.totalAmount || 0,
+            paymentMethod: orderDetails.paymentMethod,
+            shippingAddress: {
+                address: orderDetails.address || '',
+                city: orderDetails.city || '',
+                pincode: orderDetails.zipcode || ''
+            }
+        };
+
+        console.log('📱 [WhatsApp] Sending notification with data:', JSON.stringify(whatsappData, null, 2));
+        await whatsappModule.sendOrderNotification(whatsappData);
+        console.log('✅ WhatsApp order notification sent successfully');
+        return true;
+    } catch (error) {
+        console.error('❌ Error sending WhatsApp order notification:', error.message);
+        console.error('📋 Error stack:', error.stack);
+        return false;
+    }
+}
+
+// Send user message via WhatsApp
+async function sendUserMessageWhatsApp(senderName, senderPhone, messageText) {
+    if (!whatsappModule) {
+        console.warn('⚠️  WhatsApp module not available');
+        return false;
+    }
+
+    try {
+        // Check if client is ready
+        const isReady = whatsappModule.isClientReady ? whatsappModule.isClientReady() : false;
+        if (!isReady) {
+            console.warn('⚠️  WhatsApp client not ready yet - user message will be skipped');
+            return false;
+        }
+
+        await whatsappModule.sendUserMessage(senderName, senderPhone, messageText);
+        console.log('✅ WhatsApp user message sent to admin');
+        return true;
+    } catch (error) {
+        console.error('❌ Error sending WhatsApp user message:', error.message);
+        console.error('📋 Error stack:', error.stack);
+        return false;
+    }
+}
 
 module.exports = {
     sendOrderTelegram,
+    sendOrderWhatsApp,
+    sendUserMessageWhatsApp,
     sendTelegramMessage,
     ADMIN_PHONE
 };

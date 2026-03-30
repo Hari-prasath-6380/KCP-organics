@@ -51,10 +51,8 @@ router.post('/', async (req, res) => {
     try {
         const { productId, userId, rating, title, comment, reviewerName } = req.body;
 
-        // Validate required fields
-        if (!rating || !title || !comment) {
-            return res.status(400).json({ success: false, message: 'Rating, title, and comment are required' });
-        }
+        // All fields are optional - allow submission with any combination
+        // Only userId is required for tracking who submitted the review
 
         // If productId is provided, validate it exists
         let product = null;

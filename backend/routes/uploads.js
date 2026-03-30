@@ -112,30 +112,56 @@ const docxFilter = (req, file, cb) => {
 const uploadDocx = multer({ storage: docxStorage, fileFilter: docxFilter, limits: { fileSize: 5 * 1024 * 1024 } });
 
 // Image upload endpoint
-router.post('/upload', uploadImage.single('image'), (req, res) => {
-    try {
-        if (!req.file) {
-            return res.status(400).json({
+router.post('/upload', (req, res, next) => {
+    uploadImage.single('image')(req, res, function(err) {
+        try {
+            // Handle multer errors
+            if (err) {
+                console.error('❌ Multer Error:', err.message);
+                return res.status(400).json({
+                    success: false,
+                    message: 'File upload error: ' + (err.message || 'Unknown error')
+                });
+            }
+
+            if (!req.file) {
+                console.error('❌ No file in request');
+                return res.status(400).json({
+                    success: false,
+                    message: 'No file uploaded'
+                });
+            }
+
+            // Verify file was actually written to disk
+            if (!fs.existsSync(req.file.path)) {
+                console.error('❌ File not found on disk:', req.file.path);
+                return res.status(500).json({
+                    success: false,
+                    message: 'File upload failed - file not saved to disk'
+                });
+            }
+
+            // Get file stats to verify it was written
+            const stats = fs.statSync(req.file.path);
+            console.log(`✅ Image uploaded successfully: ${req.file.filename} (${stats.size} bytes)`);
+
+            // Return the relative path to access the image
+            const imagePath = `/uploads/products/${req.file.filename}`;
+
+            res.status(200).json({
+                success: true,
+                message: 'Image uploaded successfully',
+                imageUrl: imagePath,
+                filename: req.file.filename
+            });
+        } catch (error) {
+            console.error('❌ Error in upload endpoint:', error);
+            res.status(500).json({
                 success: false,
-                message: 'No file uploaded'
+                message: error.message || 'Error uploading file'
             });
         }
-
-        // Return the relative path to access the image
-        const imagePath = `/uploads/products/${req.file.filename}`;
-
-        res.status(200).json({
-            success: true,
-            message: 'Image uploaded successfully',
-            imageUrl: imagePath,
-            filename: req.file.filename
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Error uploading file'
-        });
-    }
+    });
 });
 
 // Video upload endpoint with error handling

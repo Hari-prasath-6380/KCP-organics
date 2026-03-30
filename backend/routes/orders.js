@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
-const { sendOrderTelegram } = require('../services/notificationService');
+const Product = require('../models/Product');
+const { sendOrderTelegram, sendOrderWhatsApp } = require('../services/notificationService');
 
 // Get order count - MUST come before /:id route
 router.get('/count/pending', async (req, res) => {
@@ -74,6 +75,31 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Get orders by user ID
+router.get('/user/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        console.log('[GET /orders/user/:userId] Fetching orders for userId:', userId);
+        
+        if (!userId) {
+            return res.status(400).json({ success: false, message: 'User ID is required' });
+        }
+
+        // First try to find orders by userId
+        let orders = await Order.find({ userId: userId }).sort({ createdAt: -1 });
+        
+        console.log('[GET /orders/user/:userId] Found', orders.length, 'orders by userId');
+        
+        // If no orders found by userId, return what we have
+        // (might be empty for new users)
+        res.status(200).json({ success: true, data: orders });
+    } catch (error) {
+        console.error('Error fetching user orders:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 // Get single order by ID
 router.get('/:id', async (req, res) => {
     try {
@@ -96,6 +122,7 @@ router.post('/', async (req, res) => {
     }
     try {
         const {
+            userId = 'guest',
             firstName,
             lastName,
             email,
@@ -112,6 +139,8 @@ router.post('/', async (req, res) => {
             notes
         } = req.body;
 
+        console.log('[POST /api/orders] userId received:', userId, 'email:', email);
+
         // Validation
         if (!firstName || !lastName || !email || !phone || !address || !city || !state || !zipcode || !products.length || !totalAmount) {
             return res.status(400).json({
@@ -124,6 +153,7 @@ router.post('/', async (req, res) => {
         // Create new order
         const generatedOrderId = `ORD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
         const newOrder = new Order({
+            userId,
             firstName,
             lastName,
             customerName: `${firstName} ${lastName}`,
@@ -157,6 +187,29 @@ router.post('/', async (req, res) => {
         await newOrder.save();
         console.log('[POST /api/orders] Order saved');
 
+        // ---- Decrement stock for each ordered item ----
+        (async () => {
+            for (const item of products) {
+                try {
+                    let query;
+                    if (item.productId && /^[0-9a-fA-F]{24}$/.test(item.productId)) {
+                        query = { _id: item.productId };
+                    } else {
+                        const escaped = (item.name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        query = { name: { $regex: new RegExp(escaped, 'i') } };
+                    }
+                    const qty = parseInt(item.quantity) || 1;
+                    await Product.findOneAndUpdate(
+                        { ...query, stock: { $gte: qty } },
+                        { $inc: { stock: -qty }, updatedAt: new Date() }
+                    );
+                } catch (se) {
+                    console.error('[Order] Stock decrement error:', se.message);
+                }
+            }
+        })();
+        // ---------------------------------------------------
+
         // Prepare order details for notifications
         const orderDetails = {
             orderId: newOrder.orderId || newOrder._id.toString().substring(0, 8).toUpperCase(),
@@ -180,6 +233,29 @@ router.post('/', async (req, res) => {
                 console.log('[POST /api/orders] ✅ Telegram notification sent successfully');
             } catch (error) {
                 console.error('[POST /api/orders] ❌ Telegram notification error:', error.message);
+            }
+
+            try {
+                console.log('[POST /api/orders] Starting WhatsApp notification...');
+                
+                // Send WhatsApp notification to admin and customer
+                const whatsappData = {
+                    customerName: orderDetails.customerName,
+                    phone: orderDetails.customerPhone,
+                    items: orderDetails.products || [],
+                    totalAmount: orderDetails.amount || 0,
+                    paymentMethod: orderDetails.paymentMethod,
+                    shippingAddress: {
+                        address: orderDetails.address || '',
+                        city: orderDetails.city || '',
+                        pincode: orderDetails.zipcode || ''
+                    }
+                };
+                await sendOrderWhatsApp(whatsappData);
+                console.log('[POST /api/orders] ✅ WhatsApp notification sent successfully');
+            } catch (error) {
+                console.error('[POST /api/orders] ⚠️ WhatsApp notification error:', error.message);
+                // Don't fail the order if WhatsApp fails - continue
             }
         });
 

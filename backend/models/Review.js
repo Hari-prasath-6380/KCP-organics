@@ -17,18 +17,21 @@ const reviewSchema = new mongoose.Schema({
     },
     rating: { 
         type: Number, 
-        required: true, 
-        min: 1, 
-        max: 5 
+        required: false, 
+        min: 0,
+        max: 5,
+        default: 0
     },
     title: { 
         type: String, 
-        required: true,
+        required: false,
+        default: '',
         maxlength: 100
     },
     comment: { 
         type: String, 
-        required: true,
+        required: false,
+        default: '',
         maxlength: 1000
     },
     verified: { 

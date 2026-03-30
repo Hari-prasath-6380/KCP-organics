@@ -25,6 +25,36 @@ mongoose
 // ================= MODELS =================
 const User = require("./models/User");
 
+// ================= INITIALIZE WHATSAPP =================
+// Initialize WhatsApp client for notifications (auto-loads in background)
+console.log("\n");
+console.log("╔════════════════════════════════════════════════════════╗");
+console.log("║    📱 INITIALIZING NOTIFICATION SERVICES              ║");
+console.log("╚════════════════════════════════════════════════════════╝");
+console.log("");
+
+try {
+    const whatsappModule = require("./whatsapp");
+    console.log("✅ WhatsApp module loaded - Check above for QR code if device not linked");
+    console.log("📝 Note: WhatsApp may take 20-30 seconds to initialize");
+    console.log("");
+} catch (error) {
+    console.error("❌ WhatsApp module error:", error.message);
+    console.error("📋 Details:", error);
+    console.warn("⚠️  WhatsApp notifications disabled - Only Telegram will work");
+    console.log("");
+}
+
+// Also initialize the notification service to ensure dependencies are loaded
+try {
+    require("./services/notificationService");
+    console.log("✅ Notification services initialized (Telegram + WhatsApp)");
+} catch (error) {
+    console.error("❌ Notification service error:", error.message);
+}
+
+console.log("════════════════════════════════════════════════════════\n");
+
 // ================= API ROUTES =================
 app.use("/api/products", require("./routes/products"));
 app.use("/api/users", require("./routes/admins"));

@@ -3,6 +3,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const sidebar = document.querySelector('.sidebar');
   if (!toggle || !sidebar) return;
 
+  // Detect if device supports touch
+  const isTouchDevice = () => {
+    return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+  };
+  
+  if (isTouchDevice()) {
+    document.documentElement.classList.add('touch');
+  }
+
   // Initialize collapsed state on small screens (hidden by default)
   const isSmall = window.innerWidth <= 992;
   if (isSmall) {
@@ -80,6 +89,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.innerWidth > 992) {
       sidebar.classList.remove('collapsed');
       toggle.setAttribute('aria-expanded', 'true');
+    } else {
+      sidebar.classList.add('collapsed');
+      toggle.setAttribute('aria-expanded', 'false');
+      removeOverlay();
     }
   });
   
@@ -91,6 +104,12 @@ document.addEventListener('DOMContentLoaded', function () {
       ov.className = 'admin-overlay';
       document.body.appendChild(ov);
       ov.addEventListener('click', () => {
+        sidebar.classList.add('collapsed');
+        toggle.setAttribute('aria-expanded', 'false');
+        removeOverlay();
+      });
+      // Handle touch events
+      ov.addEventListener('touchstart', () => {
         sidebar.classList.add('collapsed');
         toggle.setAttribute('aria-expanded', 'false');
         removeOverlay();

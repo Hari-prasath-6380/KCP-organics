@@ -222,12 +222,37 @@
             transform: translateY(-5px);
         }
 
-        .product-card img {
+        .product-image-wrapper {
+            position: relative;
             width: 100%;
             height: 150px;
-            object-fit: cover;
             border-radius: 5px;
+            overflow: hidden;
             margin-bottom: 10px;
+            background: #f5f5f5;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .stock-badge-over-shop-image {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(46, 125, 50, 0.95);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+            z-index: 5;
         }
 
         .product-card h3 {
@@ -257,6 +282,17 @@
             margin: 5px 0;
         }
 
+        .product-stock-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            text-align: center;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
         .btn-view-details {
             width: 100%;
             background: #2ecc71;
@@ -276,8 +312,8 @@
 
         .wishlist-icon {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 6px;
+            right: 6px;
             background: white;
             border: 1px solid #ddd;
             border-radius: 50%;
@@ -289,6 +325,7 @@
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s;
+            z-index: 8;
         }
 
         .wishlist-icon:hover {
@@ -358,13 +395,15 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <img src="logo_final.png" alt="logo">
+            <a href="home.html"><img src="logo_final.png" alt="logo"></a>
         </div>
         <div class="section1">
             <a href="home.html">Home</a>
-            <a href="shop.html" class="active">Shop</a>
             <a href="about-us.html">About us</a>
+            <a href="products.html">Products</a>
             <a href="contact.html">Contact us</a>
+            <a href="admin-dashboard.html">Admin</a>
+            <a href="track-order.html">Track Order</a>
         </div>
         <div class="section2" id="authSection">
             <div class="navbar-cart" onclick="toggleCart()">
@@ -376,6 +415,9 @@
             <span id="userName" style="display: none;"></span>
             <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
         </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="hamburger"></span>
+        </button>
     </nav>
 
     <div class="shop-container">
@@ -481,7 +523,7 @@
     </div>
 
     <script>
-        const API_URL = 'https://kcp-organics-1.onrender.com/api';
+        const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let currentPage = 1;
         let totalPages = 1;
@@ -566,10 +608,25 @@
 
             container.innerHTML = products.map(product => `
                 <div class="product-card">
-                    <div class="wishlist-icon" onclick="toggleWishlist(event, '${product._id}')">
-                        <i class="far fa-heart"></i>
+                    <div class="product-image-wrapper">
+                        <img src="${getImageUrl(product.image)}" alt="${product.name}" onclick="viewProduct('${product._id}')" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'">
+                        <div class="wishlist-icon" onclick="toggleWishlist(event, '${product._id}')">
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <div class="stock-badge-over-shop-image" style="${
+                            product.stock <= 0 
+                                ? 'background: rgba(198, 40, 40, 0.95);' 
+                                : product.stock <= 10 
+                                ? 'background: rgba(230, 81, 0, 0.95);' 
+                                : 'background: rgba(46, 125, 50, 0.95);'
+                        }">
+                            ${product.stock <= 0 
+                                ? '❌ Out of Stock' 
+                                : product.stock <= 10 
+                                ? `⚠️ Only ${product.stock}` 
+                                : `✓ Stock: ${product.stock}`}
+                        </div>
                     </div>
-                    <img src="${getImageUrl(product.image)}" alt="${product.name}" onclick="viewProduct('${product._id}')" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'">
                     <h3 onclick="viewProduct('${product._id}')">${product.name}</h3>
                     ${product.averageRating ? `
                         <div class="product-rating">
@@ -577,18 +634,18 @@
                             (${product.totalReviews})
                         </div>
                     ` : ''}
-                    <div class="product-price">$${product.price.toFixed(2)}</div>
-                    <div class="product-stock">Stock: ${product.stock}</div>
-                    <button class="btn-view-details" onclick="viewProduct('${product._id}')">View Details</button>
+                    <div class="product-price">₹${product.price.toFixed(2)}</div>
+                    <button class="btn-view-details" onclick="viewProduct('${product._id}')" ${product.stock <= 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>View Details</button>
                 </div>
             `).join('');
         }
 
         // Helper function to get full image URL
         function getImageUrl(imagePath) {
+            const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://kcp-organics-1.onrender.com';
             if (!imagePath) return 'https://via.placeholder.com/200x200?text=No+Image';
             if (imagePath.startsWith('http')) return imagePath;
-            if (imagePath.startsWith('/uploads')) return `https://kcp-organics-1.onrender.com${imagePath}`;
+            if (imagePath.startsWith('/uploads')) return `${baseUrl}${imagePath}`;
             if (imagePath === 'product.jpg') return 'https://via.placeholder.com/200x200?text=Product';
             return imagePath;
         }

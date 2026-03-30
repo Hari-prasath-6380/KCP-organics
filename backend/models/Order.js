@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
+    // User Information
+    userId: {
+        type: String,
+        default: 'guest'
+    },
+
     // Customer Information
     firstName: {
         type: String,

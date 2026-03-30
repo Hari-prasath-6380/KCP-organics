@@ -44,6 +44,29 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Search products by name for stock check (must come before /:id)
+router.get('/stock/by-name', async (req, res) => {
+    try {
+        const { name } = req.query;
+        if (!name) return res.status(400).json({ success: false, message: 'name query param required' });
+        const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const product = await Product.findOne({ name: { $regex: new RegExp(escaped, 'i') } })
+            .select('name stock units');
+        if (!product) return res.status(200).json({ success: true, data: null });
+        res.status(200).json({
+            success: true,
+            data: {
+                _id: product._id,
+                name: product.name,
+                stock: product.stock,
+                units: (product.units || []).map(u => ({ unit: u.unit, quantity: u.quantity, stock: u.stock }))
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 // Get single product by ID
 router.get('/:id', async (req, res) => {
     try {
@@ -68,18 +91,48 @@ router.post('/:id/decrement', async (req, res) => {
         const product = await Product.findById(req.params.id);
         if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
+        // Check if product is active
+        if (!product.isActive) {
+            return res.status(400).json({ success: false, message: 'Product is not available' });
+        }
+
         if (unitIndex !== null && Array.isArray(product.units) && product.units[unitIndex]) {
             const unit = product.units[unitIndex];
-            if (typeof unit.stock === 'number') {
-                if (unit.stock < quantity) return res.status(400).json({ success: false, message: 'Insufficient unit stock' });
+            // Get available stock from unit or fallback to product stock
+            const unitStockAvailable = (typeof unit.stock === 'number' && unit.stock > 0) ? unit.stock : null;
+            const productStockAvailable = (typeof product.stock === 'number' && product.stock > 0) ? product.stock : 0;
+            
+            // Determine which stock to use
+            const availableStock = unitStockAvailable !== null ? unitStockAvailable : productStockAvailable;
+            
+            if (availableStock < quantity) {
+                const outOfStock = availableStock === 0;
+                return res.status(400).json({ 
+                    success: false, 
+                    message: outOfStock ? 'Product is out of stock' : `Only ${availableStock} unit(s) available`,
+                    available: availableStock
+                });
+            }
+            
+            // Decrement the stock we used
+            if (unitStockAvailable !== null) {
                 unit.stock = unit.stock - quantity;
             } else {
-                // fallback to product.stock
-                if (product.stock < quantity) return res.status(400).json({ success: false, message: 'Insufficient stock' });
                 product.stock = product.stock - quantity;
             }
         } else {
-            if (product.stock < quantity) return res.status(400).json({ success: false, message: 'Insufficient stock' });
+            // No unit specified, use base product stock
+            const availableStock = (typeof product.stock === 'number') ? product.stock : 0;
+            
+            if (availableStock < quantity) {
+                const outOfStock = availableStock === 0;
+                return res.status(400).json({ 
+                    success: false, 
+                    message: outOfStock ? 'Product is out of stock' : `Only ${availableStock} unit(s) available`,
+                    available: availableStock
+                });
+            }
+            
             product.stock = product.stock - quantity;
         }
 
@@ -121,8 +174,14 @@ router.post('/', async (req, res) => {
             isActive
         } = req.body;
 
-        if (!name || !price) {
-            return res.status(400).json({ success: false, message: 'Required fields missing: name and price are required' });
+        if (!name || !description) {
+            return res.status(400).json({ success: false, message: 'Required fields missing: name and description are required' });
+        }
+        
+        // Ensure price is a valid number
+        const numPrice = Number(price);
+        if (isNaN(numPrice) || numPrice <= 0) {
+            return res.status(400).json({ success: false, message: 'Price must be a valid number greater than 0' });
         }
 
         // Ensure category and description defaults
@@ -160,7 +219,15 @@ router.post('/', async (req, res) => {
         }
 
         // Generate slug if not provided
-        const productSlug = slug || name.toLowerCase().replace(/\s+/g, '-');
+        let productSlug = slug || name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        
+        // Check if slug is unique (append random string if duplicate)
+        if (!slug) {
+            const existingProduct = await Product.findOne({ slug: productSlug });
+            if (existingProduct) {
+                productSlug = productSlug + '-' + Date.now().toString(36);
+            }
+        }
 
         const newProduct = new Product({
             name,
@@ -195,7 +262,13 @@ router.post('/', async (req, res) => {
             data: newProduct
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        console.error('[Product POST] Error:', error);
+        const errorMessage = error.message || 'Unknown error';
+        const details = error.errors ? Object.keys(error.errors).map(k => `${k}: ${error.errors[k].message}`).join('; ') : '';
+        res.status(500).json({ 
+            success: false, 
+            message: `Error creating product: ${errorMessage}${details ? ' (' + details + ')' : ''}` 
+        });
     }
 });
 
@@ -225,7 +298,13 @@ router.put('/:id', async (req, res) => {
             data: product
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        console.error('[Product PUT] Error:', error);
+        const errorMessage = error.message || 'Unknown error';
+        const details = error.errors ? Object.keys(error.errors).map(k => `${k}: ${error.errors[k].message}`).join('; ') : '';
+        res.status(500).json({ 
+            success: false, 
+            message: `Error updating product: ${errorMessage}${details ? ' (' + details + ')' : ''}` 
+        });
     }
 });
 
@@ -280,6 +359,58 @@ router.get('/admin/low-stock', async (req, res) => {
             data: products
         });
     } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+// Fix broken image references (admin cleanup endpoint)
+router.post('/admin/fix-broken-images', async (req, res) => {
+    try {
+        const fs = require('fs');
+        const path = require('path');
+        
+        const uploadsDir = path.join(__dirname, '../uploads/products');
+        
+        // Get all image files that exist on disk
+        const existingFiles = new Set(fs.readdirSync(uploadsDir));
+        console.log(`📁 Found ${existingFiles.size} image files on disk`);
+        
+        // Find all products with missing images
+        const allProducts = await Product.find({});
+        let fixedCount = 0;
+        let brokenCount = 0;
+        
+        for (const product of allProducts) {
+            if (!product.image) continue;
+            
+            // Extract just the filename from the path
+            const imagePath = product.image;
+            let filename = imagePath;
+            
+            if (imagePath.includes('/')) {
+                filename = imagePath.split('/').pop();
+            }
+            
+            // Check if file exists
+            if (!existingFiles.has(filename) && imagePath !== 'product.jpg') {
+                console.log(`⚠️  Missing image for "${product.name}": ${filename}`);
+                brokenCount++;
+                
+                // Set to default product.jpg
+                product.image = 'product.jpg';
+                await product.save();
+                fixedCount++;
+            }
+        }
+        
+        res.status(200).json({
+            success: true,
+            message: `Fixed ${fixedCount} products with broken images`,
+            brokenCount,
+            fixedCount
+        });
+    } catch (error) {
+        console.error('❌ Error fixing broken images:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 });

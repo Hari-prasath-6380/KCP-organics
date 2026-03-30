@@ -20,9 +20,10 @@ function checkUserAuthentication() {
     if (token) {
         loginLink.style.display = 'none';
         signupLink.style.display = 'none';
-        userNameSpan.style.display = 'inline';
+        userNameSpan.style.display = 'inline-flex';
+        userNameSpan.style.alignItems = 'center';
         userNameSpan.textContent = userName || 'User';
-        logoutLink.style.display = 'inline';
+        logoutLink.style.display = 'inline-flex';
         
         // Load cart count
         loadCartCount();

@@ -21,6 +21,9 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-dark);
     background: white;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
 }
 
 /* Container */
@@ -32,7 +35,7 @@ body {
 
 /* Product Hero */
 .product-hero {
-    height: 400px;
+    height: clamp(200px, 40vh, 400px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,6 +43,7 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
+    padding: 20px;
 }
 
 .product-hero::before {
@@ -60,26 +64,26 @@ body {
 }
 
 .product-hero h1 {
-    font-size: 50px;
+    font-size: clamp(24px, 6vw, 50px);
     font-weight: 700;
     margin-bottom: 15px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .product-hero p {
-    font-size: 22px;
+    font-size: clamp(14px, 3.5vw, 22px);
     font-weight: 300;
     letter-spacing: 1px;
 }
 
 /* Product Intro Section */
 .product-intro {
-    padding: 80px 20px;
+    padding: clamp(40px, 8vw, 80px) 20px;
     background: var(--bg-light);
 }
 
 .intro-content h2 {
-    font-size: 42px;
+    font-size: clamp(26px, 5vw, 42px);
     color: var(--primary-green);
     margin-bottom: 25px;
     text-align: center;
@@ -134,9 +138,8 @@ body {
     margin: 0;
 }
 
-/* Products Grid Section */
 .products-grid-section {
-    padding: 80px 20px;
+    padding: clamp(40px, 8vw, 80px) 20px;
     background: white;
 }
 
@@ -175,7 +178,7 @@ body {
 }
 
 .product-details h3 {
-    font-size: 24px;
+    font-size: clamp(18px, 4vw, 24px);
     color: var(--primary-green);
     margin-bottom: 15px;
     font-weight: 700;
@@ -242,7 +245,18 @@ body {
     transform: translateY(0);
 }
 
-/* Product Info Section */
+/* Stock badge shown below Add-to-Cart button */
+.product-stock-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+    margin-top: 6px;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}
+
 .product-info-section {
     padding: 80px 20px;
     background: var(--bg-light);
@@ -290,13 +304,13 @@ body {
 
 /* Usage Section */
 .usage-section {
-    padding: 80px 20px;
+    padding: clamp(40px, 8vw, 80px) 20px;
     background: white;
 }
 
 .usage-section h2 {
     text-align: center;
-    font-size: 42px;
+    font-size: clamp(26px, 5vw, 42px);
     color: var(--primary-green);
     margin-bottom: 50px;
 }
@@ -395,35 +409,93 @@ body {
     }
 }
 
-/* Responsive Design */
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    .product-hero h1 { font-size: 40px; }
+    .product-hero p { font-size: 18px; }
+    .intro-content h2 { font-size: 34px; }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+}
+
 @media (max-width: 768px) {
-    .product-hero h1 {
-        font-size: 36px;
-    }
+    body { padding-top: 64px; }
+    
+    .product-hero { height: 280px; padding: 15px; }
+    .product-hero h1 { font-size: 28px; }
+    .product-hero p { font-size: 15px; }
 
-    .product-hero p {
-        font-size: 16px;
-    }
+    .product-intro { padding: 40px 16px; }
+    .intro-content h2 { font-size: 24px; }
+    .intro-content p { font-size: 14px; }
+    .intro-features { grid-template-columns: 1fr 1fr; gap: 15px; }
+    .intro-features .feature { padding: 20px; }
 
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+    .product-card-detail { border-left-width: 4px; }
+    .product-image-container { height: 160px; }
+    .product-details { padding: 20px; }
+    .product-details h3 { font-size: 18px; }
 
-    .intro-features {
-        grid-template-columns: 1fr;
-    }
+    .info-grid { grid-template-columns: 1fr; }
+    .usage-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
+    .usage-section h2 { font-size: 26px; }
+    .container { padding: 0 16px; }
+    
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 25px; }
+}
 
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 600px) {
+    body { padding-top: 60px; }
+    
+    .product-hero { height: 240px; }
+    .product-hero h1 { font-size: 22px; }
+    .product-hero p { font-size: 13px; }
+    
+    .intro-features { grid-template-columns: 1fr; gap: 12px; }
+    .usage-grid { grid-template-columns: 1fr; gap: 12px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
 
-    .usage-grid {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 480px) {
+    body { padding-top: 56px; }
+    
+    .product-hero { height: 200px; padding: 10px; }
+    .product-hero h1 { font-size: 19px; margin-bottom: 10px; }
+    .product-hero p { font-size: 12px; }
 
-    .intro-content h2,
-    .usage-section h2 {
-        font-size: 32px;
-    }
+    .product-intro { padding: 28px 12px; }
+    .intro-content h2 { font-size: 20px; margin-bottom: 15px; }
+    .intro-features { grid-template-columns: 1fr; gap: 10px; }
+    .intro-features .feature { padding: 15px; }
+    .intro-features i { font-size: 32px; }
+    
+    .products-grid { grid-template-columns: 1fr; gap: 10px; }
+    .product-card-detail { border-left-width: 3px; }
+    .product-image-container { height: 140px; padding: 20px; }
+    .product-details { padding: 15px; }
+    .product-details h3 { font-size: 16px; }
+    .product-desc { font-size: 13px; }
+    .benefits-list h5 { font-size: 14px; }
+    .benefits-list li { font-size: 13px; }
+
+    .info-box { padding: 25px 15px; }
+    .info-box i { font-size: 40px; }
+    .info-box h3 { font-size: 16px; }
+    
+    .usage-card { padding: 25px; }
+    .usage-card h4 { font-size: 16px; }
+    .usage-card p { font-size: 13px; }
+    
+    .usage-section h2 { font-size: 20px; margin-bottom: 30px; }
+    .container { padding: 0 12px; }
+    
+    .footer-container { grid-template-columns: 1fr; gap: 20px; }
+    .main-footer { padding: 40px 15px 15px; margin-top: 40px; }
+}
+
+@media (max-width: 360px) {
+    .product-hero h1 { font-size: 17px; }
+    .product-hero p { font-size: 11px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
 }

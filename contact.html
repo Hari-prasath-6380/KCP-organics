@@ -248,18 +248,176 @@
             .submit-btn {
                 padding: 12px 20px;
             }
+
+            .contact-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .info-card {
+                padding: 20px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            textarea,
+            select {
+                font-size: 16px !important;
+                padding: 10px;
+            }
         }
 
-        .messages-list-section {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            margin-top: 40px;
-            display: none;
+        @media (max-width: 600px) {
+            .contact-container {
+                padding: 20px 10px;
+            }
+
+            .contact-header {
+                margin-bottom: 30px;
+            }
+
+            .contact-header h1 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            .contact-header p {
+                font-size: 14px;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 30px;
+            }
+
+            .info-card {
+                padding: 15px;
+                border-radius: 8px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            textarea {
+                font-size: 16px !important;
+                padding: 9px;
+                width: 100%;
+            }
+
+            .submit-btn {
+                padding: 12px 16px;
+                font-size: 14px;
+                width: 100%;
+                min-height: 44px;
+            }
+
+            .faq-grid {
+                gap: 12px;
+            }
+
+            .faq-item {
+                padding: 15px;
+            }
+
+            .faq-item-header {
+                font-size: 14px;
+            }
+
+            .faq-item p {
+                font-size: 13px;
+            }
         }
 
-        .messages-list-section.show {
-            display: block;
+        @media (max-width: 480px) {
+            .contact-container {
+                padding: 15px 8px;
+            }
+
+            .contact-header h1 {
+                font-size: 20px;
+            }
+
+            .contact-header p {
+                font-size: 12px;
+            }
+
+            .info-card {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .info-card i {
+                font-size: 24px;
+            }
+
+            .info-card h3 {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .info-card p {
+                font-size: 12px;
+            }
+
+            .form-section {
+                padding: 15px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            textarea {
+                font-size: 15px !important;
+                padding: 8px;
+            }
+
+            .submit-btn {
+                padding: 11px 12px;
+                font-size: 13px;
+            }
+
+            .map-container {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .contact-header h1 {
+                font-size: 18px;
+            }
+
+            .contact-header p {
+                font-size: 11px;
+            }
+
+            .info-card {
+                padding: 10px;
+            }
+
+            .info-card h3 {
+                font-size: 12px;
+            }
+
+            .info-card p {
+                font-size: 11px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            textarea {
+                font-size: 14px !important;
+            }
+
+            .submit-btn {
+                font-size: 12px;
+                padding: 10px 8px;
+            }
         }
 
         .message-item {
@@ -293,23 +451,29 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="logo">
-            <img src="logo_final.png" alt="logo">
+            <a href="home.html"><img src="logo_final.png" alt="logo"></a>
         </div>
         <div class="section1">
             <a href="home.html">Home</a>
-            <a href="shop.html">Shop</a>
-            <a href="home.html#products">Products</a>
             <a href="about-us.html">About us</a>
-            <a href="contact.html">Contact us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html" class="active">Contact us</a>
+            <a href="admin-dashboard.html">Admin</a>
+            <a href="track-order.html">Track Order</a>
         </div>
-        <div class="section2">
-            <div class="navbar-cart" onclick="toggleCart()" title="Shopping Cart">
+        <div class="section2" id="authSection">
+            <div class="navbar-cart" onclick="toggleCart()">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="cart-badge" id="cartBadge">0</span>
+                <span id="cartBadge">0</span>
             </div>
-            <a href="login.html">Login</a>
-            <a href="signup.html">Sign up</a>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="signup.html" id="signupLink">Sign up</a>
+            <span id="userName" style="display: none;"></span>
+            <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
         </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="hamburger"></span>
+        </button>
     </nav>
 
     <!-- Contact Header -->
@@ -327,7 +491,7 @@
                     <i class="fas fa-map-marker-alt"></i>
                     <div>
                         <h3>Visit Us</h3>
-                        <p>123 Organic Lane<br>Green Valley, CA 94000<br>United States</p>
+                        <p>KCP Organics<br>Perundurai, Tamil Nadu<br>India</p>
                     </div>
                 </div>
 
@@ -335,7 +499,7 @@
                     <i class="fas fa-phone"></i>
                     <div>
                         <h3>Call Us</h3>
-                        <p>+1 (555) 123-4567<br>Mon - Fri: 9:00 AM - 6:00 PM<br>Sat - Sun: 10:00 AM - 4:00 PM</p>
+                        <p>+91 XXXXX XXXXX<br>Mon - Fri: 9:00 AM - 6:00 PM<br>Sat - Sun: 10:00 AM - 4:00 PM</p>
                     </div>
                 </div>
 
@@ -391,6 +555,14 @@
                         <i class="fas fa-paper-plane"></i> Send Message
                     </button>
                 </form>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="map-section">
+            <h2>Find Us On The Map</h2>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.1234567890!2d77.5800375!3d11.2795909!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba96d9b599e94fd%3A0x89bf9fc542194e84!2sKCP%20Organic!5e0!3m2!1sen!2sin!4v1711859400000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
 
