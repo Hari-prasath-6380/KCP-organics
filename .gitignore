@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# WhatsApp Web.js session data (should not be committed)
+backend/.wwebjs_auth/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Build files
+dist/
+build/
+.next/
+out/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+
+# MongoDB/Database
+mongodb_data/
+*.db
+
+# Uploads (use your own images locally)
+backend/uploads/
+
+# Cache
+.eslintcache
+.cache/
+.parcel-cache/
