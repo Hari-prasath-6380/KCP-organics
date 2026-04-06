@@ -7,6 +7,8 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" type="text/css" href="home-enhancements.css">
   <link rel="stylesheet" type="text/css" href="home-videos.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -47,10 +49,12 @@
   <img src="carousel_img4.jpeg" alt="carousel-img" class="carousel-img" />
   <img src="carrousel2.jpeg" alt="carousel-img" class="carousel-img" />
   <div class="carousel-text">
-    <span class="welcome-badge">🌿 100% Natural &amp; Organic</span>
-    <h1>Welcome to <span class="brand-highlight">KCP Organics</span></h1>
+    
+    <h1>Welcome<br>To<br><span class="brand-highlight">KCP Organics</span></h1>
     <div class="welcome-divider"></div>
     <p>மண்ணில் விளைந்தது, மனதில் கலந்தது.</p>
+    <p class="slogan">Purely Organic. Truly Trusted.<br>Direct from Farm. Free from Chemicals.</p>
+    <span class="welcome-badge">🌿 100% Natural &amp; Organic</span>
   </div>
   </div><br><br>
   
@@ -62,144 +66,144 @@
   <div class="slide-track">
 
     <!-- Products (1st set) -->
-    <a href="rice-products.html" class="product-card">
-      <img src="rice.png"height="80%" alt="Rice">
+    <a href="products.html?category=Rice" class="product-card">
+      <img src="rice.png" alt="Rice">
       <span>Organic Rice</span>
     </a>
-    <a href="vegetables-products.html" class="product-card">
-      <img src="vege.png"height="80%" alt="Vegetables">
+    <a href="products.html?category=Vegetables" class="product-card">
+      <img src="vege.png" alt="Vegetables">
       <span>Fresh Vegetables</span>
     </a>
-    <a href="honey-products-detailed.html" class="product-card">
-      <img src="honey.png"height="80%" alt="Honey">
+    <a href="products.html?category=Honey" class="product-card">
+      <img src="honey.png" alt="Honey">
       <span>Natural Honey</span>
     </a>
-    <a href="sweetener-products.html" class="product-card">
-      <img src="sweetener.png!bw700"height="80%" alt="Sweetener">
+    <a href="products.html?category=Sweetener" class="product-card">
+      <img src="sweetener.png!bw700" alt="Sweetener">
       <span>Sweetener</span>
     </a>
-    <a href="oils-products.html" class="product-card">
-      <img src="oil.png"height="80%" alt="Oil">
+    <a href="products.html?category=Oil" class="product-card">
+      <img src="oil.png" alt="Oil">
       <span>Oil Varieties</span>
     </a>
     <a href="#" class="product-card">
-      <img src="soap1.jpeg"height="80%" alt="Coming Soon">
+      <img src="soap1.jpeg" alt="Soap Liquid">
       <span>Soap Liquid</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="millets.avif"height="80%" alt="Coming Soon">
+      <img src="millets.avif" alt="Millets">
       <span>Millets</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="masala.png"height="80%" alt="Coming Soon">
+      <img src="masala.png" alt="Spices">
       <span>Spices</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="dhall.png"height="80%" alt="Coming Soon">
+      <img src="dhall.png" alt="Dhall varieties">
       <span>Dhall varities</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="Podi-Varieties.webp"height="80%" alt="Coming Soon">
+      <img src="Podi-Varieties.webp" alt="Podi varieties">
       <span>Podi varities</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="pickle.jpg"height="80%" alt="Coming Soon">
+      <img src="pickle.jpg" alt="Pickle varieties">
       <span>Pickle varities</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="snacks.jpeg"height="80%" alt="Coming Soon">
+      <img src="snacks.jpeg" alt="Snacks varieties">
       <span>Snacks varities</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="grocery.png"height="80%" alt="Coming Soon">
+      <img src="grocery.png" alt="Grocery items">
       <span>Grocery items</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="fruits.png"height="80%" alt="Coming Soon">
+      <img src="fruits.png" alt="Fruits">
       <span>Fruits</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="keerai.jpeg"height="80%" alt="Coming Soon">
+      <img src="keerai.jpeg" alt="Lettuce (Keerai)">
       <span>Lettuce(Keerai)</span>
     </a>
 
     <!-- Duplicate products for seamless carousel loop (2nd set) -->
-    <a href="rice-products.html" class="product-card">
-      <img src="rice.png"height="80%" alt="Rice">
+    <a href="products.html?category=Rice" class="product-card">
+      <img src="rice.png" alt="Rice">
       <span>Organic Rice</span>
     </a>
-    <a href="vegetables-products.html" class="product-card">
-      <img src="vege.png"height="80%" alt="Vegetables">
+    <a href="products.html?category=Vegetables" class="product-card">
+      <img src="vege.png" alt="Vegetables">
       <span>Fresh Vegetables</span>
     </a>
-    <a href="honey-products-detailed.html" class="product-card">
-      <img src="honey.png"height="80%" alt="Honey">
+    <a href="products.html?category=Honey" class="product-card">
+      <img src="honey.png" alt="Honey">
       <span>Natural Honey</span>
     </a>
-    <a href="sweetener-products.html" class="product-card">
-      <img src="sweetener.png!bw700"height="80%" alt="Sweetener">
+    <a href="products.html?category=Sweetener" class="product-card">
+      <img src="sweetener.png!bw700" alt="Sweetener">
       <span>Sweetener</span>
     </a>
-    <a href="oils-products.html" class="product-card">
-      <img src="oil.png"height="80%" alt="Oil">
+    <a href="products.html?category=Oil" class="product-card">
+      <img src="oil.png" alt="Oil">
       <span>Oil Varieties</span>
     </a>
     <a href="#" class="product-card">
-      <img src="soap1.jpeg"height="80%" alt="Coming Soon">
+      <img src="soap1.jpeg" alt="Soap Liquid">
       <span>Soap Liquid</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="millets.avif"height="80%" alt="Coming Soon">
+      <img src="millets.avif" alt="Millets">
       <span>Millets</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="masala.png"height="80%" alt="Coming Soon">
+      <img src="masala.png" alt="Spices">
       <span>Spices</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="dhall.png"height="80%" alt="Coming Soon">
+      <img src="dhall.png" alt="Dhall varieties">
       <span>Dhall varities</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="Podi-Varieties.webp"height="80%" alt="Coming Soon">
+      <img src="Podi-Varieties.webp" alt="Podi varieties">
       <span>Podi varities</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="pickle.jpg"height="80%" alt="Coming Soon">
+      <img src="pickle.jpg" alt="Pickle varieties">
       <span>Pickle varities</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="snacks.jpeg"height="80%" alt="Coming Soon">
+      <img src="snacks.jpeg" alt="Snacks varieties">
       <span>Snacks varities</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="grocery.png"height="80%" alt="Coming Soon">
+      <img src="grocery.png" alt="Grocery items">
       <span>Grocery items</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="fruits.png"height="80%" alt="Coming Soon">
+      <img src="fruits.png" alt="Fruits">
       <span>Fruits</span>
     </a>
 
     <a href="#" class="product-card">
-      <img src="keerai.jpeg"height="80%" alt="Coming Soon">
+      <img src="keerai.jpeg" alt="Lettuce (Keerai)">
       <span>Lettuce(Keerai)</span>
     </a>
 
@@ -1209,11 +1213,16 @@
                     </div>
                   `).join('')}
                 </div>
-                <div class="order-footer">
-                  <span class="order-total"><strong>Total: ₹${order.totalAmount.toFixed(2)}</strong></span>
-                  <span class="order-status" style="background: ${order.orderStatus === 'delivered' ? '#27ae60' : order.orderStatus === 'pending' ? '#f39c12' : '#e74c3c'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
-                    ${order.orderStatus || 'Pending'}
-                  </span>
+                <div class="order-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                  <div>
+                    <span class="order-total"><strong>Total: ₹${order.totalAmount.toFixed(2)}</strong></span>
+                    <span class="order-status" style="background: ${order.orderStatus === 'delivered' ? '#27ae60' : order.orderStatus === 'pending' ? '#f39c12' : '#e74c3c'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-left: 10px;">
+                      ${order.orderStatus || 'Pending'}
+                    </span>
+                  </div>
+                  <button onclick="downloadReceiptPDF('${order._id}')" style="background: #4CAF50; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.3s;" onmouseover="this.style.background='#2e7d32'" onmouseout="this.style.background='#4CAF50'">
+                    <i class="fas fa-download" style="margin-right: 5px;"></i>Download Receipt
+                  </button>
                 </div>
               </div>
             `).join('');
@@ -1235,6 +1244,202 @@
             </div>
           `;
         });
+    }
+
+    // Download Receipt as PDF
+    async function downloadReceiptPDF(orderId) {
+        const userId = localStorage.getItem('userId');
+        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
+        
+        try {
+            const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                const order = data.data;
+                const PDFClass = window.jsPDF || (window.jspdf && window.jspdf.jsPDF);
+                if (!PDFClass) {
+                    alert('PDF library not loaded. Please refresh the page.');
+                    return;
+                }
+                
+                const doc = new PDFClass('p', 'mm', 'a4');
+                const pageWidth = doc.internal.pageSize.getWidth();
+                let y = 15;
+                
+                // Header
+                doc.setFontSize(18);
+                doc.setTextColor(46, 125, 50);
+                doc.setFont(undefined, 'bold');
+                doc.text('KCP ORGANICS', pageWidth / 2, y, { align: 'center' });
+                
+                y += 6;
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.setFont(undefined, 'normal');
+                doc.text('100% Organic | Farm Fresh to Your Doorstep', pageWidth / 2, y, { align: 'center' });
+                
+                y += 4;
+                doc.setFontSize(9);
+                doc.text('Contact: +91 98765 43210 | Email: support@kcporganics.com', pageWidth / 2, y, { align: 'center' });
+                
+                // Horizontal line
+                y += 6;
+                doc.setDrawColor(46, 125, 50);
+                doc.setLineWidth(0.5);
+                doc.line(15, y, pageWidth - 15, y);
+                
+                // Invoice Details Section
+                y += 8;
+                doc.setFontSize(11);
+                doc.setTextColor(0, 0, 0);
+                doc.setFont(undefined, 'bold');
+                doc.text('INVOICE DETAILS', 15, y);
+                
+                y += 6;
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                const orderIdFormatted = order._id.substring(0, 8).toUpperCase();
+                const tax = Math.round(order.totalAmount * 0.05 / 1.05);
+                const subtotal = order.totalAmount - tax;
+                
+                doc.text(`Order ID: ORD-${orderIdFormatted}-${new Date(order.createdAt).getTime().toString().slice(-6)}`, 15, y);
+                y += 5;
+                doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString('en-IN')}`, 15, y);
+                y += 5;
+                doc.text(`Payment Method: ${order.paymentMethod || 'COD'}`, 15, y);
+                
+                // Bill To Section
+                y += 8;
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(10);
+                doc.text('BILL TO', 15, y);
+                
+                y += 5;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(9);
+                doc.text(`${order.customerName || 'Valued Customer'}`, 15, y);
+                y += 4;
+                doc.text(`${order.address || 'Address on file'}`, 15, y);
+                y += 4;
+                doc.text(`${order.phone || order.email || ''}`, 15, y);
+                y += 4;
+                doc.text(`Email: ${order.email || ''}`, 15, y);
+                
+                // Items Table
+                y += 8;
+                const tableStartY = y;
+                const colWidths = {
+                    sno: 12,
+                    productId: 35,
+                    productName: 70,
+                    qty: 15,
+                    unitPrice: 25,
+                    total: 25
+                };
+                
+                const col1 = 15;
+                const col2 = col1 + colWidths.sno;
+                const col3 = col2 + colWidths.productId;
+                const col4 = col3 + colWidths.productName;
+                const col5 = col4 + colWidths.qty;
+                const col6 = col5 + colWidths.unitPrice;
+                
+                // Table header background
+                doc.setFillColor(46, 125, 50);
+                doc.rect(col1 - 2, y - 3, pageWidth - 30, 6, 'F');
+                
+                // Table headers
+                doc.setTextColor(255, 255, 255);
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(9);
+                doc.text('S.No', col1, y);
+                doc.text('Product ID', col2, y);
+                doc.text('Product Name', col3, y);
+                doc.text('Qty', col4 + 2, y);
+                doc.text('Unit Price', col5 + 2, y);
+                doc.text('Total', col6 + 5, y);
+                
+                y += 7;
+                doc.setTextColor(0, 0, 0);
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(8);
+                
+                // Table rows
+                order.products.forEach((item, index) => {
+                    const itemTotal = (item.price * item.quantity).toFixed(2);
+                    doc.text(`${index + 1}`, col1, y);
+                    doc.text(item._id ? item._id.toString().substring(0, 8) : 'N/A', col2, y);
+                    doc.text(item.name.substring(0, 45), col3, y);
+                    doc.text(item.quantity.toString(), col4 + 2, y);
+                    doc.text(`₹${item.price}`, col5 + 2, y);
+                    doc.text(`₹${itemTotal}`, col6 + 5, y);
+                    y += 5;
+                    
+                    if (y > 250) {
+                        doc.addPage();
+                        y = 15;
+                    }
+                });
+                
+                // Totals Section
+                y += 3;
+                doc.setDrawColor(46, 125, 50);
+                doc.line(col1 - 2, y, pageWidth - 15, y);
+                
+                y += 6;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0);
+                
+                const subtotalAmount = subtotal.toFixed(2);
+                const taxAmount = tax.toFixed(2);
+                const totalAmount = order.totalAmount.toFixed(2);
+                
+                // Align right for amounts
+                const amountColX = pageWidth - 30;
+                const labelColX = col3;
+                
+                doc.text('Subtotal:', labelColX, y);
+                doc.text(`₹${subtotalAmount}`, amountColX, y, { align: 'right' });
+                
+                y += 4;
+                doc.text('Tax (5%):', labelColX, y);
+                doc.text(`₹${taxAmount}`, amountColX, y, { align: 'right' });
+                
+                y += 6;
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(10);
+                doc.setTextColor(46, 125, 50);
+                doc.text('Total Amount:', labelColX, y);
+                doc.text(`₹${totalAmount}`, amountColX, y, { align: 'right' });
+                
+                // Footer
+                y = doc.internal.pageSize.getHeight() - 25;
+                doc.setDrawColor(200, 200, 200);
+                doc.line(15, y, pageWidth - 15, y);
+                
+                y += 4;
+                doc.setFontSize(8);
+                doc.setTextColor(100, 100, 100);
+                doc.setFont(undefined, 'normal');
+                doc.text('Thank you for shopping with KCP Organics!', pageWidth / 2, y, { align: 'center' });
+                
+                y += 3;
+                doc.text(`You can track your order using Order ID and Mobile Number at www.kcporganics.com`, pageWidth / 2, y, { align: 'center' });
+                
+                y += 3;
+                doc.text('This is a computer generated invoice. No signature required.', pageWidth / 2, y, { align: 'center' });
+                
+                const fileName = `Invoice_KCP_${orderIdFormatted}_${new Date().getTime()}.pdf`;
+                doc.save(fileName);
+            } else {
+                alert('Unable to load order details');
+            }
+        } catch (error) {
+            console.error('Error downloading receipt:', error);
+            alert('Error downloading receipt: ' + error.message);
+        }
     }
 
     // Logout user

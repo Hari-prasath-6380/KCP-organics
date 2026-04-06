@@ -7,6 +7,8 @@
     <title>Products - KCP Organics</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -27,11 +29,15 @@
         .products-header {
             background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
             color: white;
-            padding: 80px 20px;
-            text-align: center;
-            margin-bottom: 50px;
+            padding: 60px 20px;
+            margin-bottom: 30px;
             position: relative;
             overflow: hidden;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .products-header::before {
@@ -46,16 +52,16 @@
         }
 
         .products-header h1 {
-            font-size: 54px;
-            margin-bottom: 15px;
-            font-weight: 700;
+            font-size: 48px;
+            margin-bottom: 8px;
+            font-weight: 800;
             position: relative;
             z-index: 2;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
         }
 
         .products-header p {
-            font-size: 18px;
+            font-size: 16px;
             opacity: 0.95;
             position: relative;
             z-index: 2;
@@ -63,11 +69,150 @@
             letter-spacing: 0.5px;
         }
 
-        /* Main Container */
-        .products-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px 50px;
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 0;
+            margin: 0 0 25px 0;
+            font-size: 13px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: #dd610e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: #2e7d32;
+        }
+
+        .breadcrumb span {
+            color: #999;
+        }
+
+        .breadcrumb-current {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Main Content Wrapper */
+        .products-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Sidebar Filters */
+        .sidebar-filters {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .filter-section {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .filter-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-title i {
+            color: #dd610e;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .filter-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: #dd610e;
+            cursor: pointer;
+        }
+
+        .filter-label {
+            font-size: 13px;
+            color: #666;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .filter-count {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .price-range-slider {
+            margin-top: 12px;
+        }
+
+        .price-range-slider input[type="range"] {
+            width: 100%;
+            accent-color: #dd610e;
+        }
+
+        .price-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .clear-filters {
+            width: 100%;
+            padding: 10px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            color: #666;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        .clear-filters:hover {
+            background: #dd610e;
+            color: white;
+            border-color: #dd610e;
+        }
+
+        /* Main Content Area */
+        .products-main {
+            display: flex;
+            flex-direction: column;
         }
 
         /* Controls */
@@ -75,33 +220,41 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 24px;
             gap: 20px;
-            flex-wrap: wrap;
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            flex-wrap: wrap;
+        }
+
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 250px;
         }
 
         .search-box {
             flex: 1;
-            min-width: 280px;
+            min-width: 200px;
             position: relative;
         }
 
         .search-box input {
             width: 100%;
-            padding: 14px 45px 14px 18px;
+            padding: 12px 40px 12px 16px;
             border: 2px solid #e8f5e9;
-            border-radius: 12px;
-            font-size: 15px;
+            border-radius: 10px;
+            font-size: 14px;
             transition: all 0.3s ease;
             background: #f8faf7;
         }
 
         .search-box input::placeholder {
-            color: #999;
+            color: #aaa;
         }
 
         .search-box input:focus {
@@ -113,23 +266,58 @@
 
         .search-box i {
             position: absolute;
-            right: 18px;
+            right: 14px;
             top: 50%;
             transform: translateY(-50%);
             color: #dd610e;
             font-size: 16px;
+            pointer-events: none;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 8px;
+            border: 2px solid #e8f5e9;
+            border-radius: 10px;
+            padding: 2px;
+            background: #f8faf7;
+        }
+
+        .view-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #999;
+            transition: all 0.2s;
+            border-radius: 8px;
+        }
+
+        .view-btn.active {
+            background: white;
+            color: #dd610e;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .view-btn:hover {
+            color: #dd610e;
         }
 
         .filter-sort {
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
 
         .filter-sort select {
-            padding: 12px 18px;
+            padding: 11px 14px;
             border: 2px solid #e8f5e9;
-            border-radius: 12px;
-            font-size: 14px;
+            border-radius: 10px;
+            font-size: 13px;
             cursor: pointer;
             background: white;
             transition: all 0.3s ease;
@@ -143,35 +331,82 @@
             box-shadow: 0 4px 12px rgba(221, 97, 14, 0.15);
         }
 
+        /* Results Info */
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 4px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .result-count {
+            font-weight: 600;
+            color: #333;
+        }
+
         /* Products Grid */
         .products-grid {
             display: grid;
-            /* 4 products per row on desktop for a denser layout */
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px;
-            margin-bottom: 40px;
-            min-height: 400px;
+            margin-bottom: 30px;
+            min-height: 300px;
+        }
+
+        /* Grid View */
+        .products-grid.grid-view {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+
+        /* List View */
+        .products-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .products-grid.list-view .product-card {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .products-grid.list-view .product-image-container {
+            height: 120px;
+            border-radius: 10px;
+        }
+
+        .products-grid.list-view .product-content {
+            padding: 0;
+            text-align: left;
+        }
+
+        .products-grid.list-view .product-footer {
+            justify-content: flex-end;
+            padding: 0;
+            border: none;
         }
 
         /* --- UPDATED PRODUCT CARD STYLES --- */
         .product-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             position: relative;
-            /* compact cards for denser grid */
             min-height: auto;
-            border: 1px solid #f5f5f5;
+            border: 1px solid #eee;
             cursor: pointer;
         }
 
         .product-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             border-color: #dd610e;
         }
 
@@ -197,10 +432,9 @@
 
         .product-image-container {
             position: relative;
-            /* fixed image area for uniform thumbnails */
-            height: 200px;
+            height: 180px;
             overflow: hidden;
-            background: transparent;
+            background: #f9f9f9;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -217,21 +451,12 @@
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
             display: block;
             background-color: #fff;
+            image-rendering: high-quality;
+            min-height: 100%;
         }
 
         .product-card:hover .product-image {
             transform: scale(1.12) rotate(1deg);
-        }
-
-        .product-image {
-            /* Uniform thumbnail: fill container and crop if needed */
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* crop to fill container uniformly */
-            object-position: center center;
-            transition: transform 0.4s ease, opacity 0.2s ease;
-            display: block;
-            background-color: #fff;
         }
 
         /* Stock badge overlaid on product image */
@@ -319,11 +544,12 @@
         }
 
         .product-content {
-            padding: 12px 14px;
+            padding: 14px 12px;
             flex: 1;
             display: flex;
             flex-direction: column;
             animation: fadeIn 0.5s ease-out 0.1s both;
+            text-align: center;
         }
 
         @keyframes fadeIn {
@@ -360,8 +586,9 @@
         .product-rating {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 11px;
             animation: fadeInUp 0.5s ease-out 0.1s both;
         }
@@ -428,8 +655,8 @@
 
         .product-footer {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            justify-content: center;
+            align-items: center;
             margin-top: auto;
             padding-top: 12px;
             border-top: 1px solid #f0f0f0;
@@ -449,17 +676,16 @@
 
         .product-price {
             display: flex;
-            flex: 1;
+            flex: 0;
             flex-direction: column;
-            align-items: flex-start;
-            min-width: 150px;
-            gap: 8px;
+            align-items: center;
+            gap: 4px;
         }
 
         .price-current {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            color: #dd610e;
+            color: #2e7d32;
             letter-spacing: -0.5px;
             animation: scaleIn 0.5s ease-out 0.15s both;
         }
@@ -484,24 +710,30 @@
         }
 
         .add-to-cart-btn {
-            background: linear-gradient(135deg, #dd610e 0%, #c85a0a 100%);
+            background: #dd610e;
             color: white;
             border: none;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 12px;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 13px;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             white-space: nowrap;
-            width: 100%;
+            width: auto;
             animation: slideInUp 0.5s ease-out 0.2s both;
             position: relative;
             overflow: hidden;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #c85a0a;
+            box-shadow: 0 4px 12px rgba(221, 97, 14, 0.3);
+            transform: translateY(-2px);
         }
 
         @keyframes slideInUp {
@@ -543,10 +775,15 @@
         }
 
         .add-to-cart-btn:disabled {
-            background: linear-gradient(135deg, #cccccc 0%, #999999 100%);
+            background: #bdbdbd;
             cursor: not-allowed;
-            opacity: 0.6;
+            opacity: 0.7;
             box-shadow: none;
+        }
+
+        .add-to-cart-btn:disabled:hover {
+            background: #bdbdbd;
+            transform: none;
         }
 
         .wishlist-btn {
@@ -1029,56 +1266,63 @@
         }
 
         /* Responsive */
-        @media (max-width: 1200px) {
+        /* Medium-large devices (1200px - 1439px) */
+        @media (min-width: 1200px) {
             .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 24px;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        /* Tablets and below (max 1199px) */
+        @media (max-width: 1199px) {
+            .products-wrapper {
+                grid-template-columns: 1fr;
             }
 
-            .products-header h1 {
-                font-size: 44px;
+            .sidebar-filters {
+                display: none;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
-            .products-container {
-                padding: 0 12px 40px;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 10px;
-            }
-
             .products-header {
-                padding: 35px 12px;
+                padding: 40px 12px;
                 margin-bottom: 20px;
             }
 
             .products-header h1 {
-                font-size: 24px;
-                margin-bottom: 8px;
+                font-size: 28px;
+                margin-bottom: 5px;
             }
 
             .products-header p {
+                font-size: 13px;
+            }
+
+            .breadcrumb {
                 font-size: 12px;
+                margin-bottom: 15px;
+            }
+
+            .products-container {
+                padding: 0 12px 30px;
             }
 
             .products-controls {
                 flex-direction: column;
                 align-items: stretch;
-                padding: 12px;
+                padding: 14px;
                 gap: 10px;
+                margin-bottom: 18px;
             }
 
-            .search-box {
-                min-width: unset;
-                width: 100%;
-            }
-
-            .search-box input {
-                font-size: 14px;
-                padding: 10px 40px 10px 14px;
+            .controls-left {
+                flex-direction: column;
+                gap: 10px;
             }
 
             .filter-sort {
@@ -1088,30 +1332,18 @@
 
             .filter-sort select {
                 flex: 1;
-                min-width: 45%;
-                font-size: 13px;
+                font-size: 12px;
+                padding: 10px 12px;
             }
 
-            .modal-body {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px;
-            }
-
-            .product-card {
-                min-height: auto;
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 12px;
+                margin-bottom: 20px;
             }
 
             .product-image-container {
-                height: 110px;
-            }
-
-            .stock-badge-over-image {
-                font-size: 9px;
-                padding: 5px 8px;
-                bottom: 6px;
-                left: 6px;
-                right: 6px;
+                height: 100px;
             }
 
             .product-name {
@@ -1119,268 +1351,156 @@
             }
 
             .add-to-cart-btn {
-                padding: 8px 10px;
+                padding: 8px 12px;
                 font-size: 11px;
-            }
-
-            .toast {
-                bottom: 16px;
-                right: 16px;
-                padding: 12px 16px;
-            }
-
-            .product-footer {
-                padding-top: 10px;
-                gap: 8px;
-            }
-
-            .order-footer {
-                gap: 8px;
-                padding-top: 10px;
-            }
-
-            input[type="text"],
-            input[type="search"],
-            select {
-                font-size: 16px !important;
-                padding: 10px;
             }
         }
 
         @media (max-width: 600px) {
-            .products-container {
-                padding: 0 10px 28px;
-            }
-
             .products-header {
-                padding: 30px 10px;
+                padding: 30px 8px;
                 margin-bottom: 15px;
             }
 
             .products-header h1 {
-                font-size: 20px;
-                margin-bottom: 5px;
+                font-size: 22px;
             }
 
             .products-header p {
-                font-size: 11px;
+                font-size: 12px;
             }
 
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                gap: 8px;
+            .breadcrumb {
+                font-size: 11px;
+                margin-bottom: 12px;
+            }
+
+            .products-container {
+                padding: 0 8px 20px;
             }
 
             .products-controls {
-                gap: 8px;
                 padding: 10px;
-                flex-direction: column;
-            }
-
-            .search-box {
-                width: 100%;
-                font-size: 13px;
+                gap: 8px;
             }
 
             .search-box input {
-                padding: 9px 38px 9px 14px;
+                padding: 9px 35px 9px 12px;
                 font-size: 13px;
+            }
+
+            .view-controls {
+                width: 100%;
+                justify-content: center;
             }
 
             .filter-sort {
                 width: 100%;
-                gap: 6px;
                 flex-wrap: wrap;
             }
 
             .filter-sort select {
-                flex: 1;
-                min-width: 48%;
-                font-size: 12px;
+                font-size: 11px;
                 padding: 8px 10px;
-            }
-
-            .product-card {
-                min-height: auto;
-            }
-
-            .product-image-container {
-                height: 95px;
-            }
-
-            .stock-badge-over-image {
-                font-size: 8px;
-                padding: 4px 6px;
-                bottom: 5px;
-                left: 5px;
-                right: 5px;
-            }
-
-            .add-to-cart-btn {
-                padding: 7px 9px;
-                font-size: 10px;
-            }
-
-            .product-name {
-                font-size: 11px;
-                min-height: auto;
-            }
-
-            .product-price {
-                font-size: 11px;
-            }
-
-            .toast {
-                bottom: 12px;
-                right: 12px;
-                padding: 10px 14px;
-                font-size: 13px;
-                max-width: calc(100% - 24px);
-            }
-
-            .product-footer {
-                gap: 6px;
-                padding-top: 8px;
-                flex-direction: column;
-            }
-
-            .order-footer {
-                gap: 6px;
-                padding-top: 6px;
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .products-container {
-                padding: 0 8px 22px;
-            }
-
-            .products-header {
-                padding: 25px 8px;
-                margin-bottom: 12px;
-            }
-
-            .products-header h1 {
-                font-size: 18px;
-                margin-bottom: 4px;
-            }
-
-            .products-header p {
-                font-size: 10px;
+                flex: 1;
+                min-width: 45%;
             }
 
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 7px;
-            }
-
-            .products-controls {
-                padding: 10px;
-                gap: 6px;
-                flex-direction: column;
-            }
-
-            .search-box {
-                width: 100%;
-            }
-
-            .search-box input {
-                padding: 8px 35px 8px 12px;
-                font-size: 12px;
-            }
-
-            .filter-sort {
-                width: 100%;
-                gap: 5px;
-            }
-
-            .filter-sort select {
-                flex: 1;
-                min-width: 48%;
-                font-size: 11px;
-                padding: 7px 8px;
-            }
-
-            .product-card {
-                min-height: auto;
-                border-radius: 8px;
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 10px;
             }
 
             .product-image-container {
                 height: 85px;
             }
 
-            .stock-badge-over-image {
-                font-size: 7px;
-                padding: 3px 5px;
-                bottom: 4px;
-                left: 4px;
-                right: 4px;
-            }
-
             .product-name {
-                font-size: 10px;
-                min-height: auto;
-            }
-
-            .product-price {
-                font-size: 10px;
-            }
-
-            .product-rating {
-                font-size: 9px;
+                font-size: 11px;
             }
 
             .add-to-cart-btn {
-                padding: 6px 8px;
+                padding: 6px 10px;
                 font-size: 10px;
             }
 
-            .toast {
-                bottom: 10px;
-                right: 10px;
-                padding: 9px 12px;
-                font-size: 12px;
-            }
-
-            .product-footer {
-                gap: 5px;
-                padding-top: 6px;
-                flex-direction: column;
-            }
-
-            .order-footer {
-                gap: 5px;
-                padding-top: 5px;
-                flex-direction: column;
-            }
-
-            input[type="text"],
-            input[type="search"],
-            select {
-                font-size: 14px !important;
-                padding: 8px;
+            .results-info {
+                font-size: 11px;
             }
         }
 
-        @media (max-width: 360px) {
-            .products-container {
-                padding: 0 6px 18px;
-            }
-
+        @media (max-width: 480px) {
             .products-header {
-                padding: 20px 6px;
+                padding: 25px 6px;
                 margin-bottom: 10px;
             }
 
             .products-header h1 {
-                font-size: 16px;
+                font-size: 20px;
                 margin-bottom: 3px;
             }
 
             .products-header p {
+                font-size: 11px;
+            }
+
+            .breadcrumb {
+                font-size: 10px;
+                margin-bottom: 10px;
+            }
+
+            .products-container {
+                padding: 0 6px 15px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+                min-height: 250px;
+            }
+
+            .products-controls {
+                padding: 8px;
+                gap: 6px;
+            }
+
+            .search-box input {
+                padding: 8px 32px 8px 10px;
+                font-size: 12px;
+            }
+
+            .filter-sort select {
+                padding: 7px 8px;
+                font-size: 10px;
+            }
+
+            .product-image-container {
+                height: 70px;
+                border-radius: 8px;
+            }
+
+            .product-name {
+                font-size: 10px;
+            }
+
+            .price-current {
+                font-size: 16px;
+            }
+
+            .add-to-cart-btn {
+                padding: 5px 8px;
                 font-size: 9px;
+            }
+
+            .results-info {
+                font-size: 10px;
+                margin-bottom: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .products-header h1 {
+                font-size: 18px;
             }
 
             .products-grid {
@@ -1388,354 +1508,18 @@
                 gap: 6px;
             }
 
-            .products-controls {
-                padding: 8px;
-                gap: 5px;
-            }
-
-            .search-box input {
-                padding: 7px 32px 7px 10px;
-                font-size: 11px;
-            }
-
-            .filter-sort select {
-                font-size: 10px;
-                padding: 6px 6px;
-            }
-
-            .product-card {
-                min-height: auto;
-                border-radius: 6px;
-            }
-
             .product-image-container {
-                height: 70px;
-            }
-
-            .stock-badge-over-image {
-                font-size: 6px;
-                padding: 2px 4px;
-                bottom: 3px;
-                left: 3px;
-                right: 3px;
+                height: 60px;
             }
 
             .product-name {
                 font-size: 9px;
             }
 
-            .product-price {
-                font-size: 9px;
-            }
-
             .add-to-cart-btn {
-                font-size: 9px;
-                padding: 5px 6px;
+                font-size: 8px;
+                padding: 4px 6px;
             }
-
-            .toast {
-                bottom: 8px;
-                right: 8px;
-                padding: 8px 10px;
-                font-size: 11px;
-                max-width: calc(100% - 16px);
-            }
-
-            .product-footer {
-                gap: 4px;
-                padding-top: 5px;
-                flex-direction: column;
-                font-size: 9px;
-            }
-
-            .order-footer {
-                gap: 4px;
-                padding-top: 4px;
-                flex-direction: column;
-                font-size: 9px;
-            }
-        }
-
-        /* Large Device Optimization */
-        @media (min-width: 1400px) {
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 28px;
-            }
-
-            .products-controls {
-                gap: 25px;
-                padding: 30px;
-            }
-
-            .search-box {
-                min-width: 350px;
-            }
-
-            .products-header h1 {
-                font-size: 52px;
-            }
-
-            .search-box input {
-                padding: 16px 50px 16px 20px;
-                font-size: 16px;
-            }
-
-            .filter-sort select {
-                padding: 14px 20px;
-                font-size: 15px;
-            }
-
-            .product-image-container {
-                height: 240px;
-                display: block;
-            }
-
-            .product-image {
-                height: 100%;
-                width: 100%;
-            }
-        }
-
-        /* Full HD and Large Desktops (1920px+) */
-        @media (min-width: 1920px) {
-            .products-container {
-                max-width: 1800px;
-                padding: 0 30px 60px;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 32px;
-            }
-
-            .products-header {
-                padding: 20px 30px;
-                margin-bottom: 20px;
-            }
-
-            .products-header h1 {
-                font-size: 60px;
-                margin-bottom: 10px;
-            }
-
-            .products-header p {
-                font-size: 18px;
-            }
-
-            .products-controls {
-                gap: 30px;
-                padding: 35px;
-                margin-bottom: 50px;
-            }
-
-            .search-box {
-                min-width: 450px;
-            }
-
-            .search-box input {
-                padding: 18px 55px 18px 22px;
-                font-size: 17px;
-            }
-
-            .search-box i {
-                font-size: 18px;
-                right: 20px;
-            }
-
-            .filter-sort select {
-                padding: 16px 22px;
-                font-size: 16px;
-            }
-
-            .product-card {
-                border-radius: 20px;
-            }
-
-            .product-image-container {
-                height: 280px;
-                display: block;
-            }
-
-            .product-image {
-                height: 100%;
-                width: 100%;
-            }
-
-            .product-name {
-                font-size: 17px;
-            }
-
-            .product-price {
-                font-size: 18px;
-                margin: 8px 0;
-            }
-
-            .add-to-cart-btn {
-                padding: 14px 20px;
-                font-size: 16px;
-            }
-
-            .product-footer {
-                gap: 8px;
-                padding-top: 10px;
-                font-size: 14px;
-            }
-
-            .order-footer {
-                gap: 8px;
-                padding-top: 8px;
-                font-size: 14px;
-            }
-
-            .stock-badge-over-image {
-                font-size: 18px;
-                padding: 12px 18px;
-                border-radius: 8px;
-            }
-
-            .stock-pill {
-                padding: 10px 16px;
-                font-size: 15px;
-            }
-
-            .toast {
-                bottom: 20px;
-                right: 20px;
-                padding: 16px 24px;
-                font-size: 15px;
-                border-radius: 12px;
-            }
-        }
-
-        /* 4K and Ultra-Wide Displays (2560px+) */
-        @media (min-width: 2560px) {
-            .products-container {
-                max-width: 2200px;
-                padding: 0 40px 80px;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(6, 1fr);
-                gap: 40px;
-            }
-
-            .products-header {
-                padding: 30px 40px;
-                margin-bottom: 30px;
-            }
-
-            .products-header h1 {
-                font-size: 72px;
-                margin-bottom: 15px;
-            }
-
-            .products-header p {
-                font-size: 22px;
-                letter-spacing: 0.5px;
-            }
-
-            .products-controls {
-                gap: 40px;
-                padding: 45px;
-                margin-bottom: 60px;
-            }
-
-            .search-box {
-                min-width: 600px;
-            }
-
-            .search-box input {
-                padding: 22px 65px 22px 28px;
-                font-size: 19px;
-            }
-
-            .search-box i {
-                font-size: 20px;
-                right: 25px;
-            }
-
-            .filter-sort select {
-                padding: 20px 28px;
-                font-size: 18px;
-                min-width: 220px;
-            }
-
-            .product-card {
-                border-radius: 24px;
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            }
-
-            .product-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-            }
-
-            .product-image-container {
-                height: 340px;
-                display: block;
-            }
-
-            .product-image {
-                height: 100%;
-                width: 100%;
-            }
-
-            .product-name {
-                font-size: 20px;
-                margin: 12px 0 8px;
-            }
-
-            .product-price {
-                font-size: 22px;
-                margin: 12px 0;
-            }
-
-            .add-to-cart-btn {
-                padding: 18px 28px;
-                font-size: 18px;
-                margin-top: 12px;
-            }
-
-            .product-footer {
-                gap: 10px;
-                padding-top: 12px;
-                font-size: 16px;
-            }
-
-            .order-footer {
-                gap: 10px;
-                padding-top: 10px;
-                font-size: 16px;
-            }
-
-            .stock-badge-over-image {
-                font-size: 22px;
-                padding: 16px 24px;
-                border-radius: 10px;
-                top: 16px;
-                right: 16px;
-            }
-
-            .stock-pill {
-                padding: 12px 20px;
-                font-size: 17px;
-            }
-
-            .modal-stock {
-                padding: 12px 20px;
-                font-size: 16px;
-            }
-
-            .toast {
-                bottom: 30px;
-                right: 30px;
-                padding: 20px 32px;
-                font-size: 17px;
-                border-radius: 16px;
-                max-width: 600px;
-            }
-        }
     </style>
 </head>
 
@@ -1778,38 +1562,156 @@
     </div>
 
     <div class="products-container">
-        <div class="products-controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search products...">
-                <i class="fas fa-search"></i>
-            </div>
-            <div class="filter-sort">
-                <select id="categoryFilter" onchange="filterProducts()">
-                    <option value="">All Categories</option>
-                    <option value="rice">Rice</option>
-                    <option value="vegetables">Vegetables</option>
-                    <option value="honey">Honey</option>
-                    <option value="oil">Oil</option>
-                    <option value="spices">Spices</option>
-                    <option value="herbs">Herbs</option>
-                </select>
-                <select id="sortFilter" onchange="sortProducts()">
-                    <option value="newest">Newest</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="popular">Most Popular</option>
-                    <option value="rating">Highest Rated</option>
-                </select>
-            </div>
+        <!-- Breadcrumb Navigation -->
+        <div class="breadcrumb">
+            <a href="home.html"><i class="fas fa-home"></i> Home</a>
+            <span>/</span>
+            <span class="breadcrumb-current">Products</span>
         </div>
 
-        <div class="products-grid" id="productsGrid">
-            <div class="loading">
-                <div class="spinner"></div>
+        <!-- Main Wrapper for Sidebar + Content -->
+        <div class="products-wrapper">
+            <!-- Sidebar Filters -->
+            <aside class="sidebar-filters">
+                <h3 style="font-size: 16px; color: #333; margin: 0 0 20px 0; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-filter" style="color: #dd610e;"></i> Filters
+                </h3>
+
+                <!-- Price Filter -->
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <i class="fas fa-tag"></i> Price Range
+                    </div>
+                    <div class="price-range-slider">
+                        <input type="range" id="priceMin" min="0" max="10000" value="0" step="100">
+                        <input type="range" id="priceMax" min="0" max="10000" value="10000" step="100">
+                        <div class="price-display">
+                            <span id="priceMinDisplay">₹0</span>
+                            <span id="priceMaxDisplay">₹10,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <i class="fas fa-list"></i> Category
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="cat-all" class="filter-checkbox" onchange="filterProducts()">
+                        <label for="cat-all" class="filter-label">All Categories</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="rice" class="filter-checkbox category-filter" onchange="filterProducts()">
+                        <label class="filter-label">Rice</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="vegetables" class="filter-checkbox category-filter" onchange="filterProducts()">
+                        <label class="filter-label">Vegetables</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="honey" class="filter-checkbox category-filter" onchange="filterProducts()">
+                        <label class="filter-label">Honey</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="oil" class="filter-checkbox category-filter" onchange="filterProducts()">
+                        <label class="filter-label">Oil</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="spices" class="filter-checkbox category-filter" onchange="filterProducts()">
+                        <label class="filter-label">Spices</label>
+                    </div>
+                </div>
+
+                <!-- Rating Filter -->
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <i class="fas fa-star"></i> Rating
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="5" class="filter-checkbox rating-filter" onchange="filterProducts()">
+                        <label class="filter-label">★★★★★ 5 Star</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="4" class="filter-checkbox rating-filter" onchange="filterProducts()">
+                        <label class="filter-label">★★★★☆ 4+ Star</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="3" class="filter-checkbox rating-filter" onchange="filterProducts()">
+                        <label class="filter-label">★★★☆☆ 3+ Star</label>
+                    </div>
+                </div>
+
+                <!-- Stock Filter -->
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <i class="fas fa-boxes"></i> Availability
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="inStock" class="filter-checkbox" onchange="filterProducts()">
+                        <label for="inStock" class="filter-label">In Stock</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="onSale" class="filter-checkbox" onchange="filterProducts()">
+                        <label for="onSale" class="filter-label">On Sale</label>
+                    </div>
+                </div>
+
+                <button class="clear-filters" onclick="clearFilters()">
+                    <i class="fas fa-redo"></i> Clear Filters
+                </button>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="products-main">
+                <!-- Controls Bar -->
+                <div class="products-controls">
+                    <div class="controls-left">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="Search products...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="view-controls">
+                            <button class="view-btn active" id="gridViewBtn" onclick="setGridView()" title="Grid View">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" id="listViewBtn" onclick="setListView()" title="List View">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="filter-sort">
+                        <select id="categoryFilter" onchange="filterProducts()" style="display: none;">
+                            <option value="">All Categories</option>
+                        </select>
+                        <select id="sortFilter" onchange="sortProducts()">
+                            <option value="newest">Newest</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="popular">Most Popular</option>
+                            <option value="rating">Highest Rated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Results Info -->
+                <div class="results-info">
+                    <span class="result-count">
+                        Showing <span id="resultCount">0</span> products
+                    </span>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid grid-view" id="productsGrid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination"></div>
             </div>
         </div>
-
-        <div class="pagination" id="pagination"></div>
     </div>
 
     <div class="modal" id="unitSelectorModal" style="display: none;">
@@ -1845,7 +1747,7 @@
             <div class="modal-body">
                 <div>
                     <img src="" id="modalImage" class="modal-image" alt="Product"
-                        onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22500%22 height=%22400%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23f3f4f6%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23888888%22 font-family=%22Arial%22 font-size=%2230%22>Product+Image</text></svg>'">
+                        onerror="if(window.currentProductImage) handleImageError(this, window.currentProductImage)">
                 </div>
                 <div class="modal-info">
                     <div class="modal-category" id="modalCategory"></div>
@@ -1948,28 +1850,90 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
-        const IMAGE_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://kcp-organics-1.onrender.com';
+        // Smart API URL detection - works with localhost, 127.0.0.1, and domain names
+        function getBaseUrl() {
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            
+            // For localhost or 127.0.0.1, use local backend
+            if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.')) {
+                return port ? `http://${hostname}:5000` : 'http://localhost:5000';
+            }
+            
+            // For deployed environments, use production URL
+            if (hostname.includes('render') || hostname.includes('herokuapp') || hostname.includes('.app')) {
+                return 'https://kcp-organics-1.onrender.com';
+            }
+            
+            // For custom domains, try to construct the backend URL
+            if (hostname.includes('kcporganics') || hostname.includes('kcp-organics')) {
+                const protocol = window.location.protocol;
+                return `${protocol}//${hostname}:5000`;
+            }
+            
+            // Default fallback
+            return 'https://kcp-organics-1.onrender.com';
+        }
+
+        const API_BASE_URL = getBaseUrl() + '/api';
+        const IMAGE_BASE_URL = getBaseUrl();
+        
+        // Store tried URLs to avoid infinite loops
+        const triedImageUrls = new Set();
 
         // Get proper product image URL (robust against different stored formats)
         function getProductImageUrl(imagePath) {
             // Inline SVG placeholder (avoids external network requests)
             const placeholder = 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23f3f4f6%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23888888%22 font-family=%22Arial%22 font-size=%2218%22>Product+Image</text></svg>';
 
-            if (!imagePath) return placeholder;
+            if (!imagePath || imagePath.trim() === '') {
+                console.warn('⚠️ Image path is empty, using placeholder');
+                return placeholder;
+            }
 
             // Already a full URL
-            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) return imagePath;
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                console.log('📸 Using full URL:', imagePath);
+                return imagePath;
+            }
 
             // If path already includes uploads (with or without leading slash), normalize it and prefix IMAGE_BASE_URL
             if (imagePath.includes('/uploads/')) {
                 const normalized = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-                return (typeof IMAGE_BASE_URL === 'string' && IMAGE_BASE_URL) ? IMAGE_BASE_URL + normalized : normalized;
+                const fullUrl = IMAGE_BASE_URL + normalized;
+                console.log('📸 Image URL (with /uploads/):', fullUrl);
+                return fullUrl;
             }
 
             // If the imagePath looks like a filename (e.g., product.jpg), place it under /uploads/products/ and prefix IMAGE_BASE_URL
             const rel = `/uploads/products/${imagePath}`;
-            return (typeof IMAGE_BASE_URL === 'string' && IMAGE_BASE_URL) ? IMAGE_BASE_URL + rel : rel;
+            const fullUrl = IMAGE_BASE_URL + rel;
+            console.log('📸 Image URL (filename):', fullUrl);
+            return fullUrl;
+        }
+        
+        // Function to handle image load errors with fallback URLs
+        function handleImageError(imgElement, imagePath) {
+            console.warn('❌ Image failed to load:', imgElement.src);
+            
+            const originalPath = imagePath;
+            const genericPlaceholder = 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23e0e0e0%22/><text x=%2250%25%22 y=%2230%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666666%22 font-family=%22Arial%22 font-size=%2214%22 font-weight=%22bold%22>Image Not Available</text><text x=%2250%25%22 y=%2270%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999999%22 font-family=%22Arial%22 font-size=%2212%22>' + encodeURIComponent(imagePath || 'Unknown') + '</text></svg>';
+            
+            // Try fallback to production URL if we're on localhost
+            if (IMAGE_BASE_URL.includes('localhost') || IMAGE_BASE_URL.includes('127.0.0.1')) {
+                const prodUrl = 'https://kcp-organics-1.onrender.com' + (imagePath.startsWith('/') ? imagePath : `/uploads/products/${imagePath}`);
+                if (!triedImageUrls.has(prodUrl)) {
+                    console.log('🔄 Trying production URL:', prodUrl);
+                    triedImageUrls.add(prodUrl);
+                    imgElement.src = prodUrl;
+                    return;
+                }
+            }
+            
+            // Use placeholder
+            console.log('📷 Using placeholder for:', imagePath);
+            imgElement.src = genericPlaceholder;
+            imgElement.style.backgroundColor = '#f0f0f0';
         }
 
         let allProducts = [];
@@ -1988,7 +1952,23 @@
             loadProducts();
             setupEventListeners();
             setupStorageListener();
+            restoreViewMode();
+            
+            // Auto-apply category filter if URL contains category parameter
+            setTimeout(() => {
+                applyCategoryFilterFromUrl();
+            }, 500);
         });
+
+        // Restore view mode from localStorage
+        function restoreViewMode() {
+            const savedMode = localStorage.getItem('productViewMode') || 'grid';
+            if (savedMode === 'list') {
+                setListView();
+            } else {
+                setGridView();
+            }
+        }
 
         // Listen for stock refresh signal from other pages (e.g., checkout after successful order)
         function setupStorageListener() {
@@ -2015,6 +1995,58 @@
 
             document.getElementById('sortFilter').addEventListener('change', (e) => {
                 sortProducts();
+            });
+
+            // Price range sliders
+            document.getElementById('priceMin').addEventListener('input', (e) => {
+                const min = parseInt(e.target.value);
+                const max = parseInt(document.getElementById('priceMax').value);
+                if (min > max) {
+                    e.target.value = max;
+                } else {
+                    document.getElementById('priceMinDisplay').textContent = '₹' + min.toLocaleString();
+                    currentPage = 1;
+                    filterAndDisplay();
+                }
+            });
+
+            document.getElementById('priceMax').addEventListener('input', (e) => {
+                const max = parseInt(e.target.value);
+                const min = parseInt(document.getElementById('priceMin').value);
+                if (max < min) {
+                    e.target.value = min;
+                } else {
+                    document.getElementById('priceMaxDisplay').textContent = '₹' + max.toLocaleString();
+                    currentPage = 1;
+                    filterAndDisplay();
+                }
+            });
+
+            // Sidebar category filters
+            document.querySelectorAll('.category-filter').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    currentPage = 1;
+                    filterAndDisplay();
+                });
+            });
+
+            // Sidebar rating filters
+            document.querySelectorAll('.rating-filter').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    currentPage = 1;
+                    filterAndDisplay();
+                });
+            });
+
+            // Stock filters
+            document.getElementById('inStock').addEventListener('change', () => {
+                currentPage = 1;
+                filterAndDisplay();
+            });
+
+            document.getElementById('onSale').addEventListener('change', () => {
+                currentPage = 1;
+                filterAndDisplay();
             });
         }
 
@@ -2139,6 +2171,13 @@
 
                     if (allProducts.length > 0) {
                         console.log('✓ Loaded', allProducts.length, 'products from database');
+                        
+                        // Log image information for first few products
+                        allProducts.slice(0, 3).forEach(p => {
+                            const imageUrl = getProductImageUrl(p.image);
+                            console.log(`📸 ${p.name}: "${p.image}" → "${imageUrl}"`);
+                        });
+                        
                         filteredProducts = [...allProducts];
                         updateCategoryOptions();
                         displayProducts();
@@ -2169,18 +2208,55 @@
         // Filter and display products
         function filterAndDisplay() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const categoryFilter = document.getElementById('categoryFilter').value.toLowerCase();
+            const priceMin = parseInt(document.getElementById('priceMin').value) || 0;
+            const priceMax = parseInt(document.getElementById('priceMax').value) || 10000;
+            const inStockFilter = document.getElementById('inStock').checked;
+            const onSaleFilter = document.getElementById('onSale').checked;
+
+            // Get selected categories from checkboxes
+            const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked'))
+                .map(cb => cb.value.toLowerCase());
+            
+            // Get selected ratings
+            const selectedRatings = Array.from(document.querySelectorAll('.rating-filter:checked'))
+                .map(cb => parseInt(cb.value));
 
             filteredProducts = allProducts.filter(product => {
+                // Search filter
                 const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
                     product.description.toLowerCase().includes(searchTerm) ||
                     product.category.toLowerCase().includes(searchTerm);
-                const matchesCategory = !categoryFilter || product.category.toLowerCase() === categoryFilter;
-                return matchesSearch && matchesCategory;
+
+                // Price filter
+                const matchesPrice = product.price >= priceMin && product.price <= priceMax;
+
+                // Category filter (if any selected)
+                const matchesCategory = selectedCategories.length === 0 || 
+                    selectedCategories.includes(product.category.toLowerCase());
+
+                // Stock filter
+                const matchesStock = !inStockFilter || product.stock > 0;
+
+                // Sale filter
+                const matchesSale = !onSaleFilter || (product.discount && product.discount > 0);
+
+                // Rating filter (if any selected)
+                const productRating = Math.floor(product.averageRating || 0);
+                const matchesRating = selectedRatings.length === 0 || 
+                    selectedRatings.some(rating => productRating >= rating);
+
+                return matchesSearch && matchesPrice && matchesCategory && 
+                       matchesStock && matchesSale && matchesRating;
             });
 
             currentPage = 1;
+            updateResultCount();
             displayProducts();
+        }
+
+        // Update result count
+        function updateResultCount() {
+            document.getElementById('resultCount').textContent = filteredProducts.length;
         }
 
         // Filter products
@@ -2229,6 +2305,75 @@
 
             currentPage = 1;
             displayProducts();
+        }
+
+        // Grid/List View Toggle
+        function setGridView() {
+            document.getElementById('productsGrid').classList.remove('list-view');
+            document.getElementById('productsGrid').classList.add('grid-view');
+            document.getElementById('gridViewBtn').classList.add('active');
+            document.getElementById('listViewBtn').classList.remove('active');
+            localStorage.setItem('productViewMode', 'grid');
+            displayProducts();
+        }
+
+        function setListView() {
+            document.getElementById('productsGrid').classList.remove('grid-view');
+            document.getElementById('productsGrid').classList.add('list-view');
+            document.getElementById('listViewBtn').classList.add('active');
+            document.getElementById('gridViewBtn').classList.remove('active');
+            localStorage.setItem('productViewMode', 'list');
+            displayProducts();
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('priceMin').value = 0;
+            document.getElementById('priceMax').value = 10000;
+            document.getElementById('inStock').checked = false;
+            document.getElementById('onSale').checked = false;
+            document.querySelectorAll('.category-filter, .rating-filter').forEach(cb => cb.checked = false);
+            document.getElementById('searchInput').value = '';
+            filterAndDisplay();
+        }
+
+        // Auto-apply category filter from URL parameter
+        function applyCategoryFilterFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const categoryParam = params.get('category');
+            
+            if (categoryParam) {
+                console.log('📍 Category filter from URL:', categoryParam);
+                
+                // Convert URL parameter to lowercase for matching
+                const categoryLower = categoryParam.toLowerCase();
+                
+                // Find and check the category filter checkbox
+                const categoryCheckboxes = document.querySelectorAll('.category-filter');
+                let found = false;
+                
+                categoryCheckboxes.forEach(checkbox => {
+                    if (checkbox.value.toLowerCase() === categoryLower) {
+                        checkbox.checked = true;
+                        found = true;
+                        console.log('✓ Category filter applied:', categoryParam);
+                    }
+                });
+                
+                // Also check if products exist with this category (case-insensitive)
+                if (allProducts && allProducts.length > 0) {
+                    const categoryExists = allProducts.some(p => 
+                        p.category && p.category.toLowerCase() === categoryLower
+                    );
+                    
+                    if (categoryExists || found) {
+                        // Apply the filter
+                        filterAndDisplay();
+                    } else {
+                        console.log('⚠️ Category "' + categoryParam + '" not found in products');
+                    }
+                }
+            }
         }
 
         // Display products grouped by category - UPDATED
@@ -2289,9 +2434,9 @@
                         : `<span style="font-size: 18px; font-weight: 700; color: #2e7d32;">₹${formattedPrice}</span>`;
                     
                     html += `
-                        <div class="product-card" onclick="window.location.href='product-detail-page.html?id=${product._id}'">>
+                        <div class="product-card" onclick="window.location.href='product-detail-page.html?id=${product._id}'">
                             <div class="product-image-container">
-                                <img src="${getProductImageUrl(product.image)}" alt="${product.name}" class="product-image" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23f3f4f6%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23888888%22 font-family=%22Arial%22 font-size=%2218%22>Product+Image</text></svg>'">
+                                <img src="${getProductImageUrl(product.image)}" alt="${product.name}" class="product-image" onerror="handleImageError(this, '${product.image}')">
                                 
                                 ${product.originalPrice > product.price ? '<span class="product-badge sale">Sale</span>' : ''}
                                 <div class="stock-badge-over-image" style="${
@@ -2497,6 +2642,8 @@
             currentProductId = productId;
             selectedVariants = {};
 
+            // Store current image for error handler
+            window.currentProductImage = product.image;
             document.getElementById('modalImage').src = getProductImageUrl(product.image);
             document.getElementById('modalCategory').textContent = product.category.toUpperCase();
             document.getElementById('modalName').textContent = product.name;
@@ -2922,6 +3069,202 @@
         // Run auth check on load
         updateAuthUI();
 
+        // Download Receipt as PDF
+        async function downloadReceiptPDF(orderId) {
+            const userId = localStorage.getItem('userId');
+            const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const order = data.data;
+                    const PDFClass = window.jsPDF || (window.jspdf && window.jspdf.jsPDF);
+                    if (!PDFClass) {
+                        alert('PDF library not loaded. Please refresh the page.');
+                        return;
+                    }
+                    
+                    const doc = new PDFClass('p', 'mm', 'a4');
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    let y = 15;
+                    
+                    // Header
+                    doc.setFontSize(18);
+                    doc.setTextColor(46, 125, 50);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('KCP ORGANICS', pageWidth / 2, y, { align: 'center' });
+                    
+                    y += 6;
+                    doc.setFontSize(10);
+                    doc.setTextColor(100, 100, 100);
+                    doc.setFont(undefined, 'normal');
+                    doc.text('100% Organic | Farm Fresh to Your Doorstep', pageWidth / 2, y, { align: 'center' });
+                    
+                    y += 4;
+                    doc.setFontSize(9);
+                    doc.text('Contact: +91 98765 43210 | Email: support@kcporganics.com', pageWidth / 2, y, { align: 'center' });
+                    
+                    // Horizontal line
+                    y += 6;
+                    doc.setDrawColor(46, 125, 50);
+                    doc.setLineWidth(0.5);
+                    doc.line(15, y, pageWidth - 15, y);
+                    
+                    // Invoice Details Section
+                    y += 8;
+                    doc.setFontSize(11);
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('INVOICE DETAILS', 15, y);
+                    
+                    y += 6;
+                    doc.setFontSize(9);
+                    doc.setFont(undefined, 'normal');
+                    const orderIdFormatted = order._id.substring(0, 8).toUpperCase();
+                    const tax = Math.round(order.totalAmount * 0.05 / 1.05);
+                    const subtotal = order.totalAmount - tax;
+                    
+                    doc.text(`Order ID: ORD-${orderIdFormatted}-${new Date(order.createdAt).getTime().toString().slice(-6)}`, 15, y);
+                    y += 5;
+                    doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString('en-IN')}`, 15, y);
+                    y += 5;
+                    doc.text(`Payment Method: ${order.paymentMethod || 'COD'}`, 15, y);
+                    
+                    // Bill To Section
+                    y += 8;
+                    doc.setFont(undefined, 'bold');
+                    doc.setFontSize(10);
+                    doc.text('BILL TO', 15, y);
+                    
+                    y += 5;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(9);
+                    doc.text(`${order.customerName || 'Valued Customer'}`, 15, y);
+                    y += 4;
+                    doc.text(`${order.address || 'Address on file'}`, 15, y);
+                    y += 4;
+                    doc.text(`${order.phone || order.email || ''}`, 15, y);
+                    y += 4;
+                    doc.text(`Email: ${order.email || ''}`, 15, y);
+                    
+                    // Items Table
+                    y += 8;
+                    const tableStartY = y;
+                    const colWidths = {
+                        sno: 12,
+                        productId: 35,
+                        productName: 70,
+                        qty: 15,
+                        unitPrice: 25,
+                        total: 25
+                    };
+                    
+                    const col1 = 15;
+                    const col2 = col1 + colWidths.sno;
+                    const col3 = col2 + colWidths.productId;
+                    const col4 = col3 + colWidths.productName;
+                    const col5 = col4 + colWidths.qty;
+                    const col6 = col5 + colWidths.unitPrice;
+                    
+                    // Table header background
+                    doc.setFillColor(46, 125, 50);
+                    doc.rect(col1 - 2, y - 3, pageWidth - 30, 6, 'F');
+                    
+                    // Table headers
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont(undefined, 'bold');
+                    doc.setFontSize(9);
+                    doc.text('S.No', col1, y);
+                    doc.text('Product ID', col2, y);
+                    doc.text('Product Name', col3, y);
+                    doc.text('Qty', col4 + 2, y);
+                    doc.text('Unit Price', col5 + 2, y);
+                    doc.text('Total', col6 + 5, y);
+                    
+                    y += 7;
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(8);
+                    
+                    // Table rows
+                    order.products.forEach((item, index) => {
+                        const itemTotal = (item.price * item.quantity).toFixed(2);
+                        doc.text(`${index + 1}`, col1, y);
+                        doc.text(item._id ? item._id.toString().substring(0, 8) : 'N/A', col2, y);
+                        doc.text(item.name.substring(0, 45), col3, y);
+                        doc.text(item.quantity.toString(), col4 + 2, y);
+                        doc.text(`₹${item.price}`, col5 + 2, y);
+                        doc.text(`₹${itemTotal}`, col6 + 5, y);
+                        y += 5;
+                        
+                        if (y > 250) {
+                            doc.addPage();
+                            y = 15;
+                        }
+                    });
+                    
+                    // Totals Section
+                    y += 3;
+                    doc.setDrawColor(46, 125, 50);
+                    doc.line(col1 - 2, y, pageWidth - 15, y);
+                    
+                    y += 6;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(9);
+                    doc.setTextColor(0, 0, 0);
+                    
+                    const subtotalAmount = subtotal.toFixed(2);
+                    const taxAmount = tax.toFixed(2);
+                    const totalAmount = order.totalAmount.toFixed(2);
+                    
+                    // Align right for amounts
+                    const amountColX = pageWidth - 30;
+                    const labelColX = col3;
+                    
+                    doc.text('Subtotal:', labelColX, y);
+                    doc.text(`₹${subtotalAmount}`, amountColX, y, { align: 'right' });
+                    
+                    y += 4;
+                    doc.text('Tax (5%):', labelColX, y);
+                    doc.text(`₹${taxAmount}`, amountColX, y, { align: 'right' });
+                    
+                    y += 6;
+                    doc.setFont(undefined, 'bold');
+                    doc.setFontSize(10);
+                    doc.setTextColor(46, 125, 50);
+                    doc.text('Total Amount:', labelColX, y);
+                    doc.text(`₹${totalAmount}`, amountColX, y, { align: 'right' });
+                    
+                    // Footer
+                    y = doc.internal.pageSize.getHeight() - 25;
+                    doc.setDrawColor(200, 200, 200);
+                    doc.line(15, y, pageWidth - 15, y);
+                    
+                    y += 4;
+                    doc.setFontSize(8);
+                    doc.setTextColor(100, 100, 100);
+                    doc.setFont(undefined, 'normal');
+                    doc.text('Thank you for shopping with KCP Organics!', pageWidth / 2, y, { align: 'center' });
+                    
+                    y += 3;
+                    doc.text(`You can track your order using Order ID and Mobile Number at www.kcporganics.com`, pageWidth / 2, y, { align: 'center' });
+                    
+                    y += 3;
+                    doc.text('This is a computer generated invoice. No signature required.', pageWidth / 2, y, { align: 'center' });
+                    
+                    const fileName = `Invoice_KCP_${orderIdFormatted}_${new Date().getTime()}.pdf`;
+                    doc.save(fileName);
+                } else {
+                    alert('Unable to load order details');
+                }
+            } catch (error) {
+                console.error('Error downloading receipt:', error);
+                alert('Error downloading receipt: ' + error.message);
+            }
+        }
+
         function logoutUser(event) {
             if (event) event.preventDefault();
             localStorage.removeItem('userName');
@@ -2996,11 +3339,16 @@
                                         </div>
                                     `).join('')}
                                 </div>
-                                <div class="order-footer">
-                                    <span class="order-total"><strong>Total: ₹${order.totalAmount.toFixed(2)}</strong></span>
-                                    <span class="order-status" style="background: ${order.orderStatus === 'delivered' ? '#27ae60' : order.orderStatus === 'pending' ? '#f39c12' : '#e74c3c'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
-                                        ${order.orderStatus || 'Pending'}
-                                    </span>
+                                <div class="order-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                    <div>
+                                        <span class="order-total"><strong>Total: ₹${order.totalAmount.toFixed(2)}</strong></span>
+                                        <span class="order-status" style="background: ${order.orderStatus === 'delivered' ? '#27ae60' : order.orderStatus === 'pending' ? '#f39c12' : '#e74c3c'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-left: 10px;">
+                                            ${order.orderStatus || 'Pending'}
+                                        </span>
+                                    </div>
+                                    <button onclick="downloadReceiptPDF('${order._id}')" style="background: #4CAF50; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.3s;" onmouseover="this.style.background='#2e7d32'" onmouseout="this.style.background='#4CAF50'">
+                                        <i class="fas fa-download" style="margin-right: 5px;"></i>Download Receipt
+                                    </button>
                                 </div>
                             </div>
                         `).join('');

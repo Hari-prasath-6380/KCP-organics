@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="product-detail.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -524,13 +526,21 @@
         </button>
     </nav>
 
+    <!-- Back Button -->
+    <div style="padding: 20px 40px;">
+        <a href="products.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background-color 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.backgroundColor='#2e7d32'" onmouseout="this.style.backgroundColor='#4CAF50'">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Products</span>
+        </a>
+    </div>
+
     <!-- Product Detail Container -->
     <div class="product-detail-container">
         <!-- Product Header -->
         <div class="product-detail-header">
             <!-- Image Section -->
             <div class="product-image-section">
-                <img id="mainImage" src="" alt="Product" class="product-main-image">
+                <img id="mainImage" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%' height='100%' fill='%23f3f4f6'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23999999' font-family='Arial' font-size='18'>Loading Image...</text></svg>" alt="Product" class="product-main-image">
             </div>
 
             <!-- Info Section -->
@@ -624,7 +634,33 @@
     </footer>
 
     <script>
-        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
+        // Smart base URL: works for file://, localhost, 127.0.0.1
+        function getBaseUrl() {
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            
+            // For localhost or 127.0.0.1, use local backend
+            if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.')) {
+                return port ? `http://${hostname}:5000` : 'http://localhost:5000';
+            }
+            
+            // For deployed environments, use production URL
+            if (hostname.includes('render') || hostname.includes('herokuapp') || hostname.includes('.app')) {
+                return 'https://kcp-organics-1.onrender.com';
+            }
+            
+            // For custom domains, try to construct the backend URL
+            if (hostname.includes('kcporganics') || hostname.includes('kcp-organics')) {
+                const protocol = window.location.protocol;
+                return `${protocol}//${hostname}:5000`;
+            }
+            
+            // Default fallback
+            return 'https://kcp-organics-1.onrender.com';
+        }
+        const API_BASE_URL = getBaseUrl() + '/api';
+        const IMAGE_BASE_URL = getBaseUrl();
+        const triedImageUrls = new Set();
         let currentProductId = null;
         let selectedUnit = null;
         let currentProduct = null;
@@ -669,8 +705,23 @@
         function displayProductDetail(product) {
             currentProduct = product; // Store product data globally
             document.getElementById('productName').textContent = product.name;
-            document.getElementById('mainImage').src = getProductImageUrl(product.image);
-            document.getElementById('mainImage').alt = product.name;
+            
+            // Set up image with error handling
+            const mainImg = document.getElementById('mainImage');
+            const imageUrl = getProductImageUrl(product.image);
+            console.log('📸 Loading product image:', {
+                productImage: product.image,
+                constructedUrl: imageUrl,
+                baseUrl: IMAGE_BASE_URL
+            });
+            
+            // Add error handler for image loading
+            mainImg.onerror = () => {
+                handleImageError(mainImg, product.image);
+            };
+            
+            mainImg.src = imageUrl;
+            mainImg.alt = product.name;
             document.getElementById('productDescription').textContent = product.description;
             document.getElementById('productStars').textContent = generateStars(product.averageRating);
             document.getElementById('ratingCount').textContent = `${product.averageRating || 0} out of 5`;
@@ -722,9 +773,57 @@
         }
 
         function getProductImageUrl(imagePath) {
-            if (!imagePath) return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250"><rect width="100%" height="100%" fill="%23f3f4f6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23888888" font-family="Arial" font-size="18">No Image</text></svg>';
-            if (imagePath.startsWith('http')) return imagePath;
-            return `http://localhost:5000${imagePath.startsWith('/') ? imagePath : '/' + imagePath}`;
+            // Inline SVG placeholder (avoids external network requests)
+            const placeholder = 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23f3f4f6%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23888888%22 font-family=%22Arial%22 font-size=%2218%22>Product+Image</text></svg>';
+
+            if (!imagePath || imagePath.trim() === '') {
+                console.warn('⚠️ Image path is empty, using placeholder');
+                return placeholder;
+            }
+
+            // Already a full URL
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                console.log('📸 Using full URL:', imagePath);
+                return imagePath;
+            }
+
+            // If path already includes uploads (with or without leading slash), normalize it and prefix IMAGE_BASE_URL
+            if (imagePath.includes('/uploads/')) {
+                const normalized = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+                const fullUrl = IMAGE_BASE_URL + normalized;
+                console.log('📸 Image URL (with /uploads/):', fullUrl);
+                return fullUrl;
+            }
+
+            // If the imagePath looks like a filename (e.g., product.jpg), place it under /uploads/products/ and prefix IMAGE_BASE_URL
+            const rel = `/uploads/products/${imagePath}`;
+            const fullUrl = IMAGE_BASE_URL + rel;
+            console.log('📸 Image URL (filename):', fullUrl);
+            return fullUrl;
+        }
+
+        // Function to handle image load errors with fallback URLs
+        function handleImageError(imgElement, imagePath) {
+            console.warn('❌ Image failed to load:', imgElement.src);
+            
+            const originalPath = imagePath;
+            const genericPlaceholder = 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23e0e0e0%22/><text x=%2250%25%22 y=%2230%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666666%22 font-family=%22Arial%22 font-size=%2214%22 font-weight=%22bold%22>Image Not Available</text><text x=%2250%25%22 y=%2270%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999999%22 font-family=%22Arial%22 font-size=%2212%22>' + encodeURIComponent(imagePath || 'Unknown') + '</text></svg>';
+            
+            // Try fallback to production URL if we're on localhost
+            if (IMAGE_BASE_URL.includes('localhost') || IMAGE_BASE_URL.includes('127.0.0.1')) {
+                const prodUrl = 'https://kcp-organics-1.onrender.com' + (imagePath.startsWith('/') ? imagePath : `/uploads/products/${imagePath}`);
+                if (!triedImageUrls.has(prodUrl)) {
+                    console.log('🔄 Trying production URL:', prodUrl);
+                    triedImageUrls.add(prodUrl);
+                    imgElement.src = prodUrl;
+                    return;
+                }
+            }
+            
+            // Use placeholder
+            console.log('📷 Using placeholder for:', imagePath);
+            imgElement.src = genericPlaceholder;
+            imgElement.style.backgroundColor = '#f0f0f0';
         }
 
         function generateStars(rating) {
@@ -955,11 +1054,16 @@
                                         </div>
                                     `).join('')}
                                 </div>
-                                <div class="order-footer">
-                                    <span class="order-total"><strong>Total: ₹${order.totalAmount.toFixed(2)}</strong></span>
-                                    <span class="order-status" style="background: ${order.orderStatus === 'delivered' ? '#27ae60' : order.orderStatus === 'pending' ? '#f39c12' : '#e74c3c'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
-                                        ${order.orderStatus || 'Pending'}
-                                    </span>
+                                <div class="order-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                    <div>
+                                        <span class="order-total"><strong>Total: ₹${order.totalAmount.toFixed(2)}</strong></span>
+                                        <span class="order-status" style="background: ${order.orderStatus === 'delivered' ? '#27ae60' : order.orderStatus === 'pending' ? '#f39c12' : '#e74c3c'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-left: 10px;">
+                                            ${order.orderStatus || 'Pending'}
+                                        </span>
+                                    </div>
+                                    <button onclick="downloadReceiptPDF('${order._id}')" style="background: #4CAF50; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.3s;" onmouseover="this.style.background='#2e7d32'" onmouseout="this.style.background='#4CAF50'">
+                                        <i class="fas fa-download" style="margin-right: 5px;"></i>Download Receipt
+                                    </button>
                                 </div>
                             </div>
                         `).join('');
@@ -992,6 +1096,202 @@
 
         function toggleCart() {
             window.location.href = 'cart.html';
+        }
+
+        // Download Receipt as PDF
+        async function downloadReceiptPDF(orderId) {
+            const userId = localStorage.getItem('userId');
+            const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const order = data.data;
+                    const PDFClass = window.jsPDF || (window.jspdf && window.jspdf.jsPDF);
+                    if (!PDFClass) {
+                        alert('PDF library not loaded. Please refresh the page.');
+                        return;
+                    }
+                    
+                    const doc = new PDFClass('p', 'mm', 'a4');
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    let y = 15;
+                    
+                    // Header
+                    doc.setFontSize(18);
+                    doc.setTextColor(46, 125, 50);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('KCP ORGANICS', pageWidth / 2, y, { align: 'center' });
+                    
+                    y += 6;
+                    doc.setFontSize(10);
+                    doc.setTextColor(100, 100, 100);
+                    doc.setFont(undefined, 'normal');
+                    doc.text('100% Organic | Farm Fresh to Your Doorstep', pageWidth / 2, y, { align: 'center' });
+                    
+                    y += 4;
+                    doc.setFontSize(9);
+                    doc.text('Contact: +91 98765 43210 | Email: support@kcporganics.com', pageWidth / 2, y, { align: 'center' });
+                    
+                    // Horizontal line
+                    y += 6;
+                    doc.setDrawColor(46, 125, 50);
+                    doc.setLineWidth(0.5);
+                    doc.line(15, y, pageWidth - 15, y);
+                    
+                    // Invoice Details Section
+                    y += 8;
+                    doc.setFontSize(11);
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('INVOICE DETAILS', 15, y);
+                    
+                    y += 6;
+                    doc.setFontSize(9);
+                    doc.setFont(undefined, 'normal');
+                    const orderIdFormatted = order._id.substring(0, 8).toUpperCase();
+                    const tax = Math.round(order.totalAmount * 0.05 / 1.05);
+                    const subtotal = order.totalAmount - tax;
+                    
+                    doc.text(`Order ID: ORD-${orderIdFormatted}-${new Date(order.createdAt).getTime().toString().slice(-6)}`, 15, y);
+                    y += 5;
+                    doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString('en-IN')}`, 15, y);
+                    y += 5;
+                    doc.text(`Payment Method: ${order.paymentMethod || 'COD'}`, 15, y);
+                    
+                    // Bill To Section
+                    y += 8;
+                    doc.setFont(undefined, 'bold');
+                    doc.setFontSize(10);
+                    doc.text('BILL TO', 15, y);
+                    
+                    y += 5;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(9);
+                    doc.text(`${order.customerName || 'Valued Customer'}`, 15, y);
+                    y += 4;
+                    doc.text(`${order.address || 'Address on file'}`, 15, y);
+                    y += 4;
+                    doc.text(`${order.phone || order.email || ''}`, 15, y);
+                    y += 4;
+                    doc.text(`Email: ${order.email || ''}`, 15, y);
+                    
+                    // Items Table
+                    y += 8;
+                    const tableStartY = y;
+                    const colWidths = {
+                        sno: 12,
+                        productId: 35,
+                        productName: 70,
+                        qty: 15,
+                        unitPrice: 25,
+                        total: 25
+                    };
+                    
+                    const col1 = 15;
+                    const col2 = col1 + colWidths.sno;
+                    const col3 = col2 + colWidths.productId;
+                    const col4 = col3 + colWidths.productName;
+                    const col5 = col4 + colWidths.qty;
+                    const col6 = col5 + colWidths.unitPrice;
+                    
+                    // Table header background
+                    doc.setFillColor(46, 125, 50);
+                    doc.rect(col1 - 2, y - 3, pageWidth - 30, 6, 'F');
+                    
+                    // Table headers
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont(undefined, 'bold');
+                    doc.setFontSize(9);
+                    doc.text('S.No', col1, y);
+                    doc.text('Product ID', col2, y);
+                    doc.text('Product Name', col3, y);
+                    doc.text('Qty', col4 + 2, y);
+                    doc.text('Unit Price', col5 + 2, y);
+                    doc.text('Total', col6 + 5, y);
+                    
+                    y += 7;
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(8);
+                    
+                    // Table rows
+                    order.products.forEach((item, index) => {
+                        const itemTotal = (item.price * item.quantity).toFixed(2);
+                        doc.text(`${index + 1}`, col1, y);
+                        doc.text(item._id ? item._id.toString().substring(0, 8) : 'N/A', col2, y);
+                        doc.text(item.name.substring(0, 45), col3, y);
+                        doc.text(item.quantity.toString(), col4 + 2, y);
+                        doc.text(`₹${item.price}`, col5 + 2, y);
+                        doc.text(`₹${itemTotal}`, col6 + 5, y);
+                        y += 5;
+                        
+                        if (y > 250) {
+                            doc.addPage();
+                            y = 15;
+                        }
+                    });
+                    
+                    // Totals Section
+                    y += 3;
+                    doc.setDrawColor(46, 125, 50);
+                    doc.line(col1 - 2, y, pageWidth - 15, y);
+                    
+                    y += 6;
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(9);
+                    doc.setTextColor(0, 0, 0);
+                    
+                    const subtotalAmount = subtotal.toFixed(2);
+                    const taxAmount = tax.toFixed(2);
+                    const totalAmount = order.totalAmount.toFixed(2);
+                    
+                    // Align right for amounts
+                    const amountColX = pageWidth - 30;
+                    const labelColX = col3;
+                    
+                    doc.text('Subtotal:', labelColX, y);
+                    doc.text(`₹${subtotalAmount}`, amountColX, y, { align: 'right' });
+                    
+                    y += 4;
+                    doc.text('Tax (5%):', labelColX, y);
+                    doc.text(`₹${taxAmount}`, amountColX, y, { align: 'right' });
+                    
+                    y += 6;
+                    doc.setFont(undefined, 'bold');
+                    doc.setFontSize(10);
+                    doc.setTextColor(46, 125, 50);
+                    doc.text('Total Amount:', labelColX, y);
+                    doc.text(`₹${totalAmount}`, amountColX, y, { align: 'right' });
+                    
+                    // Footer
+                    y = doc.internal.pageSize.getHeight() - 25;
+                    doc.setDrawColor(200, 200, 200);
+                    doc.line(15, y, pageWidth - 15, y);
+                    
+                    y += 4;
+                    doc.setFontSize(8);
+                    doc.setTextColor(100, 100, 100);
+                    doc.setFont(undefined, 'normal');
+                    doc.text('Thank you for shopping with KCP Organics!', pageWidth / 2, y, { align: 'center' });
+                    
+                    y += 3;
+                    doc.text(`You can track your order using Order ID and Mobile Number at www.kcporganics.com`, pageWidth / 2, y, { align: 'center' });
+                    
+                    y += 3;
+                    doc.text('This is a computer generated invoice. No signature required.', pageWidth / 2, y, { align: 'center' });
+                    
+                    const fileName = `Invoice_KCP_${orderIdFormatted}_${new Date().getTime()}.pdf`;
+                    doc.save(fileName);
+                } else {
+                    alert('Unable to load order details');
+                }
+            } catch (error) {
+                console.error('Error downloading receipt:', error);
+                alert('Error downloading receipt: ' + error.message);
+            }
         }
 
         function logoutUser(event) {
