@@ -40,9 +40,6 @@ temp/
 mongodb_data/
 *.db
 
-# Uploads (use your own images locally)
-backend/uploads/
-
 # Cache
 .eslintcache
 .cache/
