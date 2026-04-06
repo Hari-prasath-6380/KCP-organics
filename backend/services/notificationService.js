@@ -122,6 +122,7 @@ async function sendOrderTelegram(orderDetails) {
 async function sendOrderWhatsApp(orderDetails) {
     if (!whatsappModule) {
         console.warn('⚠️  WhatsApp module not available - skipping WhatsApp notification');
+        console.warn('💡 Make sure whatsapp-web.js is installed and WhatsApp is initialized');
         return false;
     }
 
@@ -130,35 +131,49 @@ async function sendOrderWhatsApp(orderDetails) {
         const isReady = whatsappModule.isClientReady ? whatsappModule.isClientReady() : false;
         if (!isReady) {
             console.warn('⚠️  WhatsApp client not ready yet - notification will be skipped');
-            console.warn('💡 Tip: WhatsApp client may still be initializing. Check server logs for QR code.');
+            console.warn('💡 WhatsApp: Waiting for QR code scan or device link');
+            console.warn('💡 Check server logs for QR code. It may take 20-30 seconds to initialize.');
+            return false;
+        }
+
+        // Validate required fields
+        if (!orderDetails.phone) {
+            console.error('❌ WhatsApp Error: Customer phone number is missing');
             return false;
         }
 
         // Format data for WhatsApp notification - match expected structure
         const whatsappData = {
-            customerName: orderDetails.customerName,
-            phone: orderDetails.customerPhone,
-            items: (orderDetails.products || []).map(p => ({
-                title: p.name || p.productName || 'Product',
+            customerName: orderDetails.customerName || 'Customer',
+            phone: orderDetails.phone,
+            items: (orderDetails.items || []).map(p => ({
+                title: p.name || p.productName || p.title || 'Product',
                 qty: p.quantity || 0,
                 price: p.price || 0
             })),
-            totalAmount: orderDetails.amount || orderDetails.totalAmount || 0,
-            paymentMethod: orderDetails.paymentMethod,
+            totalAmount: orderDetails.totalAmount || orderDetails.amount || 0,
+            paymentMethod: orderDetails.paymentMethod || 'Not specified',
             shippingAddress: {
-                address: orderDetails.address || '',
-                city: orderDetails.city || '',
-                pincode: orderDetails.zipcode || ''
+                address: orderDetails.shippingAddress?.address || '',
+                city: orderDetails.shippingAddress?.city || '',
+                pincode: orderDetails.shippingAddress?.pincode || ''
             }
         };
 
-        console.log('📱 [WhatsApp] Sending notification with data:', JSON.stringify(whatsappData, null, 2));
+        console.log('📱 [WhatsApp] Preparing to send order notification...');
+        console.log('📱 [WhatsApp] Customer: ' + whatsappData.customerName);
+        console.log('📱 [WhatsApp] Phone: +91' + whatsappData.phone.replace(/\D/g, '').slice(-10));
+        console.log('📱 [WhatsApp] Items: ' + whatsappData.items.length);
+        
         await whatsappModule.sendOrderNotification(whatsappData);
         console.log('✅ WhatsApp order notification sent successfully');
         return true;
     } catch (error) {
         console.error('❌ Error sending WhatsApp order notification:', error.message);
-        console.error('📋 Error stack:', error.stack);
+        console.error('📋 Error details:', error.toString());
+        if (error.stack) {
+            console.error('📋 Stack trace:', error.stack);
+        }
         return false;
     }
 }

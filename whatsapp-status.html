@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Notifications - Status Check | KCP Organics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .status-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #999;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .status-value {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-icon {
+            font-size: 20px;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-full {
+            grid-column: 1 / -1;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.active {
+            display: block;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #004085;
+        }
+
+        .info-box h3 {
+            margin-bottom: 8px;
+            color: #004085;
+        }
+
+        .info-box p {
+            margin-bottom: 6px;
+        }
+
+        .timestamp {
+            font-size: 12px;
+            color: #999;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 WhatsApp Notifications Status</h1>
+        <p class="subtitle">Check if WhatsApp notifications are ready for your orders</p>
+
+        <div class="alert alert-info" id="infoAlert">
+            Loading WhatsApp status...
+        </div>
+
+        <div class="status-box">
+            <div class="status-item">
+                <span class="status-label">WhatsApp Module</span>
+                <span class="status-value">
+                    <span class="status-icon" id="moduleIcon">⏳</span>
+                    <span id="moduleStatus">Loading...</span>
+                </span>
+            </div>
+
+            <div class="status-item">
+                <span class="status-label">Client Status</span>
+                <span class="status-value">
+                    <span class="status-icon" id="readyIcon">⏳</span>
+                    <span class="badge" id="readyBadge">Loading...</span>
+                </span>
+            </div>
+
+            <div class="status-item">
+                <span class="status-label">Session Saved</span>
+                <span class="status-value">
+                    <span class="status-icon" id="sessionIcon">⏳</span>
+                    <span id="sessionStatus">Loading...</span>
+                </span>
+            </div>
+
+            <div class="status-item">
+                <span class="status-label">Timestamp</span>
+                <span class="status-value">
+                    <span id="timestamp">-</span>
+                </span>
+            </div>
+        </div>
+
+        <div id="recommendations"></div>
+
+        <div class="buttons">
+            <button class="btn btn-primary" onclick="refreshStatus()">🔄 Refresh Status</button>
+            <button class="btn btn-secondary" onclick="sendTestMessage()">📧 Send Test</button>
+            <button class="btn btn-danger btn-full" onclick="clearSession()">🗑️ Clear Session & Restart</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; color: #666;">Processing...</p>
+        </div>
+
+        <div class="info-box">
+            <h3>💡 Quick Start</h3>
+            <p><strong>First Time Setup:</strong></p>
+            <p>1. If you see ❌ "Client not ready", restart the server</p>
+            <p>2. Watch for a QR code in the server terminal (appears in first 30 seconds)</p>
+            <p>3. Open WhatsApp on your phone → Settings → Linked Devices → Link a Device</p>
+            <p>4. Scan the QR code</p>
+            <p>5. You should see ✅ "CLIENT READY" in the server logs</p>
+            <p>6. Try this status checker again</p>
+        </div>
+
+        <div class="timestamp">Last updated: <span id="updateTime">-</span></div>
+    </div>
+
+    <script>
+        async function refreshStatus() {
+            try {
+                document.body.style.opacity = '0.7';
+                const response = await fetch('/api/diagnostics/whatsapp');
+                const data = await response.json();
+
+                updateUI(data);
+            } catch (error) {
+                showAlert('danger', '❌ Error: Could not connect to server. Make sure the backend is running.', error.message);
+            } finally {
+                document.body.style.opacity = '1';
+            }
+        }
+
+        function updateUI(data) {
+            const { clientReady, whatsappModule, sessionDirectory, recommendations } = data;
+
+            // Update module status
+            const moduleStatus = document.getElementById('moduleStatus');
+            const moduleIcon = document.getElementById('moduleIcon');
+            if (whatsappModule.loaded) {
+                moduleStatus.textContent = 'Loaded ✓';
+                moduleIcon.textContent = '✅';
+            } else {
+                moduleStatus.textContent = 'Failed to load';
+                moduleIcon.textContent = '❌';
+            }
+
+            // Update client ready status
+            const readyBadge = document.getElementById('readyBadge');
+            const readyIcon = document.getElementById('readyIcon');
+            if (clientReady) {
+                readyBadge.className = 'badge badge-success';
+                readyBadge.textContent = '✅ READY';
+                readyIcon.textContent = '✅';
+                showAlert('success', '✅ WhatsApp is ready! Orders will receive WhatsApp notifications.');
+            } else {
+                readyBadge.className = 'badge badge-warning';
+                readyBadge.textContent = '⏳ NOT READY';
+                readyIcon.textContent = '⏳';
+                showAlert('warning', '⏳ WhatsApp is initializing. Wait 20-30 seconds or restart server to scan QR code.');
+            }
+
+            // Update session status
+            const sessionIcon = document.getElementById('sessionIcon');
+            const sessionStatus = document.getElementById('sessionStatus');
+            if (sessionDirectory.exists) {
+                sessionStatus.textContent = `Yes (${formatBytes(sessionDirectory.size)})`;
+                sessionIcon.textContent = '💾';
+            } else {
+                sessionStatus.textContent = 'No session yet';
+                sessionIcon.textContent = '❌';
+            }
+
+            // Update timestamp
+            document.getElementById('timestamp').textContent = new Date(data.timestamp).toLocaleString();
+            document.getElementById('updateTime').textContent = new Date(data.timestamp).toLocaleTimeString();
+
+            // Show recommendations
+            const recDiv = document.getElementById('recommendations');
+            if (recommendations && recommendations.length > 0) {
+                recDiv.innerHTML = recommendations.map(rec => `
+                    <div style="background: #f0f0f0; padding: 12px; border-radius: 6px; margin-bottom: 10px;">
+                        <strong>${rec.issue}</strong>
+                        <p style="color: #666; font-size: 12px; margin-top: 4px;">${rec.action}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        function showAlert(type, message, details = '') {
+            const alert = document.getElementById('infoAlert');
+            alert.className = `alert active alert-${type}`;
+            alert.innerHTML = message + (details ? `<p style="font-size: 12px; margin-top: 6px;">${details}</p>` : '');
+        }
+
+        async function sendTestMessage() {
+            showLoading(true);
+            try {
+                const response = await fetch('/api/diagnostics/test-whatsapp', { method: 'POST' });
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert('success', '✅ Test message sent! Check your WhatsApp phone.');
+                } else {
+                    showAlert('danger', '❌ Failed to send test: ' + data.message, data.details);
+                }
+            } catch (error) {
+                showAlert('danger', '❌ Error', error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function clearSession() {
+            if (!confirm('⚠️  This will delete the WhatsApp session and require QR code re-scanning. Continue?')) {
+                return;
+            }
+
+            showLoading(true);
+            try {
+                const response = await fetch('/api/diagnostics/clear-session', { method: 'POST' });
+                const data = await response.json();
+
+                if (data.success) {
+                    showAlert('info', '✅ Session cleared! Restart the backend server and scan the QR code.');
+                } else {
+                    showAlert('danger', '❌ Error', data.message);
+                }
+            } catch (error) {
+                showAlert('danger', '❌ Error', error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').className = show ? 'loading active' : 'loading';
+        }
+
+        // Auto-refresh every 5 seconds
+        setInterval(refreshStatus, 5000);
+
+        // Initial load
+        refreshStatus();
+    </script>
+</body>
+</html>

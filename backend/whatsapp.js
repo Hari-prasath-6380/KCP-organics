@@ -135,12 +135,32 @@ process.on("unhandledRejection", (reason, promise) => {
 /**
  * Sends WhatsApp order notifications to both admin AND customer.
  * Called automatically from POST /orders in server.js
+ * 
+ * With retry logic for early initialization
  *
  * @param {Object} orderData
  */
 async function sendOrderNotification(orderData) {
+    // ── RETRY LOGIC: Wait up to 10 seconds if client is initializing ──
+    let attempts = 0;
+    let maxAttempts = 10; // 10 attempts × 1 second = 10 seconds max wait
+    
+    while (!isClientReady && attempts < maxAttempts) {
+        attempts++;
+        if (attempts === 1) {
+            console.log('⏳ [WhatsApp] Client initializing, waiting... (max 10 sec)');
+        }
+        await new Promise(r => setTimeout(r, 1000)); // Wait 1 second
+    }
+    
     if (!isClientReady) {
-        console.warn("⚠️  [WhatsApp] Client not ready yet — notification skipped.");
+        console.warn('❌ [WhatsApp] Client still not ready after 10-second wait.');
+        console.warn('💡 [Suggestions]:');
+        console.warn('   1. Check server logs for QR code (appears during startup)');
+        console.warn('   2. Scan QR code with WhatsApp → Linked Devices');
+        console.warn('   3. Wait for "✅ CLIENT READY" message in logs');
+        console.warn('   4. Restart server if QR code never appeared: kill node, npm start, scan QR');
+        console.warn('   5. Clear session: delete .wwebjs_auth/session folder and restart');
         return;
     }
 
@@ -194,32 +214,64 @@ Thank you for shopping with KCP Organics! 🙏`;
 
     try {
         // Send notification to ADMIN
+        console.log('📱 [WhatsApp] Sending order to admin...');
         await client.sendMessage(ADMIN_WHATSAPP_NUMBER, adminMessage);
         console.log("✅ [WhatsApp] Order notification sent to admin (+91 6380442089)");
 
         // Send confirmation to CUSTOMER
         // Format customer phone number for WhatsApp: remove special chars and add @c.us
-        const customerWhatsAppNumber = phone.replace(/\D/g, "").slice(-10);
-        const fullCustomerNumber = `91${customerWhatsAppNumber}@c.us`;
-        
-        await client.sendMessage(fullCustomerNumber, customerMessage);
-        console.log(`✅ [WhatsApp] Order confirmation sent to customer (+91${customerWhatsAppNumber})`);
+        try {
+            const cleanPhone = phone.replace(/\D/g, ""); // Remove all non-digits
+            const last10Digits = cleanPhone.slice(-10); // Get last 10 digits
+            
+            // Validate phone number
+            if (!last10Digits || last10Digits.length !== 10) {
+                console.error(`❌ [WhatsApp] Invalid customer phone format: ${phone}`);
+                console.error(`❌ [WhatsApp] Phone must be 10 digits. Got: ${cleanPhone}`);
+                return; // Skip customer notification if invalid
+            }
+            
+            const fullCustomerNumber = `91${last10Digits}@c.us`;
+            console.log(`📱 [WhatsApp] Sending order confirmation to customer: +91${last10Digits}`);
+            
+            await client.sendMessage(fullCustomerNumber, customerMessage);
+            console.log(`✅ [WhatsApp] Order confirmation sent to customer (+91${last10Digits})`);
+        } catch (customerError) {
+            console.error(`❌ [WhatsApp] Failed to send to customer: ${customerError.message}`);
+            console.warn("⚠️  [WhatsApp] Admin was notified, but customer notification failed");
+            console.warn(`💡 [Tip] Verify customer phone number: ${phone}`);
+        }
     } catch (err) {
         console.error("❌ [WhatsApp] Failed to send message:", err.message);
+        console.error("📋 [Error Details] ", err.toString());
     }
 }
 
 // ── SEND MESSAGE FROM USER ────────────────────────────────────
 /**
  * Sends user messages to admin via WhatsApp
+ * With retry logic for early initialization
  * 
  * @param {string} senderName
  * @param {string} senderPhone
  * @param {string} messageText
  */
 async function sendUserMessage(senderName, senderPhone, messageText) {
+    // ── RETRY LOGIC: Wait up to 10 seconds if client is initializing ──
+    let attempts = 0;
+    let maxAttempts = 10;
+    
+    while (!isClientReady && attempts < maxAttempts) {
+        attempts++;
+        if (attempts === 1) {
+            console.log('⏳ [WhatsApp] Client initializing, waiting for message send... (max 10 sec)');
+        }
+        await new Promise(r => setTimeout(r, 1000));
+    }
+    
     if (!isClientReady) {
         console.warn("⚠️  [WhatsApp] Client not ready — user message not sent.");
+        console.warn('💡 Please restart server and scan QR code to enable WhatsApp');
         return;
     }
 

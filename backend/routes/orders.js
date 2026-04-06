@@ -246,9 +246,9 @@ router.post('/', async (req, res) => {
                     totalAmount: orderDetails.amount || 0,
                     paymentMethod: orderDetails.paymentMethod,
                     shippingAddress: {
-                        address: orderDetails.address || '',
-                        city: orderDetails.city || '',
-                        pincode: orderDetails.zipcode || ''
+                        address: address || '',
+                        city: city || '',
+                        pincode: zipcode || ''
                     }
                 };
                 await sendOrderWhatsApp(whatsappData);

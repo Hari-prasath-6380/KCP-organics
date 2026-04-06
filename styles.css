@@ -433,10 +433,10 @@ body{
 }
 
 .carousel-text h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Playfair Display', 'Georgia', serif;
   color: #b1e0f5;
-  font-size: clamp(28px, 6vw, 52px);
-  font-weight: 800;
+  font-size: clamp(36px, 8vw, 68px);
+  font-weight: 900;
   letter-spacing: 2px;
   margin-bottom: 10px;
   line-height: 1.15;
@@ -468,6 +468,28 @@ body{
              subtitleGlow 3.5s ease-in-out 2.5s infinite;
 }
 
+.slogan {
+  color: #04ff0d !important;
+  font-size: clamp(14px, 3.5vw, 22px) !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  margin-bottom: 12px !important;
+  text-shadow: 0 0 5px rgba(255,255,255,0.2) !important;
+  animation: sloganReveal 1s ease-out 0.2s both;
+  line-height: 1.4;
+}
+
+@keyframes sloganReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 .slider {
   width: 100%;
@@ -482,7 +504,8 @@ body{
   animation: scroll 60s linear infinite;
 }
 
-.product-card {
+/* ===== SLIDER PRODUCT CARDS (home page only) ===== */
+.slider .product-card {
   flex-direction: column;
   width: 160px;
   height: 175px;
@@ -504,15 +527,16 @@ body{
   padding-bottom: 10px;
 }
 
-.product-card img {
+.slider .product-card img {
   width: 100%;
-  height: 115px;
+  height: 115px !important;
   object-fit: cover;
   border-radius: 14px 14px 0 0;
   flex-shrink: 0;
+  display: block;
 }
 
-.product-card span {
+.slider .product-card span {
   display: block;
   text-align: center;
   padding: 8px 8px 0;
@@ -527,7 +551,7 @@ body{
   box-sizing: border-box;
 }
 
-.product-card:hover {
+.slider .product-card:hover {
   background: #f1fdf4;
   transform: translateY(-6px);
   box-shadow: 0 12px 28px rgba(27, 94, 32, 0.2);
@@ -728,8 +752,8 @@ img, video { max-width: 100%; height: auto; }
   .section1 a { font-size: 14px; }
   .section2 { gap: 15px; }
   /* Slider */
-  .product-card { width: 170px; height: 165px; }
-  .product-card img { height: 112px; }
+  .slider .product-card { width: 170px; height: 165px; }
+  .slider .product-card img { height: 112px !important; }
   .slide-track { width: calc(186px * 30); }
 }
 
@@ -808,7 +832,7 @@ img, video { max-width: 100%; height: auto; }
   }
   /* Hide duplicate set of cards */
   .slide-track .product-card:nth-child(n+16) { display: none !important; }
-  .product-card {
+  .slider .product-card {
     width: 100% !important;
     height: auto !important;
     min-height: 115px;
@@ -816,14 +840,14 @@ img, video { max-width: 100%; height: auto; }
     border-radius: 12px;
     padding-bottom: 8px;
   }
-  .product-card img { height: 72px !important; width: 100%; border-radius: 10px 10px 0 0; }
-  .product-card span { font-size: 10px; white-space: normal; line-height: 1.2; padding: 4px 4px 0; }
+  .slider .product-card img { height: 72px !important; width: 100%; border-radius: 10px 10px 0 0; }
+  .slider .product-card span { font-size: 10px; white-space: normal; line-height: 1.2; padding: 4px 4px 0; }
 
   /* Section heading */
   h1[style*="font-size: 36px"] { font-size: 26px !important; }
 
   /* Carousel text */
-  .carousel-text h1 { font-size: 32px; }
+  .carousel-text h1 { font-size: 48px; font-weight: 900; }
   .carousel-text p { font-size: 18px; }
   .welcome-badge { font-size: 11px; padding: 5px 14px; }
 
@@ -852,7 +876,7 @@ img, video { max-width: 100%; height: auto; }
 @media (max-width: 600px) {
   body { padding-top: 60px; }
   
-  .carousel-text h1 { font-size: clamp(18px, 5vw, 22px); letter-spacing: 1px; }
+  .carousel-text h1 { font-size: clamp(22px, 6vw, 28px); letter-spacing: 1px; font-weight: 900; }
   .carousel-text p { font-size: clamp(13px, 3vw, 15px); }
   .carousel-text { padding: 0 10px; width: 94%; }
   .welcome-badge { font-size: 10px; padding: 4px 12px; }
@@ -863,7 +887,7 @@ img, video { max-width: 100%; height: auto; }
   .poster-btn { padding: 10px 18px; font-size: 14px; }
   .mv-container { grid-template-columns: 1fr; }
   .reviews-grid .review-card { margin-bottom: 14px; }
-  .product-card img { height: 64px !important; }
+  .slider .product-card img { height: 64px !important; }
   
   /* Mobile single column benefit cards */
   .organic-benefits {
@@ -937,6 +961,127 @@ img, video { max-width: 100%; height: auto; }
   }
 }
 
+/* ===== LOGIN PROMPT MODAL ===== */
+.login-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.login-prompt-overlay.show {
+  display: flex;
+}
+
+.login-prompt-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 40px 30px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+  text-align: center;
+}
+
+.login-prompt-modal h2 {
+  color: #2e7d32;
+  font-size: 24px;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.login-prompt-modal p {
+  color: #666;
+  font-size: 15px;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.login-prompt-modal .button-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.login-prompt-modal .btn-login,
+.login-prompt-modal .btn-signup,
+.login-prompt-modal .btn-dismiss {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.login-prompt-modal .btn-login {
+  background-color: #4CAF50;
+  color: white;
+  flex: 1;
+  min-width: 140px;
+}
+
+.login-prompt-modal .btn-login:hover {
+  background-color: #2e7d32;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.login-prompt-modal .btn-signup {
+  background-color: #2196F3;
+  color: white;
+  flex: 1;
+  min-width: 140px;
+}
+
+.login-prompt-modal .btn-signup:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+.login-prompt-modal .btn-dismiss {
+  background-color: #f0f0f0;
+  color: #666;
+  min-width: 100px;
+}
+
+.login-prompt-modal .btn-dismiss:hover {
+  background-color: #e0e0e0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* ===== EXTRA SMALL (≤480px) ===== */
 @media (max-width: 480px) {
   .navbar { height: 56px; padding: 0 12px; }
@@ -944,12 +1089,12 @@ img, video { max-width: 100%; height: auto; }
   .section2-home .navbar-cart { font-size: 16px; }
   .navbar span#userName { font-size: 10px; max-width: 70px; }
   .carousel-text { width: 90%; }
-  .carousel-text h1 { font-size: clamp(16px, 4.5vw, 19px); }
+  .carousel-text h1 { font-size: clamp(18px, 5vw, 24px); font-weight: 900; }
   .carousel-text p { font-size: clamp(12px, 2.5vw, 13px); }
   .welcome-badge { display: none; }
   .welcome-divider { width: 45px; }
-  .product-card img { height: 58px !important; }
-  .product-card span { font-size: 8px !important; padding: 3px 2px 0 !important; }
+  .slider .product-card img { height: 58px !important; }
+  .slider .product-card span { font-size: 8px !important; padding: 3px 2px 0 !important; }
   
   .benefit-card { padding: 12px 10px; }
   .benefit-card h3 { font-size: 15px; margin: 8px 0; }
@@ -1059,10 +1204,10 @@ img, video { max-width: 100%; height: auto; }
   .navbar { height: 52px; padding: 0 8px; }
   .logo img { height: 36px; }
   .section2-home .navbar-cart { font-size: 14px; }
-  .carousel-text h1 { font-size: clamp(14px, 4vw, 17px); letter-spacing: 0.5px; }
+  .carousel-text h1 { font-size: clamp(16px, 4.5vw, 22px); letter-spacing: 0.5px; font-weight: 900; }
   .carousel-text p { font-size: clamp(11px, 2vw, 12px); margin-bottom: 5px; }
-  .product-card img { height: 52px !important; }
-  .product-card span { font-size: 7.5px !important; }
+  .slider .product-card img { height: 52px !important; }
+  .slider .product-card span { font-size: 7.5px !important; }
   
   .benefit-card { padding: 10px 8px; margin-bottom: 10px; }
   .benefit-card i { font-size: 24px; margin-bottom: 6px; }

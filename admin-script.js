@@ -1,4 +1,5 @@
 const API_URL = 'https://kcp-organics-1.onrender.com/api';
+const IMAGE_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://kcp-organics-1.onrender.com';
 let uploadedImageUrl = ''; // Store uploaded image URL
 let isImageUploading = false; // Track if image is currently uploading
 
@@ -311,7 +312,30 @@ function setupImageUpload() {
         
         const files = e.dataTransfer.files;
         if (files.length > 0) {
-            fileInput.files = files;
+            const file = files[0];
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file');
+                return;
+            }
+
+            // Validate file size (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size must be less than 5MB');
+                return;
+            }
+
+            // Create a proper DataTransfer object for the file input
+            try {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+            } catch (err) {
+                // Fallback for browsers that don't support DataTransfer
+                console.log('DataTransfer not supported, using direct file handling');
+            }
+            
             handleImageSelect();
         }
     });
@@ -627,8 +651,18 @@ async function editProduct(productId) {
             
             // Show preview if image exists and is not default
             if (product.image && product.image !== 'product.jpg') {
-                document.getElementById('previewImg').src = product.image;
+                let imageUrl = product.image;
+                // Ensure full URL for image display
+                if (!imageUrl.startsWith('http')) {
+                    if (imageUrl.startsWith('/uploads')) {
+                        imageUrl = `${IMAGE_BASE_URL}${imageUrl}`;
+                    } else {
+                        imageUrl = `${IMAGE_BASE_URL}/uploads/products/${imageUrl}`;
+                    }
+                }
+                document.getElementById('previewImg').src = imageUrl;
                 document.getElementById('imagePreview').style.display = 'block';
+                console.log('📸 Preview image URL:', imageUrl);
             } else {
                 document.getElementById('imagePreview').style.display = 'none';
             }

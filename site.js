@@ -191,4 +191,48 @@ window.addEventListener('storage', function(event) {
     })();
   }
 });
+
+// =================== LOGIN PROMPT MODAL (30 SECONDS) ===================
+document.addEventListener('DOMContentLoaded', function() {
+  // Don't show login prompt on login or signup pages
+  const currentPage = window.location.pathname;
+  if (currentPage.includes('login.html') || currentPage.includes('signup.html')) {
+    return;
+  }
+
+  // Check if user is logged in
+  const userId = localStorage.getItem('userId');
+  
+  // If already logged in, don't show the prompt
+  if (userId) {
+    return;
+  }
+
+  // Create login prompt modal HTML
+  const modalHTML = `
+    <div class="login-prompt-overlay" id="loginPromptOverlay">
+      <div class="login-prompt-modal">
+        <h2>🌿 Unlock Your Best Experience</h2>
+        <p>Join KCP Organics to enjoy personalized recommendations, track your orders, and manage your preferences.</p>
+        <div class="button-group">
+          <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+          <button class="btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
+          <button class="btn-dismiss" onclick="document.getElementById('loginPromptOverlay').classList.remove('show')">Dismiss</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Inject modal into the body
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Show login prompt after 30 seconds
+  setTimeout(() => {
+    const overlay = document.getElementById('loginPromptOverlay');
+    if (overlay && !localStorage.getItem('userId')) {
+      overlay.classList.add('show');
+    }
+  }, 30000); // 30 seconds
+});
+// ===========================================================
 // ===========================================================

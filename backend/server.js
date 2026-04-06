@@ -12,8 +12,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// serve uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// Serve uploads folder with CORS headers for images
+app.use("/uploads", (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Cache-Control', 'public, max-age=31536000'); // 1 year cache for static images
+  next();
+}, express.static(path.join(__dirname, "uploads")));
 
 // ================= DATABASE =================
 const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
@@ -66,6 +72,7 @@ app.use("/api/wishlist", require("./routes/wishlists"));
 app.use("/api/coupons", require("./routes/coupons"));
 app.use("/api/search", require("./routes/search"));
 app.use("/api/videos", require("./routes/videos"));
+app.use("/api/diagnostics", require("./routes/diagnostics")); // 🔍 WhatsApp & system diagnostics
 
 // ================= AUTH ROUTES =================
 app.post("/user/signup", async (req, res) => {
