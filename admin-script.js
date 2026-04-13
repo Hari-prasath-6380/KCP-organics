@@ -1,5 +1,5 @@
 const API_URL = 'https://kcp-organics-1.onrender.com/api';
-const IMAGE_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://kcp-organics-1.onrender.com';
+const IMAGE_BASE_URL = 'https://kcp-organics-1.onrender.com';
 let uploadedImageUrl = ''; // Store uploaded image URL
 let isImageUploading = false; // Track if image is currently uploading
 
@@ -142,8 +142,13 @@ async function loadDashboardData() {
 // ===== PRODUCTS MANAGEMENT =====
 async function loadProducts() {
     try {
-        console.log('Loading products from:', `${API_URL}/products`);
-        const response = await fetch(`${API_URL}/products`);
+        // Fetch all products with a high limit to ensure we get all products
+        // Using limit=1000 to capture all products even if more are added
+        // Add cache-busting parameter to prevent caching stale product data
+        console.log('Loading all products from:', `${API_URL}/products?limit=1000`);
+        const response = await fetch(`${API_URL}/products?limit=1000&t=${Date.now()}`, {
+            cache: 'no-store'
+        });
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -184,6 +189,7 @@ async function loadProducts() {
                     <table class="data-table" style="margin: 0;">
                         <thead style="background: #f9f9f9;">
                             <tr>
+                                <th style="padding: 12px 15px; width: 80px;">Image</th>
                                 <th style="padding: 12px 15px;">Product Name</th>
                                 <th style="padding: 12px 15px;">Price</th>
                                 <th style="padding: 12px 15px;">Stock</th>
@@ -192,9 +198,34 @@ async function loadProducts() {
                             </tr>
                         </thead>
                         <tbody>
-                            ${groupedProducts[category].map(product => `
+                            ${groupedProducts[category].map(product => {
+                                // Construct image URL with cache-busting using product's updatedAt
+                                let imageUrl = product.image;
+                                if (!imageUrl.startsWith('http')) {
+                                    if (imageUrl.startsWith('/uploads')) {
+                                        imageUrl = `${IMAGE_BASE_URL}${imageUrl}`;
+                                    } else {
+                                        imageUrl = `${IMAGE_BASE_URL}/uploads/products/${imageUrl}`;
+                                    }
+                                }
+                                // Use product's updatedAt time for cache-busting (unique per update)
+                                const cacheKey = product.updatedAt ? new Date(product.updatedAt).getTime() : product._id;
+                                imageUrl += `?cache=${cacheKey}`;
+                                
+                                // Escape product name for HTML
+                                const escapedName = product.name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                                
+                                return `
                                 <tr style="border-bottom: 1px solid #eee;">
-                                    <td style="padding: 12px 15px;"><strong>${product.name}</strong></td>
+                                    <td style="padding: 12px 15px; text-align: center;">
+                                        <div style="width: 80px; height: 80px; border-radius: 4px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0 auto; cursor: pointer;" onclick="window.open('${imageUrl}', '_blank')">
+                                            <img src="${imageUrl}" alt="${escapedName}" 
+                                                style="max-width: 100%; max-height: 100%; object-fit: cover;" 
+                                                onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\"font-size:24px; color:#d32f2f;\">❌</span>'"
+                                            >
+                                        </div>
+                                    </td>
+                                    <td style="padding: 12px 15px;"><strong>${escapedName}</strong></td>
                                     <td style="padding: 12px 15px;">₹${product.price.toFixed(2)}</td>
                                     <td style="padding: 12px 15px;" id="stock-cell-${product._id}">
                                         <span style="background: ${product.stock > 20 ? '#4CAF50' : product.stock > 0 ? '#FFC107' : '#f44336'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
@@ -205,12 +236,12 @@ async function loadProducts() {
                                     <td style="padding: 12px 15px;">
                                         <div class="action-buttons">
                                             <button class="btn btn-info" onclick="editProduct('${product._id}')" style="padding: 6px 12px; font-size: 12px;">Edit</button>
-                                            <button class="btn btn-secondary" onclick="quickUpdateStock('${product._id}', '${product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', ${product.stock})" style="padding: 6px 12px; font-size: 12px; background:#2e7d32; color:white;"><i class='fas fa-boxes'></i> Stock</button>
+                                            <button class="btn btn-secondary" onclick="quickUpdateStock('${product._id}', '${escapedName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', ${product.stock})" style="padding: 6px 12px; font-size: 12px; background:#2e7d32; color:white;"><i class='fas fa-boxes'></i> Stock</button>
                                             <button class="btn btn-danger" onclick="deleteProduct('${product._id}')" style="padding: 6px 12px; font-size: 12px;">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
-                            `).join('')}
+                            `}).join('')}
                         </tbody>
                     </table>
                 </div>
@@ -618,7 +649,10 @@ function setupProductForm() {
 
 async function editProduct(productId) {
     try {
-        const response = await fetch(`${API_URL}/products/${productId}`);
+        // Add cache-busting parameter to ensure fresh product data
+        const response = await fetch(`${API_URL}/products/${productId}?t=${Date.now()}`, {
+            cache: 'no-store'
+        });
         const data = await response.json();
 
         if (data.success) {
@@ -660,6 +694,9 @@ async function editProduct(productId) {
                         imageUrl = `${IMAGE_BASE_URL}/uploads/products/${imageUrl}`;
                     }
                 }
+                // Use product's updatedAt time for cache-busting (unique per update)
+                const cacheKey = product.updatedAt ? new Date(product.updatedAt).getTime() : product._id;
+                imageUrl += `?cache=${cacheKey}`;
                 document.getElementById('previewImg').src = imageUrl;
                 document.getElementById('imagePreview').style.display = 'block';
                 console.log('📸 Preview image URL:', imageUrl);

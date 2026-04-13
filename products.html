@@ -1598,29 +1598,11 @@
                         <i class="fas fa-list"></i> Category
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="cat-all" class="filter-checkbox" onchange="filterProducts()">
+                        <input type="checkbox" id="cat-all" class="filter-checkbox" checked>
                         <label for="cat-all" class="filter-label">All Categories</label>
                     </div>
-                    <div class="filter-option">
-                        <input type="checkbox" value="rice" class="filter-checkbox category-filter" onchange="filterProducts()">
-                        <label class="filter-label">Rice</label>
-                    </div>
-                    <div class="filter-option">
-                        <input type="checkbox" value="vegetables" class="filter-checkbox category-filter" onchange="filterProducts()">
-                        <label class="filter-label">Vegetables</label>
-                    </div>
-                    <div class="filter-option">
-                        <input type="checkbox" value="honey" class="filter-checkbox category-filter" onchange="filterProducts()">
-                        <label class="filter-label">Honey</label>
-                    </div>
-                    <div class="filter-option">
-                        <input type="checkbox" value="oil" class="filter-checkbox category-filter" onchange="filterProducts()">
-                        <label class="filter-label">Oil</label>
-                    </div>
-                    <div class="filter-option">
-                        <input type="checkbox" value="spices" class="filter-checkbox category-filter" onchange="filterProducts()">
-                        <label class="filter-label">Spices</label>
-                    </div>
+                    <!-- Dynamic category filters - populated from products -->
+                    <div id="categoryFilterContainer"></div>
                 </div>
 
                 <!-- Rating Filter -->
@@ -1629,15 +1611,15 @@
                         <i class="fas fa-star"></i> Rating
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" value="5" class="filter-checkbox rating-filter" onchange="filterProducts()">
+                        <input type="checkbox" value="5" class="filter-checkbox rating-filter">
                         <label class="filter-label">★★★★★ 5 Star</label>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" value="4" class="filter-checkbox rating-filter" onchange="filterProducts()">
+                        <input type="checkbox" value="4" class="filter-checkbox rating-filter">
                         <label class="filter-label">★★★★☆ 4+ Star</label>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" value="3" class="filter-checkbox rating-filter" onchange="filterProducts()">
+                        <input type="checkbox" value="3" class="filter-checkbox rating-filter">
                         <label class="filter-label">★★★☆☆ 3+ Star</label>
                     </div>
                 </div>
@@ -1648,11 +1630,11 @@
                         <i class="fas fa-boxes"></i> Availability
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="inStock" class="filter-checkbox" onchange="filterProducts()">
+                        <input type="checkbox" id="inStock" class="filter-checkbox">
                         <label for="inStock" class="filter-label">In Stock</label>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="onSale" class="filter-checkbox" onchange="filterProducts()">
+                        <input type="checkbox" id="onSale" class="filter-checkbox">
                         <label for="onSale" class="filter-label">On Sale</label>
                     </div>
                 </div>
@@ -1685,7 +1667,7 @@
                             <option value="">All Categories</option>
                         </select>
                         <select id="sortFilter" onchange="sortProducts()">
-                            <option value="newest">Newest</option>
+                            <option value="newest">Auto Sort</option>
                             <option value="price-low">Price: Low to High</option>
                             <option value="price-high">Price: High to Low</option>
                             <option value="popular">Most Popular</option>
@@ -1696,9 +1678,7 @@
 
                 <!-- Results Info -->
                 <div class="results-info">
-                    <span class="result-count">
-                        Showing <span id="resultCount">0</span> products
-                    </span>
+                    <span class="result-count" id="resultCount">Loading...</span>
                 </div>
 
                 <!-- Products Grid -->
@@ -1926,12 +1906,67 @@
                     console.log('🔄 Trying production URL:', prodUrl);
                     triedImageUrls.add(prodUrl);
                     imgElement.src = prodUrl;
+                    imgElement.onerror = function() { tryFrontendImageFallback(this, imagePath); };
                     return;
                 }
             }
+
+            // Try fallback to frontend image
+            tryFrontendImageFallback(imgElement, imagePath);
+        }
+
+        // Try loading image from frontend root directory as fallback
+        function tryFrontendImageFallback(imgElement, imagePath) {
+            // Extract just the filename from path like "/uploads/products/rice-123-456.png" or "rice.png"
+            let filename = imagePath;
+            if (imagePath.includes('/')) {
+                filename = imagePath.split('/').pop();
+            }
             
-            // Use placeholder
-            console.log('📷 Using placeholder for:', imagePath);
+            // Extract base filename without timestamp (e.g., "coconut_oil-1775486953994-547912330.webp" → "coconut_oil.webp")
+            let baseFilename = filename;
+            const timestampPattern = /-\d{13}-\d{9}\./;
+            if (timestampPattern.test(filename)) {
+                baseFilename = filename.replace(timestampPattern, '.');
+                console.log('🔍 Extracted base filename:', baseFilename, 'from:', filename);
+            }
+            
+            // Try with base filename first (without timestamp)
+            const frontendUrl = './' + baseFilename;
+            if (!triedImageUrls.has(frontendUrl)) {
+                console.log('🔄 Trying frontend image (base):', frontendUrl);
+                triedImageUrls.add(frontendUrl);
+                imgElement.src = frontendUrl;
+                imgElement.onerror = function() { 
+                    // If base filename fails, try the full filename with timestamp
+                    tryFullFilenameVariant(this, filename, baseFilename);
+                };
+                return;
+            }
+
+            // Use placeholder as last resort
+            usePlaceholder(imgElement);
+        }
+
+        // Try the full filename with timestamp as last frontend attempt
+        function tryFullFilenameVariant(imgElement, fullFilename, baseFilename) {
+            const frontendUrl = './' + fullFilename;
+            if (!triedImageUrls.has(frontendUrl)) {
+                console.log('🔄 Trying frontend image (full):', frontendUrl);
+                triedImageUrls.add(frontendUrl);
+                imgElement.src = frontendUrl;
+                imgElement.onerror = function() { usePlaceholder(this); };
+                return;
+            }
+            
+            // Use placeholder as last resort
+            usePlaceholder(imgElement);
+        }
+
+        // Use placeholder image
+        function usePlaceholder(imgElement) {
+            const genericPlaceholder = 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23e0e0e0%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666666%22 font-family=%22Arial%22 font-size=%2214%22 font-weight=%22bold%22>Image Not Available</text></svg>';
+            console.log('📷 Using placeholder');
             imgElement.src = genericPlaceholder;
             imgElement.style.backgroundColor = '#f0f0f0';
         }
@@ -2022,13 +2057,13 @@
                 }
             });
 
-            // Sidebar category filters
-            document.querySelectorAll('.category-filter').forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    currentPage = 1;
-                    filterAndDisplay();
-                });
-            });
+            // Sidebar category filters - moved to updateCategoryOptions()
+            // document.querySelectorAll('.category-filter').forEach(checkbox => {
+            //     checkbox.addEventListener('change', () => {
+            //         currentPage = 1;
+            //         filterAndDisplay();
+            //     });
+            // });
 
             // Sidebar rating filters
             document.querySelectorAll('.rating-filter').forEach(checkbox => {
@@ -2045,6 +2080,16 @@
             });
 
             document.getElementById('onSale').addEventListener('change', () => {
+                currentPage = 1;
+                filterAndDisplay();
+            });
+
+            // All Categories checkbox
+            document.getElementById('cat-all').addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    // Uncheck all individual category filters
+                    document.querySelectorAll('.category-filter').forEach(cb => cb.checked = false);
+                }
                 currentPage = 1;
                 filterAndDisplay();
             });
@@ -2205,6 +2250,85 @@
             }
         }
 
+        // Auto-sort filtered products based on active filters
+        function autoSortFilteredProducts(searchTerm, priceMin, priceMax, selectedCategories, inStockFilter, onSaleFilter, selectedRatings) {
+            // Determine the best sort order based on active filters
+            let sortPriority = [];
+
+            // If searching, prioritize relevance (products with search term in name first)
+            if (searchTerm.trim()) {
+                sortPriority.push('relevance');
+            }
+
+            // If price range is filtered (not default 0-10000), sort by price
+            if (priceMin > 0 || priceMax < 10000) {
+                sortPriority.push('price');
+            }
+
+            // If rating filters are active, sort by rating
+            if (selectedRatings.length > 0) {
+                sortPriority.push('rating');
+            }
+
+            // If stock filter is active, sort by stock level
+            if (inStockFilter) {
+                sortPriority.push('stock');
+            }
+
+            // If sale filter is active, sort by discount
+            if (onSaleFilter) {
+                sortPriority.push('sale');
+            }
+
+            // If category filter is active, sort by category then name
+            if (selectedCategories.length > 0) {
+                sortPriority.push('category');
+            }
+
+            // Apply sorting based on priority
+            filteredProducts.sort((a, b) => {
+                // First priority: relevance (for search)
+                if (sortPriority.includes('relevance')) {
+                    const aNameMatch = a.name.toLowerCase().includes(searchTerm);
+                    const bNameMatch = b.name.toLowerCase().includes(searchTerm);
+                    if (aNameMatch && !bNameMatch) return -1;
+                    if (!aNameMatch && bNameMatch) return 1;
+                }
+
+                // Second priority: price (if price filter active)
+                if (sortPriority.includes('price')) {
+                    return a.price - b.price; // Low to high when price filtering
+                }
+
+                // Third priority: rating (if rating filter active)
+                if (sortPriority.includes('rating')) {
+                    return (b.averageRating || 0) - (a.averageRating || 0);
+                }
+
+                // Fourth priority: stock level (if stock filter active)
+                if (sortPriority.includes('stock')) {
+                    return b.stock - a.stock; // High stock first
+                }
+
+                // Fifth priority: sale/discount (if sale filter active)
+                if (sortPriority.includes('sale')) {
+                    const aDiscount = a.discount || 0;
+                    const bDiscount = b.discount || 0;
+                    return bDiscount - aDiscount;
+                }
+
+                // Sixth priority: category (if category filter active)
+                if (sortPriority.includes('category')) {
+                    const categoryCompare = a.category.localeCompare(b.category);
+                    if (categoryCompare !== 0) return categoryCompare;
+                    return a.name.localeCompare(b.name); // Alphabetical within category
+                }
+
+                // Default: newest first
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
+        }
+
         // Filter and display products
         function filterAndDisplay() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -2212,6 +2336,7 @@
             const priceMax = parseInt(document.getElementById('priceMax').value) || 10000;
             const inStockFilter = document.getElementById('inStock').checked;
             const onSaleFilter = document.getElementById('onSale').checked;
+            const allCategoriesChecked = document.getElementById('cat-all').checked;
 
             // Get selected categories from checkboxes
             const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked'))
@@ -2230,15 +2355,19 @@
                 // Price filter
                 const matchesPrice = product.price >= priceMin && product.price <= priceMax;
 
-                // Category filter (if any selected)
-                const matchesCategory = selectedCategories.length === 0 || 
-                    selectedCategories.includes(product.category.toLowerCase());
+                // Category filter (if any selected or "All Categories" not checked)
+                const productCategory = (product.category || '').toLowerCase().trim().replace(/\s+/g, ' ');
+                const matchesCategory = allCategoriesChecked || selectedCategories.length === 0 || 
+                    selectedCategories.includes(productCategory);
 
                 // Stock filter
                 const matchesStock = !inStockFilter || product.stock > 0;
 
                 // Sale filter
-                const matchesSale = !onSaleFilter || (product.discount && product.discount > 0);
+                const matchesSale = !onSaleFilter || 
+                    (product.discount && product.discount > 0) || 
+                    (product.originalPrice && product.originalPrice > product.price) ||
+                    (product.isOnSale === true);
 
                 // Rating filter (if any selected)
                 const productRating = Math.floor(product.averageRating || 0);
@@ -2248,6 +2377,12 @@
                 return matchesSearch && matchesPrice && matchesCategory && 
                        matchesStock && matchesSale && matchesRating;
             });
+
+            // Auto-sort based on active filters (only if no manual sort is selected)
+            const currentSort = document.getElementById('sortFilter').value;
+            if (currentSort === 'newest') { // Default sort means auto-sort
+                autoSortFilteredProducts(searchTerm, priceMin, priceMax, selectedCategories, inStockFilter, onSaleFilter, selectedRatings);
+            }
 
             currentPage = 1;
             updateResultCount();
@@ -2261,46 +2396,86 @@
 
         // Filter products
         function filterProducts() {
+            currentPage = 1;
             filterAndDisplay();
         }
 
         // Update category filter options dynamically
         function updateCategoryOptions() {
-            const categories = [...new Set(allProducts.map(p => p.category))].sort();
+            const categories = [...new Set(allProducts.map(p => (p.category || '').toLowerCase().trim().replace(/\s+/g, ' ')).filter(c => c))].sort();
+            
+            // Update hidden dropdown (for backward compatibility)
             const categorySelect = document.getElementById('categoryFilter');
             const currentValue = categorySelect.value;
-
             categorySelect.innerHTML = '<option value="">All Categories</option>';
             categories.forEach(cat => {
                 const option = document.createElement('option');
-                option.value = cat.toLowerCase();
-                option.textContent = cat;
+                option.value = cat;
+                option.textContent = cat.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                 categorySelect.appendChild(option);
             });
-
             categorySelect.value = currentValue;
+            
+            // Update sidebar category filter checkboxes
+            const categoryContainer = document.getElementById('categoryFilterContainer');
+            if (categoryContainer) {
+                categoryContainer.innerHTML = categories.map(cat => {
+                    const categoryId = `cat-${cat.replace(/\s+/g, '-')}`;
+                    const displayName = cat.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    return `
+                        <div class="filter-option">
+                            <input type="checkbox" id="${categoryId}" value="${cat}" class="filter-checkbox category-filter">
+                            <label for="${categoryId}" class="filter-label">${displayName}</label>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Re-attach event listeners to newly created checkboxes
+                document.querySelectorAll('.category-filter').forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        if (checkbox.checked) {
+                            // Uncheck "All Categories" when individual category is selected
+                            document.getElementById('cat-all').checked = false;
+                        }
+                        currentPage = 1;
+                        filterAndDisplay();
+                    });
+                });
+            }
         }
 
         // Sort products
         function sortProducts() {
             const sortValue = document.getElementById('sortFilter').value;
 
-            switch (sortValue) {
-                case 'price-low':
-                    filteredProducts.sort((a, b) => a.price - b.price);
-                    break;
-                case 'price-high':
-                    filteredProducts.sort((a, b) => b.price - a.price);
-                    break;
-                case 'popular':
-                    filteredProducts.sort((a, b) => (b.totalReviews || 0) - (a.totalReviews || 0));
-                    break;
-                case 'rating':
-                    filteredProducts.sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0));
-                    break;
-                case 'newest':
-                default:
-                    filteredProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            // If user selects 'newest', it means auto-sort based on filters
+            if (sortValue === 'newest') {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const priceMin = parseInt(document.getElementById('priceMin').value) || 0;
+                const priceMax = parseInt(document.getElementById('priceMax').value) || 10000;
+                const inStockFilter = document.getElementById('inStock').checked;
+                const onSaleFilter = document.getElementById('onSale').checked;
+                const allCategoriesChecked = document.getElementById('cat-all').checked;
+                const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked')).map(cb => cb.value.toLowerCase());
+                const selectedRatings = Array.from(document.querySelectorAll('.rating-filter:checked')).map(cb => parseInt(cb.value));
+                
+                autoSortFilteredProducts(searchTerm, priceMin, priceMax, selectedCategories, inStockFilter, onSaleFilter, selectedRatings);
+            } else {
+                // Manual sorting
+                switch (sortValue) {
+                    case 'price-low':
+                        filteredProducts.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-high':
+                        filteredProducts.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'popular':
+                        filteredProducts.sort((a, b) => (b.totalReviews || 0) - (a.totalReviews || 0));
+                        break;
+                    case 'rating':
+                        filteredProducts.sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0));
+                        break;
+                }
             }
 
             currentPage = 1;
@@ -2332,8 +2507,10 @@
             document.getElementById('priceMax').value = 10000;
             document.getElementById('inStock').checked = false;
             document.getElementById('onSale').checked = false;
+            document.getElementById('cat-all').checked = true; // Reset to "All Categories"
             document.querySelectorAll('.category-filter, .rating-filter').forEach(cb => cb.checked = false);
             document.getElementById('searchInput').value = '';
+            document.getElementById('sortFilter').value = 'newest'; // Reset to auto-sort
             filterAndDisplay();
         }
 
@@ -2424,6 +2601,7 @@
 
                 // Add products in this category
                 categoryProducts.forEach(product => {
+                    const escapedName = product.name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
                     const formattedPrice = product.price ? product.price.toFixed(2) : '0.00';
                     const formattedOriginalPrice = product.originalPrice ? product.originalPrice.toFixed(2) : product.price?.toFixed(2) || '0.00';
                     const priceDisplay = product.originalPrice && product.originalPrice > product.price 
@@ -2436,7 +2614,7 @@
                     html += `
                         <div class="product-card" onclick="window.location.href='product-detail-page.html?id=${product._id}'">
                             <div class="product-image-container">
-                                <img src="${getProductImageUrl(product.image)}" alt="${product.name}" class="product-image" onerror="handleImageError(this, '${product.image}')">
+                                <img src="${getProductImageUrl(product.image)}" alt="${escapedName}" class="product-image" onerror="handleImageError(this, '${product.image.replace(/'/g, '\\\'').replace(/"/g, '&quot;')}')">
                                 
                                 ${product.originalPrice > product.price ? '<span class="product-badge sale">Sale</span>' : ''}
                                 <div class="stock-badge-over-image" style="${
@@ -2452,7 +2630,7 @@
                                 </div>
                             </div>
                             <div class="product-content">
-                                <h3 class="product-name" style="margin: 0 0 8px 0;">${product.name}</h3>
+                                <h3 class="product-name" style="margin: 0 0 8px 0;">${escapedName}</h3>
                                 
                                 <div class="product-rating" style="margin-bottom: 12px;">
                                     <span class="stars">${generateStars(product.averageRating)}</span>

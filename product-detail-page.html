@@ -816,12 +816,67 @@
                     console.log('🔄 Trying production URL:', prodUrl);
                     triedImageUrls.add(prodUrl);
                     imgElement.src = prodUrl;
+                    imgElement.onerror = function() { tryFrontendImageFallback(this, imagePath); };
                     return;
                 }
             }
+
+            // Try fallback to frontend image
+            tryFrontendImageFallback(imgElement, imagePath);
+        }
+
+        // Try loading image from frontend root directory as fallback
+        function tryFrontendImageFallback(imgElement, imagePath) {
+            // Extract just the filename from path like "/uploads/products/rice-123-456.png" or "rice.png"
+            let filename = imagePath;
+            if (imagePath.includes('/')) {
+                filename = imagePath.split('/').pop();
+            }
             
-            // Use placeholder
-            console.log('📷 Using placeholder for:', imagePath);
+            // Extract base filename without timestamp (e.g., "coconut_oil-1775486953994-547912330.webp" → "coconut_oil.webp")
+            let baseFilename = filename;
+            const timestampPattern = /-\d{13}-\d{9}\./;
+            if (timestampPattern.test(filename)) {
+                baseFilename = filename.replace(timestampPattern, '.');
+                console.log('🔍 Extracted base filename:', baseFilename, 'from:', filename);
+            }
+            
+            // Try with base filename first (without timestamp)
+            const frontendUrl = './' + baseFilename;
+            if (!triedImageUrls.has(frontendUrl)) {
+                console.log('🔄 Trying frontend image (base):', frontendUrl);
+                triedImageUrls.add(frontendUrl);
+                imgElement.src = frontendUrl;
+                imgElement.onerror = function() { 
+                    // If base filename fails, try the full filename with timestamp
+                    tryFullFilenameVariant(this, filename, baseFilename);
+                };
+                return;
+            }
+
+            // Use placeholder as last resort
+            usePlaceholder(imgElement);
+        }
+
+        // Try the full filename with timestamp as last frontend attempt
+        function tryFullFilenameVariant(imgElement, fullFilename, baseFilename) {
+            const frontendUrl = './' + fullFilename;
+            if (!triedImageUrls.has(frontendUrl)) {
+                console.log('🔄 Trying frontend image (full):', frontendUrl);
+                triedImageUrls.add(frontendUrl);
+                imgElement.src = frontendUrl;
+                imgElement.onerror = function() { usePlaceholder(this); };
+                return;
+            }
+            
+            // Use placeholder as last resort
+            usePlaceholder(imgElement);
+        }
+
+        // Use placeholder image
+        function usePlaceholder(imgElement) {
+            const genericPlaceholder = 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23e0e0e0%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23666666%22 font-family=%22Arial%22 font-size=%2214%22 font-weight=%22bold%22>Image Not Available</text></svg>';
+            console.log('📷 Using placeholder');
             imgElement.src = genericPlaceholder;
             imgElement.style.backgroundColor = '#f0f0f0';
         }

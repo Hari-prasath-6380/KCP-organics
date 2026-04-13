@@ -2,6 +2,39 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 
+// Get all products for admin dashboard (no pagination, returns all products)
+// This must come BEFORE the GET / route
+router.get('/admin/all', async (req, res) => {
+    try {
+        // Include ALL products including inactive ones for admin view
+        const { sortBy = 'newest' } = req.query;
+
+        let sortOption = { createdAt: -1 };
+        if (sortBy === 'price-asc') sortOption = { price: 1 };
+        if (sortBy === 'price-desc') sortOption = { price: -1 };
+        if (sortBy === 'rating') sortOption = { averageRating: -1 };
+        if (sortBy === 'popular') sortOption = { sales: -1 };
+
+        // Fetch ALL products without pagination for admin
+        const products = await Product.find()
+            .sort(sortOption);
+
+        const total = await Product.countDocuments();
+
+        res.status(200).json({
+            success: true,
+            data: products,
+            pagination: {
+                total,
+                pages: 1
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching admin products:', error && error.stack ? error.stack : error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 // Get all products with pagination
 router.get('/', async (req, res) => {
     try {
