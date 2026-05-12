@@ -8,29 +8,43 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!mobileMenu) {
     mobileMenu = document.createElement('div');
     mobileMenu.className = 'mobile-menu';
-    // Clone main links
+    
+    // Collect all navigation links
     const links = [];
     
-    // Get links from section1 and section2
+    // Get links from section1 (main navigation)
     const section1 = document.querySelector('.section1');
-    const section2 = document.querySelector('.section2');
-    
     if (section1) {
       const section1Links = Array.from(section1.querySelectorAll('a'));
       links.push(...section1Links);
     }
     
-    if (section2) {
-      const section2Links = Array.from(section2.querySelectorAll('a'));
-      links.push(...section2Links);
-    }
-    
-    // For home page, also get auth links if section2-home exists
+    // Get cart from section2 or section2-home (on all pages)
+    const section2 = document.querySelector('.section2');
     const section2Home = document.querySelector('.section2-home');
-    if (section2Home && section2Home !== section2) {
-      const authLinks = Array.from(section2Home.querySelectorAll('a'));
+    const authSection = section2 || section2Home;
+    
+    if (authSection) {
+      // Add cart icon link
+      const cartDiv = authSection.querySelector('.navbar-cart');
+      if (cartDiv) {
+        const cartLink = document.createElement('a');
+        cartLink.href = '#';
+        cartLink.innerHTML = '<i class="fas fa-shopping-cart"></i> Cart';
+        cartLink.style.display = 'flex';
+        cartLink.style.alignItems = 'center';
+        cartLink.style.gap = '10px';
+        cartLink.onclick = (e) => {
+          e.preventDefault();
+          toggleCart();
+          mobileMenu.classList.remove('show');
+        };
+        links.push(cartLink);
+      }
+      
+      // Add auth links
+      const authLinks = Array.from(authSection.querySelectorAll('a'));
       authLinks.forEach(link => {
-        // Only add if not already added
         if (!links.includes(link)) {
           links.push(link);
         }
@@ -40,8 +54,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // Clone links into mobile menu
     links.forEach(a => {
       const clone = a.cloneNode(true);
-      clone.style.display = 'block'; // Ensure links are visible
-      clone.addEventListener('click', () => mobileMenu.classList.remove('show'));
+      clone.style.display = 'flex'; // Ensure links are visible
+      clone.addEventListener('click', function(e) {
+        // Don't close menu if link has special onclick handlers
+        const onclick = clone.getAttribute('onclick');
+        if (!onclick) {
+          mobileMenu.classList.remove('show');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
       mobileMenu.appendChild(clone);
     });
     
@@ -54,9 +75,17 @@ document.addEventListener('DOMContentLoaded', function () {
     mobileMenu.classList.toggle('show');
   });
 
-  // Close on outside click
+  // Close menu on outside click
   document.addEventListener('click', function (e) {
     if (!mobileMenu.contains(e.target) && !toggle.contains(e.target) && mobileMenu.classList.contains('show')) {
+      mobileMenu.classList.remove('show');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+  
+  // Close menu on escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('show')) {
       mobileMenu.classList.remove('show');
       toggle.setAttribute('aria-expanded', 'false');
     }

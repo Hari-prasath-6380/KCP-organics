@@ -135,15 +135,18 @@
             }
 
             .back-btn {
-                top: 75px;
-                left: 10px;
+                position: static;
+                margin-bottom: 20px;
+                margin-left: 0;
                 padding: 8px 12px;
                 font-size: 13px;
+                width: fit-content;
             }
 
             .login-wrapper {
-                min-height: calc(100vh - 100px);
+                min-height: auto;
                 padding: 15px;
+                flex-direction: column;
             }
 
             .login-container {
@@ -181,9 +184,16 @@
         }
 
         @media (max-width: 480px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 15px;
+                margin-left: 0;
+            }
+
             .login-wrapper {
                 min-height: auto;
                 padding: 10px;
+                flex-direction: column;
             }
 
             .login-container {
@@ -227,22 +237,19 @@
             <a href="track-order.html">Track Order</a>
         </div>
         <div class="section2" id="authSection">
-            <div class="navbar-cart" onclick="toggleCart()">
-                <i class="fas fa-shopping-cart"></i>
-                <span id="cartBadge">0</span>
-            </div>
             <a href="login.html" id="loginLink" class="active">Login</a>
             <a href="signup.html" id="signupLink">Sign up</a>
             <span id="userName" style="display: none;"></span>
             <a href="#" id="logoutLink" style="display: none;" onclick="logoutUser()">Logout</a>
+            <div class="navbar-cart" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartBadge">0</span>
+            </div>
         </div>
         <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
             <span class="hamburger"></span>
         </button>
     </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu"></div>
 
     <!-- Back Button -->
     <a href="home.html" class="back-btn">← Back to Home</a>

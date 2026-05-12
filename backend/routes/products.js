@@ -109,6 +109,10 @@ router.get('/stock/by-name', async (req, res) => {
 // Get single product by ID
 router.get('/:id', async (req, res) => {
     try {
+        const mongoose = require('mongoose');
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(404).json({ success: false, message: 'Invalid Product ID format' });
+        }
         const product = await Product.findById(req.params.id);
         if (!product) {
             return res.status(404).json({ success: false, message: 'Product not found' });

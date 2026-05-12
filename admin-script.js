@@ -217,11 +217,10 @@ async function loadProducts() {
                                 
                                 return `
                                 <tr style="border-bottom: 1px solid #eee;">
-                                    <td style="padding: 12px 15px; text-align: center;">
-                                        <div style="width: 80px; height: 80px; border-radius: 4px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0 auto; cursor: pointer;" onclick="window.open('${imageUrl}', '_blank')">
+                                    <td style="padding: 12px 15px; text-align: center; vertical-align: middle;">
+                                        <div class="product-image-box" onclick="window.open('${imageUrl}', '_blank')">
                                             <img src="${imageUrl}" alt="${escapedName}" 
-                                                style="max-width: 100%; max-height: 100%; object-fit: cover;" 
-                                                onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\"font-size:24px; color:#d32f2f;\">❌</span>'"
+                                                onerror="this.parentElement.innerHTML='<span style=\"color:#d32f2f; font-size:20px;\">❌</span>'"
                                             >
                                         </div>
                                     </td>

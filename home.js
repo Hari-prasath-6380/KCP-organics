@@ -22,7 +22,7 @@ function checkUserAuthentication() {
         signupLink.style.display = 'none';
         userNameSpan.style.display = 'inline-flex';
         userNameSpan.style.alignItems = 'center';
-        userNameSpan.textContent = userName || 'User';
+        userNameSpan.textContent = 'Welcome, ' + (userName || 'User');
         logoutLink.style.display = 'inline-flex';
         
         // Load cart count

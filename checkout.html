@@ -816,10 +816,6 @@
             <a href="track-order.html">Track Order</a>
         </div>
         <div class="section2" id="authSection">
-            <div class="navbar-cart" onclick="toggleCart()">
-                <i class="fas fa-shopping-cart"></i>
-                <span id="cartBadge">0</span>
-            </div>
             <a href="login.html" id="loginLink">Login</a>
             <a href="signup.html" id="signupLink">Sign up</a>
             <div class="user-dropdown" id="userDropdown" style="display: none;">
@@ -829,14 +825,15 @@
                   <a href="#" onclick="logoutUser(event)"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
+            <div class="navbar-cart" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartBadge">0</span>
+            </div>
         </div>
         <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
             <span class="hamburger"></span>
         </button>
     </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu"></div>
 
     <!-- Main Content -->
     <div class="checkout-container">

@@ -175,11 +175,16 @@
                 left: 10px;
                 padding: 8px 12px;
                 font-size: 13px;
+                position: static;
+                margin-bottom: 20px;
+                margin-left: 0;
+                width: fit-content;
             }
 
             .signup-wrapper {
                 min-height: auto;
                 padding: 15px 10px;
+                flex-direction: column;
             }
 
             .signup-container {
@@ -230,8 +235,15 @@
         }
 
         @media (max-width: 480px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 15px;
+                margin-left: 0;
+            }
+
             .signup-wrapper {
                 padding: 10px;
+                flex-direction: column;
             }
 
             .signup-container {
@@ -278,9 +290,6 @@
             <span class="hamburger"></span>
         </button>
     </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu"></div>
 
     <!-- Back Button -->
     <a href="home.html" class="back-btn">← Back to Home</a>

@@ -26,10 +26,6 @@
       <a href="track-order.html">Track Order</a>
     </div>
     <div class="section2 section2-home" id="authSection">
-      <div class="navbar-cart" onclick="toggleCart()">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cartBadge">0</span>
-      </div>
       <a href="login.html" id="loginLink">Login</a>
       <a href="signup.html" id="signupLink">Sign up</a>
       <div class="user-dropdown" id="userDropdown" style="display: none;">
@@ -39,13 +35,15 @@
           <a href="#" onclick="logoutUser(event)" title="Logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
       </div>
+      <div class="navbar-cart" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cartBadge">0</span>
+      </div>
     </div>
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
       <span class="hamburger"></span>
     </button>
   </nav>
-  <!-- Mobile Menu -->
-  <div class="mobile-menu"></div>
   <video class="carousel-img" autoplay muted loop>
     <source src="From KlickPin CF rainy days di 2025 _ Hujan Belajar.mp4" type="video/mp4">
   </video>
@@ -91,52 +89,52 @@
         <img src="oil.png" alt="Oil">
         <span>Oil Varieties</span>
       </a>
-      <a href="#" class="product-card">
+      <a href="products.html?category=Soap" class="product-card">
         <img src="soap1.jpeg" alt="Soap Liquid">
         <span>Soap Liquid</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Millets" class="product-card">
         <img src="millets.avif" alt="Millets">
         <span>Millets</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Spices" class="product-card">
         <img src="masala.png" alt="Spices">
         <span>Spices</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Dhall" class="product-card">
         <img src="dhall.png" alt="Dhall varieties">
         <span>Dhall varities</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Podi" class="product-card">
         <img src="Podi-Varieties.webp" alt="Podi varieties">
         <span>Podi varities</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Pickle" class="product-card">
         <img src="pickle.jpg" alt="Pickle varieties">
         <span>Pickle varities</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Snacks" class="product-card">
         <img src="snacks.jpeg" alt="Snacks varieties">
         <span>Snacks varities</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Grocery" class="product-card">
         <img src="grocery.png" alt="Grocery items">
         <span>Grocery items</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Fruits" class="product-card">
         <img src="fruits.png" alt="Fruits">
         <span>Fruits</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Keerai" class="product-card">
         <img src="keerai.jpeg" alt="Lettuce (Keerai)">
         <span>Lettuce(Keerai)</span>
       </a>
@@ -162,52 +160,52 @@
         <img src="oil.png" alt="Oil">
         <span>Oil Varieties</span>
       </a>
-      <a href="#" class="product-card">
+      <a href="products.html?category=Soap" class="product-card">
         <img src="soap1.jpeg" alt="Soap Liquid">
         <span>Soap Liquid</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Millets" class="product-card">
         <img src="millets.avif" alt="Millets">
         <span>Millets</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Spices" class="product-card">
         <img src="masala.png" alt="Spices">
         <span>Spices</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Dhall" class="product-card">
         <img src="dhall.png" alt="Dhall varieties">
         <span>Dhall varities</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Podi" class="product-card">
         <img src="Podi-Varieties.webp" alt="Podi varieties">
         <span>Podi varities</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Pickle" class="product-card">
         <img src="pickle.jpg" alt="Pickle varieties">
         <span>Pickle varities</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Snacks" class="product-card">
         <img src="snacks.jpeg" alt="Snacks varieties">
         <span>Snacks varities</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Grocery" class="product-card">
         <img src="grocery.png" alt="Grocery items">
         <span>Grocery items</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Fruits" class="product-card">
         <img src="fruits.png" alt="Fruits">
         <span>Fruits</span>
       </a>
 
-      <a href="#" class="product-card">
+      <a href="products.html?category=Keerai" class="product-card">
         <img src="keerai.jpeg" alt="Lettuce (Keerai)">
         <span>Lettuce(Keerai)</span>
       </a>
@@ -1021,8 +1019,25 @@
       const container = document.getElementById('dynamicProductsGrid');
       const viewMoreContainer = document.getElementById('viewMoreContainer');
 
-      // Always display the 8 hardcoded products on home page
-      displayHomeProducts(homePageProducts);
+      try {
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:5000/api' : 'https://kcp-organics-1.onrender.com/api';
+        
+        const response = await fetch(`${API_BASE_URL}/products?limit=8`);
+        const data = await response.json();
+        
+        if (data.success && data.data && data.data.length > 0) {
+          displayHomeProducts(data.data);
+        } else {
+          // Fallback to hardcoded if API returns no products
+          displayHomeProducts(homePageProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching products for home page:', error);
+        // Fallback to hardcoded on network error
+        displayHomeProducts(homePageProducts);
+      }
+
       viewMoreContainer.style.display = 'block';
     }
 
@@ -1041,7 +1056,7 @@
       }
 
       container.innerHTML = products.map(product => `
-        <div class="dynamic-product-card" onclick="window.location.href='products.html'">
+        <div class="dynamic-product-card" onclick="viewProductDetails('${product._id}')">
           <div class="product-image-wrapper">
             <img src="${getProductImageUrl(product.image)}" alt="${escapeHtmlHome(product.name)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22250%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22250%22 height=%22250%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E'">
           </div>
@@ -1085,7 +1100,7 @@
     }
 
     function viewProductDetails(productId) {
-      window.location.href = `product-details.html?id=${productId}`;
+      window.location.href = `product-detail-page.html?id=${productId}`;
     }
 
     // Add to cart from home page

@@ -8,6 +8,10 @@ const Order = require('../models/Order');
 router.get('/product/:productId', async (req, res) => {
     try {
         const { productId } = req.params;
+        const mongoose = require('mongoose');
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return res.status(404).json({ success: false, message: 'Invalid Product ID format' });
+        }
         const { page = 1, limit = 10, sortBy = 'newest' } = req.query;
 
         const skip = (page - 1) * limit;
