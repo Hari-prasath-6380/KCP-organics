@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Login - KCP Organics</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
         * {
@@ -31,7 +31,7 @@
             position: fixed;
             top: 100px; /* just below navbar */
             left: 20px;
-            padding: 8px 16px;
+            padding: 10px 16px;
             background-color: #a8e063;
             color: #2e7d32;
             font-weight: 600;
@@ -41,6 +41,8 @@
             cursor: pointer;
             transition: 0.3s;
             z-index: 999;
+            min-height: 44px;
+            font-size: 14px;
         }
 
         .back-btn:hover {
@@ -55,6 +57,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .login-container {
@@ -62,7 +65,8 @@
             backdrop-filter: blur(10px);
             border-radius: 25px;
             padding: 40px 35px;
-            width: 380px;
+            width: 100%;
+            max-width: 380px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
             text-align: center;
         }
@@ -75,12 +79,20 @@
 
         .login-container input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 15px;
             margin: 12px 0;
             border: 1px solid #c8e6c9;
             border-radius: 25px;
-            font-size: 15px;
+            font-size: 16px;
             background: #f1f8e9;
+            min-height: 44px;
+            box-sizing: border-box;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
         }
 
         .login-container button {
@@ -94,6 +106,7 @@
             font-size: 17px;
             font-weight: 600;
             cursor: pointer;
+            min-height: 48px;
         }
 
         .login-container button:hover {
@@ -116,21 +129,83 @@
             font-weight: 600;
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
+            body {
+                padding-top: 64px;
+            }
+
+            .back-btn {
+                top: 75px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .login-wrapper {
+                min-height: calc(100vh - 100px);
+                padding: 15px;
+            }
+
             .login-container {
-                width: 90%;
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+
+            .login-container h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .login-container input {
+                padding: 12px 15px;
+                margin: 10px 0;
+                font-size: 16px;
+                min-height: 44px;
+            }
+
+            .login-container button {
+                padding: 12px;
+                font-size: 16px;
+                min-height: 48px;
+                margin-top: 12px;
+            }
+
+            .signup-link {
+                font-size: 13px;
             }
 
             .section1,
             .section2 {
                 gap: 20px;
             }
+        }
 
-            .back-btn {
-                top: 95px;
-                left: 10px;
-                padding: 6px 12px;
-                font-size: 14px;
+        @media (max-width: 480px) {
+            .login-wrapper {
+                min-height: auto;
+                padding: 10px;
+            }
+
+            .login-container {
+                padding: 25px 15px;
+                width: 100%;
+            }
+
+            .login-container h1 {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+
+            .login-container input {
+                padding: 12px 12px;
+                margin: 8px 0;
+                font-size: 16px;
+            }
+
+            .login-container button {
+                padding: 12px;
+                margin-top: 10px;
+                font-size: 15px;
             }
         }
     </style>

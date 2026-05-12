@@ -274,7 +274,7 @@
     </footer>
 
     <script>
-        function addProduct(productName) {
+        async function addProduct(productName) {
             if (!localStorage.getItem('userName')) {
                 alert('Please login to add products to cart');
                 window.location.href = 'login.html';
@@ -283,12 +283,50 @@
 
             const userId = localStorage.getItem('userId') || 'guest';
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Fetch actual product details
+            let actualPrice = 199;
+            let actualImage = 'sweetener.png';  // Default fallback
+            
+            try {
+                const API_URL = 'https://kcp-organics-1.onrender.com/api';
+                const response = await fetch(`${API_URL}/products?name=${encodeURIComponent(productName)}`);
+                const data = await response.json();
+                
+                if (data.success && data.data && data.data.length > 0) {
+                    const product = data.data[0];
+                    const availableStock = product.stock || 0;
+                    const existing = cart.find(item => item.name === productName && (item.userId || 'guest') === userId);
+                    const currentQty = existing ? existing.quantity : 0;
+                    
+                    // Get product details
+                    if (product.price) actualPrice = product.price;
+                    if (product.image && product.image.trim() !== '') {
+                        actualImage = product.image;
+                    }
+                    
+                    console.log('📦 Product:', productName, '| Stock:', availableStock, '| Image:', actualImage);
+                    
+                    if (availableStock <= 0) {
+                        alert('❌ ' + productName + ' is out of stock!');
+                        return;
+                    }
+                    
+                    if (currentQty >= availableStock) {
+                        alert(`⚠️ Only ${availableStock} of this item available. You already have ${currentQty} in cart!`);
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.warn('Error checking stock:', error);
+            }
+            
             const product = {
                 productId: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
                 name: productName,
-                price: 199,
+                price: actualPrice,
                 quantity: 1,
-                image: 'sweetener.png',
+                image: actualImage,
                 category: 'Sweetener'
             };
 

@@ -10,15 +10,41 @@ document.addEventListener('DOMContentLoaded', function () {
     mobileMenu.className = 'mobile-menu';
     // Clone main links
     const links = [];
+    
+    // Get links from section1 and section2
     const section1 = document.querySelector('.section1');
     const section2 = document.querySelector('.section2');
-    if (section1) links.push(...Array.from(section1.querySelectorAll('a')));
-    if (section2) links.push(...Array.from(section2.querySelectorAll('a')));
+    
+    if (section1) {
+      const section1Links = Array.from(section1.querySelectorAll('a'));
+      links.push(...section1Links);
+    }
+    
+    if (section2) {
+      const section2Links = Array.from(section2.querySelectorAll('a'));
+      links.push(...section2Links);
+    }
+    
+    // For home page, also get auth links if section2-home exists
+    const section2Home = document.querySelector('.section2-home');
+    if (section2Home && section2Home !== section2) {
+      const authLinks = Array.from(section2Home.querySelectorAll('a'));
+      authLinks.forEach(link => {
+        // Only add if not already added
+        if (!links.includes(link)) {
+          links.push(link);
+        }
+      });
+    }
+    
+    // Clone links into mobile menu
     links.forEach(a => {
       const clone = a.cloneNode(true);
+      clone.style.display = 'block'; // Ensure links are visible
       clone.addEventListener('click', () => mobileMenu.classList.remove('show'));
       mobileMenu.appendChild(clone);
     });
+    
     nav.appendChild(mobileMenu);
   }
 

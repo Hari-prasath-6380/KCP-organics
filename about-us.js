@@ -167,18 +167,20 @@ function createVideoElement(video) {
             </div>
         `;
     } else if (video.thumbnailUrl) {
+        const VIDEO_PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22320%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2218%22 fill=%22%23999%22%3ENo Video%3C/text%3E%3C/svg%3E';
         const img = document.createElement('img');
         img.src = video.thumbnailUrl;
         img.alt = video.title;
-        img.onerror = () => img.src = 'https://via.placeholder.com/320x180?text=Video';
+        img.onerror = () => img.src = VIDEO_PLACEHOLDER;
         img.style.width = '100%';
         img.style.height = '100%';
         img.style.objectFit = 'cover';
         img.style.borderRadius = '8px';
         videoThumbnail.appendChild(img);
     } else {
+        const VIDEO_PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22320%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2218%22 fill=%22%23999%22%3ENo Video%3C/text%3E%3C/svg%3E';
         const img = document.createElement('img');
-        img.src = 'https://via.placeholder.com/320x180?text=Video';
+        img.src = VIDEO_PLACEHOLDER;
         img.alt = video.title;
         img.style.width = '100%';
         img.style.height = '100%';

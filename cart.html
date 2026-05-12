@@ -642,11 +642,45 @@
         }
 
         // Get proper image URL with fallback
+        const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22180%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';
+        
         function getCartImageUrl(imagePath) {
-            if (!imagePath) return 'https://via.placeholder.com/180x180?text=Product';
-            if (imagePath.startsWith('http')) return imagePath;
-            if (imagePath.startsWith('/uploads')) return `${IMAGE_BASE_URL}${imagePath}`;
-            return `${IMAGE_BASE_URL}/uploads/products/${imagePath}`;
+            if (!imagePath || imagePath.trim() === '') {
+                console.log('📷 No image path provided, using placeholder');
+                return PLACEHOLDER_IMAGE;
+            }
+            
+            // If it's a full URL, use it as-is
+            if (imagePath.startsWith('http')) {
+                console.log('📷 Using full URL:', imagePath);
+                return imagePath;
+            }
+            
+            // If it's an absolute path on server
+            if (imagePath.startsWith('/uploads')) {
+                const fullUrl = `${IMAGE_BASE_URL}${imagePath}`;
+                console.log('📷 Using uploads path:', fullUrl);
+                return fullUrl;
+            }
+            
+            // Try product uploads first (uploaded via admin)
+            if (imagePath.includes('upload') || imagePath.startsWith('/')) {
+                const fullUrl = `${IMAGE_BASE_URL}${imagePath}`;
+                console.log('📷 Using admin upload path:', fullUrl);
+                return fullUrl;
+            }
+            
+            // Check if it's a known category image (in root folder)
+            const categoryImages = ['honey.png', 'masala.png', 'lentils.png', 'oil.png', 'rice.png', 'snacks.png', 'sweetener.png', 'vege.png', 'sweetener.png!bw700'];
+            if (categoryImages.includes(imagePath)) {
+                console.log('📷 Using category image from root:', imagePath);
+                return imagePath; // Root folder reference
+            }
+            
+            // For any other image, try /uploads/products/ path
+            const fullUrl = `${IMAGE_BASE_URL}/uploads/products/${imagePath}`;
+            console.log('📷 Using products upload path:', fullUrl);
+            return fullUrl;
         }
 
         // Load stock status for a cart item (non-blocking)
@@ -764,7 +798,7 @@
                         <img src="${getCartImageUrl(item.image)}" 
                              alt="${item.name}" 
                              class="cart-item-image" 
-                             onerror="this.src='https://via.placeholder.com/180x180?text=Product'">
+                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22180%22 height=%22180%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E'">
                         <div class="cart-item-stock-badge" id="stock-${item.cartItemId}">📦 Loading...</div>
                     </div>
                     <div class="cart-item-info">
@@ -819,12 +853,42 @@
             }
         }
 
-        // Update quantity
-        function updateQuantity(cartItemId, change) {
+        // Update quantity with stock validation
+        async function updateQuantity(cartItemId, change) {
             const all = getAllCartItems();
             const idx = all.findIndex(i => i.cartItemId === cartItemId);
             if (idx === -1) return;
-            all[idx].quantity = Math.max(1, (all[idx].quantity || 0) + change);
+            
+            const currentQty = all[idx].quantity || 0;
+            const newQty = currentQty + change;
+            
+            // Only validate when increasing quantity
+            if (newQty > currentQty) {
+                try {
+                    const productName = all[idx].name;
+                    const response = await fetch(`${API_BASE_URL}/products/stock/by-name?name=${encodeURIComponent(productName)}`);
+                    const data = await response.json();
+                    
+                    if (data.success && data.data) {
+                        const availableStock = data.data.stock || 0;
+                        
+                        if (availableStock <= 0) {
+                            showToast('❌ Product is out of stock');
+                            return;
+                        }
+                        
+                        if (newQty > availableStock) {
+                            showToast(`⚠️ Only ${availableStock} items available. Can't add more!`);
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Error checking stock:', error);
+                    // If API fails, allow the update to proceed
+                }
+            }
+            
+            all[idx].quantity = Math.max(1, newQty);
             localStorage.setItem('cart', JSON.stringify(all));
             displayCart();
             updateCartBadge();

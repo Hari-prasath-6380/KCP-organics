@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Sign Up - KCP Organics</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
@@ -24,6 +24,7 @@
             background-repeat: no-repeat;
             min-height: 100vh;
             padding-top: 85px;
+            padding-bottom: 20px;
         }
 
         /* Back Button fixed below navbar */
@@ -31,7 +32,7 @@
             position: fixed;
             top: 100px; /* just below navbar */
             left: 20px;
-            padding: 8px 16px;
+            padding: 10px 16px;
             background-color: #a8e063;
             color: #2e7d32;
             font-weight: 600;
@@ -41,6 +42,8 @@
             cursor: pointer;
             transition: 0.3s;
             z-index: 999;
+            min-height: 44px;
+            font-size: 14px;
         }
 
         .back-btn:hover {
@@ -50,16 +53,23 @@
         }
 
         /* Signup Box */
+        .signup-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+            padding: 20px;
+        }
+
         .signup-container {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             border-radius: 22px;
             padding: 30px 25px;
-            width: 340px;
+            width: 100%;
+            max-width: 340px;
             box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
             text-align: center;
-            margin: 0 auto;
-            margin-top: 160px; /* some spacing from navbar/back button */
         }
 
         .signup-container h1 {
@@ -79,18 +89,20 @@
 
         .signup-container input {
             width: 100%;
-            padding: 9px 14px;
+            padding: 12px 14px;
             margin-bottom: 12px;
             border: 1px solid #c8e6c9;
             border-radius: 22px;
-            font-size: 14px;
+            font-size: 16px;
             background: #f1f8e9;
             outline: none;
+            min-height: 44px;
+            box-sizing: border-box;
         }
 
         .signup-container input:focus {
             border-color: #66bb6a;
-            box-shadow: 0 0 6px rgba(102, 187, 106, 0.5);
+            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.2);
         }
 
         .role-options {
@@ -99,6 +111,7 @@
             margin: 6px 0 15px;
             align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .role-options div {
@@ -110,9 +123,15 @@
             font-weight: 600;
         }
 
+        .role-options input {
+            cursor: pointer;
+            min-width: 18px;
+            min-height: 18px;
+        }
+
         .signup-container button {
             width: 100%;
-            padding: 11px;
+            padding: 12px;
             border: none;
             border-radius: 22px;
             background-color: #2e7d32;
@@ -120,6 +139,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            min-height: 48px;
         }
 
         .signup-container button:hover {
@@ -145,23 +165,87 @@
         }
 
         /* Mobile */
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
+            body {
+                padding-top: 64px;
+            }
+
+            .back-btn {
+                top: 75px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .signup-wrapper {
+                min-height: auto;
+                padding: 15px 10px;
+            }
+
             .signup-container {
-                width: 90%;
+                padding: 25px 20px;
+                border-radius: 18px;
+            }
+
+            .signup-container h1 {
+                font-size: 22px;
+                margin-bottom: 16px;
+            }
+
+            .signup-container label {
+                font-size: 12px;
+                margin: 6px 0 3px;
+            }
+
+            .signup-container input {
+                padding: 11px 12px;
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+
+            .role-options {
+                gap: 15px;
+                margin: 5px 0 12px;
+            }
+
+            .role-options div {
+                font-size: 12px;
+                gap: 4px;
+            }
+
+            .signup-container button {
+                padding: 11px;
+                font-size: 15px;
+            }
+
+            .login-link {
+                font-size: 12px;
+                margin-top: 12px;
             }
 
             .section1,
             .section2 {
                 gap: 20px;
             }
-
-            .back-btn {
-                top: 95px;
-                left: 10px;
-                padding: 6px 12px;
-                font-size: 14px;
-            }
         }
+
+        @media (max-width: 480px) {
+            .signup-wrapper {
+                padding: 10px;
+            }
+
+            .signup-container {
+                padding: 20px 15px;
+            }
+
+            .signup-container h1 {
+                font-size: 20px;
+            }
+
+            .signup-container input,
+            .signup-container button {
+                font-size: 16px;
+            }
     </style>
 </head>
 
@@ -199,21 +283,22 @@
     <a href="home.html" class="back-btn">← Back to Home</a>
 
     <!-- Signup Box -->
-    <div class="signup-container">
-        <h1>Create Your Account</h1>
-        <div id="message"></div>
+    <div class="signup-wrapper">
+        <div class="signup-container">
+            <h1>Create Your Account</h1>
+            <div id="message"></div>
 
-        <form id="signupForm">
-            <label>Full Name</label>
-            <input type="text" name="name" required>
+            <form id="signupForm">
+                <label>Full Name</label>
+                <input type="text" name="name" required>
 
-            <label>Email</label>
-            <input type="email" name="email" required>
+                <label>Email</label>
+                <input type="email" name="email" required>
 
-            <label>Mobile</label>
-            <input type="number" name="number" required>
+                <label>Mobile</label>
+                <input type="number" name="number" required>
 
-            <label>Password</label>
+                <label>Password</label>
             <input type="password" name="password" required>
 
             <label>Select Role</label>
@@ -234,6 +319,7 @@
                 Already have an account? <a href="login.html">Login</a>
             </div>
         </form>
+        </div>
     </div>
 
     <script>

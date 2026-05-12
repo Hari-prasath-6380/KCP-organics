@@ -38,12 +38,18 @@ router.get('/admin/all', async (req, res) => {
 // Get all products with pagination
 router.get('/', async (req, res) => {
     try {
-        const { page = 1, limit = 20, category, sortBy = 'newest' } = req.query;
+        const { page = 1, limit = 20, category, name, sortBy = 'newest' } = req.query;
         const skip = (page - 1) * limit;
 
         // Treat documents without `isActive` field as active (backwards compatibility)
         let query = { $or: [ { isActive: { $exists: false } }, { isActive: true } ] };
         if (category) query.category = category;
+        
+        // Search by product name (case-insensitive)
+        if (name) {
+            const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            query.name = { $regex: new RegExp(escaped, 'i') };
+        }
 
         let sortOption = { createdAt: -1 };
         if (sortBy === 'price-asc') sortOption = { price: 1 };
